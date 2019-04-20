@@ -25,7 +25,7 @@ export class AppComponent extends BaseComponent {
   }
 
   public onInit(): void {
-    this.translate.addLangs(["en", "cn"]);
+    this.translate.addLangs(["en", "vn"]);
     this.translate.setDefaultLang("en");
 
     this.blocked = false;

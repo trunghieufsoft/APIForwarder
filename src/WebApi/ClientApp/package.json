@@ -27,6 +27,7 @@
     "@ngx-translate/http-loader": "^4.0.0",
     "angular-user-idle": "^2.1.1",
     "core-js": "^2.5.4",
+    "express": "^4.16.4",
     "ng-toast": "^2.0.0",
     "primeicons": "^1.0.0",
     "primeng": "^7.1.1",

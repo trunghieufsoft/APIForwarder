@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { LoaderService } from '../../services/loader.service';
 
 @Component({
-  // tslint:disable-next-line:component-selector
   selector: 'block-ui',
   templateUrl: './block-ui.component.html',
   animations: [
@@ -20,6 +19,7 @@ import { LoaderService } from '../../services/loader.service';
     ])
   ]
 })
+
 export class BlockUIComponent implements OnDestroy {
   @Input()
   public isShow: boolean;
