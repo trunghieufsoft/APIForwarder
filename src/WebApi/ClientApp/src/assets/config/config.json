@@ -1,0 +1,6 @@
+{
+    "pageItems": 50,
+    "eamLoginUrl": "https://www.google.com/",
+    "apiUrl": "https://localhost/api/",
+    "version": "v1.0"
+}

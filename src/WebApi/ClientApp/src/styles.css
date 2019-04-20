@@ -1,1 +1,276 @@
 /* You can add global styles to this file, and also import other style files */
+@import "./assets/plugins/bootstrap/4.1.0/css/bootstrap.min.css";
+@import "./assets/css/style.css";
+@import "./assets/css/theme.css";
+@import "./assets/css/style-responsive.css";
+
+.tbl-content {
+  background: white;
+  padding: 10px;
+  border: solid 1px #eee;
+}
+table .sorting {
+  background: url("assets/img/icon-sort.svg") no-repeat left 0.5rem center;
+  background-size: 7px 14px;
+}
+.sorting.asc {
+  background: url("assets/img/icon-sort-up.png") no-repeat left 0.5rem center !important;
+}
+.sorting.desc {
+  background: url("assets/img/icon-sort-down.png") no-repeat left 0.5rem center !important;
+}
+.lb-disable {
+  background-color: #e9ecef !important;
+}
+.selectBox span.disabled {
+  background-color: #e9ecef !important;
+  cursor: default;
+}
+.selectBox span {
+  font-family: inherit !important;
+  color: #212121;
+  font-size: inherit !important;
+  cursor: pointer;
+  padding-top: 7px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.selectBox {
+  position: relative;
+}
+.optionDivParent {
+  border: 1px solid #ced4da;
+  position: absolute;
+  background: #fff;
+  z-index: 1000;
+  width: 100%;
+}
+.optionDiv {
+  padding: 1px 0px;
+  z-index: 1000;
+  width: 100%;
+  height: auto;
+  overflow-y: auto;
+}
+.optionItem {
+  padding: 1px 10px;
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  word-break: keep-all;
+  white-space: nowrap;
+  white-space: nowrap;
+  padding: 5px 8px;
+}
+.date-picker .optionItem {
+  padding: 5px 4px !important;
+}
+
+.optionItem:hover,
+.optionItem.selected {
+  background: #2196f3;
+  color: #fff;
+}
+.optionItem:hover {
+  opacity: 0.5;
+}
+.custom-drop {
+  height: 32px;
+  line-height: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  word-break: keep-all;
+  white-space: nowrap;
+  white-space: nowrap;
+  background-color: #fff !important;
+}
+.fc-label {
+  height: 32px;
+  line-height: 17px;
+}
+.optionItem .row {
+  margin: -5px 0px !important;
+}
+.bottom {
+  bottom: 0;
+}
+app-week.ng-dirty.ng-invalid input.form-control,
+app-single-select.ng-dirty.ng-invalid span.form-control,
+app-multi-select.ng-dirty.ng-invalid span.form-control,
+app-date-time.ng-invalid input.form-control,
+app-date-time.ng-dirty.ng-invalid .time-div app-single-select .selectBox span.form-control{
+  border: 1px solid #b42a26 !important;
+}
+app-week,
+app-single-select,
+app-multi-select,
+app-date-time {
+  display: block;
+  position: relative;
+}
+app-table-footer {
+  margin: 10px;
+}
+.time-only app-date-time {
+  max-width: 150px !important;
+}
+.btn-scf {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+.lb-scf {
+  text-size-adjust: 70%;
+}
+.system-config .card-header {
+  height: 65px;
+}
+
+.system-config .card-body {
+  min-height: 90px;
+}
+.screen-block-overlay {
+  z-index: 2903 !important;
+  border: none;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 0.65;
+  cursor: wait;
+  position: fixed;
+}
+
+.screen-block-spinner {
+  z-index: 2904 !important;
+  position: fixed;
+  padding: 0px;
+  margin: 0px;
+  width: 30%;
+  top: 40%;
+  left: 35%;
+  text-align: center;
+  color: rgb(51, 51, 51);
+  border: 0px;
+  background-color: transparent;
+  cursor: wait;
+  opacity: 0.65;
+}
+.suggest-search {
+  width: 90%;
+  margin: 3px 5%;
+  padding-left: 5px;
+}
+.nav-percent {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+  white-space: nowrap;
+}
+li.disabled {
+  opacity: 0.4;
+}
+input.form-control {
+  word-break: keep-all;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.hidden {
+  display: none;
+}
+.form-xxl {
+  max-width: 100%;
+}
+.modal-body-small {
+  max-height: calc(100vh - 210px);
+  overflow-y: inherit;
+}
+
+.no-padding-left {
+  padding-left: 0 !important;
+}
+span.disabled {
+  color: gray;
+}
+.brand-text {
+  white-space: nowrap;
+  word-break: keep-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.user-name {
+  white-space: nowrap;
+  word-break: keep-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px!important;
+}
+.navbar-user {
+  text-align: right;
+}neu
+.navbar-user .dropdown-toggle {
+  margin-right: 5px;
+}
+.input-hint input{
+ padding-right: 80px;
+}
+.nav-item:not(.expand) .collapse {
+  display: none;
+}
+.nav-item:not(.expand):hover .collapse {
+  display: block;
+}
+.custom-long-text {
+  height: 32px;
+  line-height: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  word-break: keep-all;
+  white-space: nowrap;
+  white-space: nowrap;
+}
+
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}

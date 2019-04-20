@@ -1,0 +1,269 @@
+<!-- begin #sidebar -->
+<div id="sidebar" class="sidebar">
+  <div class="scrollbar" id="style-3">
+    <!-- begin sidebar nav-->
+    <div id="MainMenu" class="nav">
+      <ul class="list-group">
+        <!-- <li
+          class="nav-item"
+          [ngClass]="{ active: currentLink == 'delivery-job' }"
+        >
+          <a
+            href="javascript:void(0)"
+            (click)="navigatorLink('delivery-job')"
+            class="d-flex justify-content-between flex-center-y"
+          >
+            <div class="d-flex justify-content-between flex-center-y">
+              <img
+                alt=""
+                src="assets/img/icon-management-black.svg"
+                class="icon-sidebar mr-2"
+              />
+              <img
+                alt=""
+                src="assets/img/icon-management-white.svg"
+                class="icon-sidebar2 mr-2"
+              />
+              <span>{{ "sidebar.deliveryJobManagement" | translate }}</span>
+            </div>
+          </a>
+        </li>
+        <li
+          class="nav-item"
+          [ngClass]="{ active: currentLink == 'pickup-job' }"
+        >
+          <a
+            href="javascript:void(0)"
+            (click)="navigatorLink('pickup-job')"
+            class="d-flex justify-content-between flex-center-y"
+          >
+            <div class="d-flex justify-content-between flex-center-y">
+              <img
+                alt=""
+                src="assets/img/icon-pickup-job-black.svg"
+                class="icon-sidebar mr-2"
+              />
+              <img
+                alt=""
+                src="assets/img/icon-pickup-job-white.svg"
+                class="icon-sidebar2 mr-2"
+              />
+              <span>{{ "sidebar.pickUpJobManagement" | translate }}</span>
+            </div>
+          </a>
+        </li>
+        <li
+          class="nav-item"
+          [ngClass]="{ active: currentLink == 'schedule-pickup' }"
+        >
+          <a
+            href="javascript:void(0)"
+            (click)="navigatorLink('schedule-pickup')"
+            class="d-flex justify-content-between flex-center-y"
+          >
+            <div class="d-flex justify-content-between flex-center-y">
+              <img
+                alt=""
+                src="assets/img/icon-schedule-pickup-black.svg"
+                class="icon-sidebar mr-2"
+              />
+              <img
+                alt=""
+                src="assets/img/icon-schedule-pickup-white.svg"
+                class="icon-sidebar2 mr-2"
+              />
+              <span>{{ "sidebar.schedulePickup" | translate }}</span>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item" [ngClass]="{ active: currentLink == 'report' }">
+          <a
+            href="javascript:void(0)"
+            (click)="navigatorLink('report')"
+            class="d-flex justify-content-between flex-center-y"
+          >
+            <div class="d-flex justify-content-between flex-center-y">
+              <img
+                alt=""
+                src="assets/img/icon-report-black.svg"
+                class="icon-sidebar mr-2"
+              />
+              <img
+                alt=""
+                src="assets/img/icon-report-white.svg"
+                class="icon-sidebar2 mr-2"
+              />
+              <span>{{ "sidebar.report" | translate }}</span>
+            </div>
+          </a>
+        </li> -->
+        <li class="nav-item" [ngClass]="{ active: currentLink == 'user' }">
+          <a
+            href="javascript:void(0)"
+            (click)="navigatorLink('user')"
+            class="d-flex justify-content-between flex-center-y"
+          >
+            <div class="d-flex justify-content-between flex-center-y">
+              <img
+                alt=""
+                src="assets/img/icon-user-management-black.svg"
+                class="icon-sidebar mr-2"
+              />
+              <img
+                alt=""
+                src="assets/img/icon-user-management-white.svg"
+                class="icon-sidebar2 mr-2"
+              />
+              <span>{{ "sidebar.userManagement" | translate }}</span>
+            </div>
+          </a>
+        </li>
+        <!-- <li
+          class="nav-item"
+          [ngClass]="{ active: currentLink && currentLink.indexOf('vendor-management') != -1 }"
+          *ngIf="isManager || isSuper"
+        >
+          <a
+            href="javascript:void(0)"
+            (click)="navigatorLink('vendor-management')"
+            class="d-flex justify-content-between flex-center-y"
+          >
+            <div class="d-flex justify-content-between flex-center-y">
+              <img
+                alt=""
+                src="assets/img/icon-home-black.svg"
+                class="icon-sidebar mr-2"
+              />
+              <img
+                alt=""
+                src="assets/img/icon-home-white.svg"
+                class="icon-sidebar2 mr-2"
+              />
+              <span>{{ "sidebar.vendorManagement" | translate }}</span>
+            </div>
+          </a>
+        </li>
+        <li
+          class="nav-item"
+          [ngClass]="{ active: currentLink == 'slic-management' }"
+          *ngIf="isManager || isSuper"
+        >
+          <a
+            href="javascript:void(0)"
+            (click)="navigatorLink('slic-management')"
+            class="d-flex justify-content-between flex-center-y"
+          >
+            <div class="d-flex justify-content-between flex-center-y">
+              <img
+                alt=""
+                src="assets/img/icon-slic-management-black.svg"
+                class="icon-sidebar mr-2"
+              />
+              <img
+                alt=""
+                src="assets/img/icon-slic-management-white.svg"
+                class="icon-sidebar2 mr-2"
+              />
+              <span>{{ "sidebar.slicManagement" | translate }}</span>
+            </div>
+          </a>
+        </li> -->
+        <li class="nav-item" [class.expand]="!isCollapse" >
+          <a
+            href="#master-data"
+            class="d-flex justify-content-between flex-center-y"
+            data-toggle="collapse"
+            data-parent="#MainMenu"
+            aria-expanded="false"
+          >
+            <div class="d-flex flex-row flex-center-y">
+              <img
+                alt=""
+                src="assets/img/icon-log-black.svg"
+                class="icon-sidebar mr-2"
+              />
+              <img
+                alt=""
+                src="assets/img/icon-log-white.svg"
+                class="icon-sidebar2 mr-2"
+              />
+              <span>{{ "sidebar.log" | translate }}</span>
+            </div>
+            <div *ngIf="!isCollapse">
+              <img
+                alt=""
+                src="assets/img/icon-arrow-down.svg"
+                class="icon-sidebar icon-arrow-down"
+              />
+              <img
+                alt=""
+                src="assets/img/icon-arrow-down-white.svg"
+                class="icon-sidebar2 icon-arrow-down"
+              />
+            </div>
+          </a>
+          <div class="has-sub collapse" id="master-data">
+            <a
+              href="javascript:void(0)"
+              (click)="navigatorLink('log/transaction-log')"
+              class="d-flex align-items-center"
+              [ngClass]="{ active: currentLink == 'log/transaction-log' }"
+            >
+              <div class="dot-item"></div>
+              <span class="ml-5">{{
+                "sidebar.transactionLog" | translate
+              }}</span>
+            </a>
+            <a
+              href="javascript:void(0)"
+              (click)="navigatorLink('log/synchronization-log')"
+              class="d-flex align-items-center"
+              [ngClass]="{ active: currentLink == 'log/synchronization-log' }"
+            >
+              <div class="dot-item"></div>
+              <span class="ml-5">{{
+                "sidebar.synchronizationLog" | translate
+              }}</span>
+            </a>
+            <a
+              *ngIf="isSuper"
+              href="javascript:void(0)"
+              (click)="navigatorLink('log/system-log')"
+              class="d-flex align-items-center"
+              [ngClass]="{ active: currentLink == 'log/system-log' }"
+            >
+              <div class="dot-item"></div>
+              <span class="ml-5">{{ "sidebar.systemLog" | translate }}</span>
+            </a>
+          </div>
+        </li>
+        <li
+          *ngIf="isSuper"
+          class="nav-item"
+          [ngClass]="{ active: currentLink == 'system-configuration' }"
+        >
+          <a
+            href="javascript:void(0)"
+            (click)="navigatorLink('system-configuration')"
+            class="d-flex justify-content-between flex-center-y"
+          >
+            <div class="d-flex justify-content-between flex-center-y">
+              <img
+                alt=""
+                src="assets/img/icon-config-black.svg"
+                class="icon-sidebar mr-2"
+              />
+              <img
+                alt=""
+                src="assets/img/icon-config-white.svg"
+                class="icon-sidebar2 mr-2"
+              />
+              <span>{{ "sidebar.systemConfiguration" | translate }}</span>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- end #sidebar -->

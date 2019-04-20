@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16.629" height="16.599" viewBox="0 0 16.629 16.599">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: #ffb500;
+      }
+
+      .cls-1 {
+        clip-rule: evenodd;
+      }
+
+      .cls-3 {
+        clip-path: url(#clip-path);
+      }
+
+      .cls-4 {
+        clip-path: url(#clip-path-2);
+      }
+
+      .cls-5 {
+        clip-path: url(#clip-path-3);
+      }
+
+      .cls-6 {
+        clip-path: url(#clip-path-4);
+      }
+    </style>
+    <clipPath id="clip-path">
+      <path id="Path_1062" data-name="Path 1062" class="cls-1" d="M11.578-14.118l5.216.8a.439.439,0,0,1,.241.12.439.439,0,0,1,.007.621L13.255-8.7l.892,5.467a.439.439,0,0,1-.049.283.439.439,0,0,1-.6.172L8.853-5.347,4.2-2.78a.439.439,0,0,1-.283.049.439.439,0,0,1-.363-.5L4.451-8.7.663-12.581a.439.439,0,0,1-.12-.241.439.439,0,0,1,.368-.5l5.216-.8,2.328-4.953a.439.439,0,0,1,.211-.211.439.439,0,0,1,.585.211Z" transform="translate(-0.538 19.324)"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <rect id="Rectangle_808" data-name="Rectangle 808" class="cls-2" width="26.362" height="26.362"/>
+    </clipPath>
+    <clipPath id="clip-path-3">
+      <path id="Path_1058" data-name="Path 1058" class="cls-2" d="M0-2.425H17.575V-20H0Z" transform="translate(0 20)"/>
+    </clipPath>
+    <clipPath id="clip-path-4">
+      <path id="Path_1061" data-name="Path 1061" class="cls-1" d="M0-20H17.575V-2.425H0Z" transform="translate(0 20)"/>
+    </clipPath>
+  </defs>
+  <g id="Group_3195" data-name="Group 3195" transform="translate(-0.539 19.324)">
+    <g id="Group_2209" data-name="Group 2209" class="cls-3" transform="translate(0.538 -19.324)">
+      <g id="Group_2208" data-name="Group 2208" class="cls-4" transform="translate(-4.867 -4.987)">
+        <g id="Group_2205" data-name="Group 2205" class="cls-5" transform="translate(4.394 4.394)">
+          <path id="Path_1057" data-name="Path 1057" class="cls-2" d="M-4.462,1.062H20.955V-24.324H-4.462Z" transform="translate(0.541 20.524)"/>
+        </g>
+        <g id="Group_2207" data-name="Group 2207" class="cls-6" transform="translate(4.394 4.394)">
+          <g id="Group_2206" data-name="Group 2206" class="cls-5">
+            <path id="Path_1059" data-name="Path 1059" class="cls-2" d="M-5,1.362H21.362V-25H-5Z" transform="translate(0.606 20.606)"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,6 @@
+{
+  "pageItems": 50,
+  "eamLoginUrl": "https://eam.inside.ups.com/pub/logon.asp#/user",
+  "apiUrl": "https://localhost/api/",
+  "version": "v1.0"
+}

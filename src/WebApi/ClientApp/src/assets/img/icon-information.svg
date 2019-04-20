@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 183.686 183.686">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #36c;
+      }
+    </style>
+  </defs>
+  <g id="_ionicons_svg_md-information-circle-outline" transform="translate(-48 -48)">
+    <path id="Path_3" data-name="Path 3" class="cls-1" d="M139.843,66.545A73.267,73.267,0,1,1,88,88a72.994,72.994,0,0,1,51.838-21.46m0-18.545a91.843,91.843,0,1,0,91.843,91.843A91.829,91.829,0,0,0,139.843,48Z"/>
+    <path id="Path_4" data-name="Path 4" class="cls-1" d="M253.545,243.843H235V188.649h18.545Zm0-73.3H235V152h18.545Z" transform="translate(-104.429 -58.078)"/>
+  </g>
+</svg>
