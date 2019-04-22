@@ -1,0 +1,58 @@
+<div class="selectBox">
+  <span
+    *ngIf="isDisabled; else select"
+    title="{{ item ? item[viewProp] : '' }}"
+    class="form-control custom-select fc-label lb-disable"
+    tabindex="-1"
+  >
+    {{ item ? item[viewProp] : "" }}
+  </span>
+  <ng-template #select>
+    <span
+      class="form-control custom-select custom-drop fc-label"
+      maxlength="255" autocomplete="new-password"
+      (click)="openOptions()"
+      tabindex="0"
+      >{{ showValue() }}</span
+    >
+    <div
+      [class.hidden]="!(open && array && array.length > 0)"
+      class="optionDivParent"
+      [class.bottom]="isBottom"
+    >
+      <input
+        *ngIf="suggest && array && array.length >= 10"
+        class="form-control suggest-search"
+        (input)="filterChange($event)"
+        #searchInput
+        maxlength="255" autocomplete="new-password"
+        (keyup.ArrowDown)="arrowDownOption($event)"
+        tabindex="0"
+      />
+      <div class="optionDiv" [style.height]="height()">
+        <div
+          *ngIf="hasAll && listView && array && listView.length== array.length"
+          tabindex="0"
+          class="optionItem"
+          [class.selected]="item === 'All'"
+          (click)="onCheck('All')"
+          (keyup.ArrowDown)="arrowDownOption($event)"
+        >
+          All
+        </div>
+
+        <div
+          tabindex="0"
+          title=" {{ node[viewProp] | translate }}"
+          class="optionItem"
+          *ngFor="let node of listView"
+          [class.selected]="item && node[viewProp] === item[viewProp]"
+          (click)="onCheck(node)"
+          (keyup.ArrowDown)="arrowDownOption($event)"
+        >
+          {{ node[viewProp] | translate }}
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

@@ -1,6 +1,6 @@
 {
   "title": {
-    "titleMaster": "Hình Ảnh Quản Lý Người Dùng (API)",
+    "titleMaster": "Quản Lý Người Dùng (API)",
     "addNewSLIC": "添加新的SLIC",
     "updateSLIC": "更新SLIC",
     "assignJobToDriver": "分配司机任务",
@@ -12,7 +12,7 @@
     "userProfile": "Thông Tin Người Dùng",
     "resetPassword": "重设密码",
     "createNew": "创建新的任务",
-    "logAPIAdmin": "Đăng Nhập Vào Api Admin",
+    "logAPIAdmin": "Đăng Nhập Api Admin",
     "updateSchedulePickup": "更新计划取件作业"
   },
   "language": {
@@ -222,7 +222,8 @@
     "message": "信息",
     "fullname": "Họ Và Tên",
     "adid": "ADID",
-    "slic": "SLIC管理",
+    "group": "Nhóm",
+    "groups": "Danh Sách Nhóm",
     "day": "日",
     "daily": "每天",
     "weekly": "每周",

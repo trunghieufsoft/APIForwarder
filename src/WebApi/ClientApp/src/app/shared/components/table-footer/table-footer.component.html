@@ -1,0 +1,32 @@
+<ng-container *ngIf="page.totalEntries > 0">
+  <div class="table-footer">
+    <span class="float-left flex-center-y"><app-page-limit-options (limitChange)="onLimitChange($event)"></app-page-limit-options> <span class="ml-3"> {{ getShowPage() }}</span> </span>
+    <nav class="float-right" aria-label="...">
+      <ul class="pagination m-0">
+        <li class="page-item" [ngClass]="{ disabled: page.currentPage <= 1 }">
+            <a (click)="changePageIndex(1)" class="page-link">
+                <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li class="page-item"  [ngClass]="{ disabled: page.currentPage <= 1 }">
+            <a (click)="changePageIndex(page.currentPage - 1)" class="page-link">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li *ngFor="let pageItem of page.pages" class="page-item" [ngClass]="{ active : page.currentPage === pageItem }">
+          <a (click)="changePageIndex(pageItem)" class="page-link">{{ pageItem }}</a>
+        </li>
+        <li class="page-item" [ngClass]="{ disabled: page.currentPage === page.totalPages }">
+            <a (click)="changePageIndex(page.currentPage + 1)" class="page-link" >
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li class="page-item" [ngClass]="{ disabled: page.currentPage === page.totalPages }">
+            <a (click)="changePageIndex(page.totalPages)" class="page-link" >
+                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</ng-container>

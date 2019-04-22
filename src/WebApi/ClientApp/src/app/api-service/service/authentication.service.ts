@@ -20,7 +20,7 @@ export class AuthenticationService extends BaseService {
   }
 
   public forgotPassword(params: IForgotPassword): Observable<any> {
-    return this.http.post(API.user.resetPass, params);
+    return this.http.post(API.user.resetPassword, params);
   }
   public keepAlive(): Observable<any> {
     return this.http.get(API.user.keepAlive);

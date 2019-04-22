@@ -7,15 +7,16 @@
     <!-- begin navbar-header -->
     <div class="flex-center-y">
       <a ref="javascript:void(0)" class="dropdown-item" class="navbar-brand">
-        <span class="brand-logo"
-          ><img
+        <span class="brand-logo">
+          <img
             *ngIf="authService.isAuthenticated(); else logoLogin"
             alt=""
             src="assets/img/logo.png"
-            (click)="navigatorLink('delivery-job')"
-          /><ng-template #logoLogin
-            ><img alt="" src="assets/img/logo.png"
-          /></ng-template>
+            (click)="navigatorLink('user')"
+          />
+          <ng-template #logoLogin>
+            <img alt="" src="assets/img/logo.png"/>
+          </ng-template>
         </span>
       </a>
       <span class="brand-text">{{ "title.titleMaster" | translate }}</span>
@@ -107,7 +108,7 @@
       {{ "label.footer" | translate }}
     </p>
   </footer>
-  <!-- <ups-comp-dialog #dialog></ups-comp-dialog> -->
+  <api-comp-dialog #dialog></api-comp-dialog>
   <!-- end footer -->
 </div>
 <block-ui></block-ui>

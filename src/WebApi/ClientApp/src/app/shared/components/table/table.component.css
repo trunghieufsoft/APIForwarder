@@ -1,0 +1,76 @@
+.col-checkbox {
+    width: 50px;
+}
+
+td {
+    min-width: 50px;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.check-head-css {
+    padding: 0px 0px;
+}
+
+.check-css {
+    text-align: center;
+}
+
+.fas:not(.active) {
+    width: 12px;
+}
+
+.table tbody td{
+  vertical-align: middle;
+}
+/* .cell-table {
+  display: -moz-box;
+  display: -webkit-box;
+  max-height: 60px;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  -moz-box-orient: vertical;
+  overflow: hidden;
+  min-width: 100px;
+} */
+
+.cell-table {
+    white-space: nowrap;
+    word-break: keep-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: default;
+}
+
+.child-icon {
+    float: left;
+}
+
+.relative {
+    position: relative;
+    display: block;
+}
+
+.wrapper1,
+.wrapper2 {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.wrapper1 {
+    position: relative;
+}
+
+.div1 {
+    background-color: #f2f2f2;
+    height: 5px;
+}
+
+.wrapper1.hidden {
+    display: none;
+}

@@ -37,4 +37,9 @@ export const CONSTANT = {
     upsLoginViaInternet: "UPSLoginViaInternet",
     systemLog: "SystemLog"
   },
+  arrData: {
+    countries: [],
+    groups: [],
+    users: []
+  }
 };

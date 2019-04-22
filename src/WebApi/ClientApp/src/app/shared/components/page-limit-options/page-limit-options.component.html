@@ -1,0 +1,12 @@
+<select
+  class="form-ssm float-left custom-select mr-3"
+  id="per-page"
+  (change)="changePageLimitOption($event.target.value)"
+>
+  <option
+    *ngFor="let option of pageLimitOptions"
+    [value]="option.value"
+    [selected]="option.value === currentPageLimit"
+    >{{ option.value }}</option
+  >
+</select>

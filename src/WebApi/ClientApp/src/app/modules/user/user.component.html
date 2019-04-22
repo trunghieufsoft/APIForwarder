@@ -1,0 +1,127 @@
+<div class="d-flex justify-content-between flex-wrap">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active">
+      <h1 class="page-header">{{'sidebar.userManagement' | translate}}</h1>
+    </li>
+  </ol>
+  <div class="row mx-0 justify-content-end">
+    <button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#createManager" (click)="createManager()"
+      *ngIf="isCreateManager">
+      {{'button.createManager' | translate}}
+    </button>
+    <button type="button" class="btn btn-primary mt-2 ml-2" data-toggle="modal" data-target="#createStaff" (click)="createStaff()"
+      *ngIf="isCreateStaff">
+      {{'button.createStaff' | translate}}
+    </button>
+    <button type="button" class="btn btn-primary mt-2 ml-2" data-toggle="modal" data-target="#createEmployee" (click)="createEmployee()"
+      *ngIf="isCreateEmployee">
+      {{'button.createEmployee' | translate}}
+    </button>
+  </div>
+</div>
+
+<!-- Start SUPER ADMIN -->
+<div *ngIf="isSuper">
+  <div class="mb-3">
+    <ul class="nav d-flex row mx-0" id="pills-tab" role="tablist">
+      <li class="nav-item nav-tab-pills col-xl-4 col-md-6 col-12 px-0" (click)="onClickManager()">
+        <a class="nav-link bg-antique active" id="number1-tab" data-toggle="pill" href="#number1" role="tab"
+          aria-controls="number1" aria-selected="true">
+          <div class="d-flex mb-2 mt-2 w-100">
+            <div class="nav-name">{{'tab.managerAdmin' | translate}}</div>
+            <div class="nav-number ml-2">{{ ManagerAdmin }}</div>
+          </div>
+        </a>
+      </li>
+      <li class="nav-item nav-tab-pills col-xl-4 col-md-6 col-12 px-0" (click)="onClickStaff()">
+        <a class="nav-link bg-antique" id="number2-tab" data-toggle="pill" href="#number2" role="tab" aria-controls="number2"
+          aria-selected="false">
+          <div class="d-flex mb-2 mt-2 w-100">
+            <div class="nav-name">{{'tab.staff' | translate}}</div>
+            <div class="nav-number mx-2">{{ Staff }}</div>
+          </div>
+        </a>
+      </li>
+      <li class="nav-item nav-tab-pills col-xl-4 col-md-6 col-12 px-0" (click)="onClickEmployee()">
+        <a class="nav-link bg-antique" id="number3-tab" data-toggle="pill" href="#number3" role="tab" aria-controls="number3"
+          aria-selected="false">
+          <div class="d-flex mb-2 mt-2 w-100">
+            <div class="nav-name">{{'tab.employee' | translate}}</div>
+            <div class="nav-number ml-2">{{ Employee }}</div>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active p-3" id="number1" role="tabpanel" aria-labelledby="number1-tab">
+      <app-manager *ngIf="ManageradminTab" [varManager]="varManager" [arrData]="arrData" (setStatus)="getAllUser()"></app-manager>
+    </div>
+    <div class="tab-pane fade p-3" id="number2" role="tabpanel" aria-labelledby="number2-tab">
+      <!-- <app-staff *ngIf="StaffTab" [varStaff]="varStaff" [arrData]="arrData" (setStatus)="getAllUser()"></app-staff> -->
+    </div>
+    <div class="tab-pane fade p-3" id="number3" role="tabpanel" aria-labelledby="number3-tab">
+      <!-- <app-employee *ngIf="employeeTab" [varEmployee]="varEmployee" [arrData]="arrData" (setStatus)="getAllUser()"></app-employee> -->
+    </div>
+  </div>
+</div>
+<!-- END SUPER ADMIN -->
+
+<!-- Start OGP ADMIN -->
+<div *ngIf="isOgp">
+  <div class="mb-3">
+    <ul class="nav d-flex row mx-0" id="pills-tab" role="tablist">
+      <li class="nav-item nav-tab-pills col-xl-12 col-md-6 col-12 px-0" (click)="onClickEmployee()">
+        <a class="nav-link bg-antique active" id="number3-tab" data-toggle="pill" href="#number3" role="tab"
+          aria-controls="number3" aria-selected="false">
+          <div class="d-flex mb-2 mt-2 w-100">
+            <div class="nav-name">{{'tab.Employee' | translate}}</div>
+            <div class="nav-number ml-2">{{ Employee }}</div>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active p-3" id="number3" role="tabpanel" aria-labelledby="number3-tab">
+      <!-- <app-employee *ngIf="employeeTab" [varEmployee]="varEmployee" [arrData]="arrData" (setStatus)="getAllUser()"></app-employee> -->
+    </div>
+  </div>
+</div>
+<!-- END OGP ADMIN -->
+
+<!-- Start Manager ADMIN -->
+<div *ngIf="isManager">
+  <div class="mb-3">
+    <ul class="nav d-flex row mx-0" id="pills-tab" role="tablist">
+      <li class="nav-item nav-tab-pills col-xl-6 col-md-6 col-12 px-0" (click)="onClickStaff()">
+        <a class="nav-link bg-antique active" id="number2-tab" data-toggle="pill" href="#number2" role="tab"
+          aria-controls="number2" aria-selected="false">
+          <div class="d-flex mb-2 mt-2 w-100">
+            <div class="nav-name">{{'tab.Staff' | translate}}</div>
+            <div class="nav-number mx-2">{{ Staff }}</div>
+          </div>
+        </a>
+      </li>
+      <li class="nav-item nav-tab-pills col-xl-6 col-md-6 col-12 px-0" (click)="onClickEmployee()">
+        <a class="nav-link bg-antique" id="number3-tab" data-toggle="pill" href="#number3" role="tab" aria-controls="number3"
+          aria-selected="false">
+          <div class="d-flex mb-2 mt-2 w-100">
+            <div class="nav-name">{{'tab.Employee' | translate}}</div>
+            <div class="nav-number ml-2">{{ Employee }}</div>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade p-3 px-0 show active" id="number2" role="tabpanel" aria-labelledby="number2-tab">
+      <!-- <app-staff *ngIf="StaffTab" [varStaff]="varStaff" [arrData]="arrData" (setStatus)="getAllUser()"></app-staff> -->
+    </div>
+    <div class="tab-pane fade p-3 px-0" id="number3" role="tabpanel" aria-labelledby="number3-tab">
+      <!-- <app-employee *ngIf="employeeTab" [varEmployee]="varEmployee" [arrData]="arrData" (setStatus)="getAllUser()"></app-employee> -->
+    </div>
+  </div>
+</div>
+
+<!-- END Manager ADMIN -->

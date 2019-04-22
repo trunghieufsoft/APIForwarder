@@ -1,0 +1,110 @@
+<div class="main-date" *ngIf="isDisabled; else toggle">
+  <div class="row">
+    <div class="col-sm date-div" *ngIf="hasDate">
+      <span
+        class="form-control date-div-input"
+        tabindex="-1"
+        disabled
+        readonly
+        >{{ date | date: "EEE, dd/MM/yyyy" }}</span
+      >
+    </div>
+    <div class="col-sm" *ngIf="hasTime">
+      <div class="row">
+        <div class="col-sm time-div">
+          <span class="form-control custom-select" tabindex="-1"></span>
+        </div>
+        <span class="col-sm-1 time-span">:</span>
+        <div class="col-sm time-div">
+          <input
+            class="form-control custom-select"
+            tabindex="-1"
+            disabled
+            readonly
+            value="{{ date | date: 'mm' }}"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #toggle>
+  <div class="main-date cursor-pointer">
+    <div class="row">
+      <div class="col-sm date-div" *ngIf="hasDate">
+        <input
+          (click)="openDatePicker()"
+          class="form-control date-div-input"
+          tabindex="0"
+          readonly
+          value="{{ isValid() ? (date | date: 'EEE, dd/MM/yyyy') : date }}"
+        />
+        <div [class.hidden]="!openDate" class="date-picker">
+          <table>
+            <tr>
+              <td class="date-left" (click)="addInitMonth(-1)"></td>
+              <td colspan="6" class="month-div">
+                <app-single-select
+                  [array]="monthName"
+                  [selectedIndex]="monthIndex"
+                  (change)="setMonthInit($event)"
+                ></app-single-select>
+              </td>
+              <td colspan="6" class="month-div">
+                <app-single-select
+                  [array]="yearName"
+                  [selectedIndex]="yearIndex"
+                  (change)="setYearInit($event)"
+                ></app-single-select>
+              </td>
+              <td class="date-right" (click)="addInitMonth(1)"></td>
+            </tr>
+            <tr>
+              <td *ngFor="let day of dateName" colspan="2">
+                {{ day }}
+              </td>
+            </tr>
+            <tr *ngFor="let week of days" class="tr-date" height="35px">
+              <td
+                tabindex="{{ data != null ? 0 : -1 }}"
+                class="date-node"
+                colspan="2"
+                (click)="onDateClick(data)"
+                *ngFor="let data of week"
+                [ngClass]="{
+                  current: isCurrent(data),
+                  'has-date': data != null,
+                  selected: isSelected(data)
+                }"
+              >
+                {{ data ? data.getDate() : "" }}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="col-sm" *ngIf="hasTime">
+        <div class="row">
+          <div class="col-sm time-div">
+            <app-single-select
+              [array]="hourName"
+              [selectedIndex]="hourIndex"
+              [suggest]=false
+              (change)="setHourInit($event)"
+            ></app-single-select>
+          </div>
+          <span class="col-sm-1 time-span">:</span>
+          <div class="col-sm time-div">
+            <app-single-select
+              [array]="minuteName"
+              [suggest]=false
+              [selectedIndex]="minuteIndex"
+              (change)="setMinuteInit($event)"
+            ></app-single-select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span></span>
+</ng-template>

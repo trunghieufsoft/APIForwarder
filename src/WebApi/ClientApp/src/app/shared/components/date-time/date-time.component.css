@@ -1,0 +1,129 @@
+.date-div {
+  position: relative;
+  padding: 0;
+}
+.date-div input {
+  width: 100%;
+}
+.time-div {
+  max-width: 60px;
+  padding: 0;
+  position: relative;
+}
+.time-div input {
+  width: 60px;
+}
+.month-div {
+  position: relative;
+  max-width: 60px;
+}
+.time-span {
+  margin: 0 5px;
+  line-height: 28px;
+  font-weight: 800;
+  font-size: 16px;
+  flex: 0;
+  margin-right: -25px;
+}
+.main-date {
+  position: relative;
+  margin: 0px 16px;
+}
+.date-picker {
+  position: absolute;
+  background: #fff;
+  padding: 10px;
+  top: 32px;
+  right: 0;
+  z-index: 1500;
+  border: solid 1px #ddd;
+  padding-bottom: 0px;
+  max-width: 230px;
+}
+.hour-picker,
+.minute-picker {
+  position: absolute;
+  background: #fff;
+  height: 255px;
+  overflow-y: auto;
+  width: 100%;
+  top: 32px;
+  z-index: 100;
+  border: solid 1px #eee;
+  text-align: center;
+}
+.month-picker,
+.year-picker {
+  position: absolute;
+  background: #fff;
+  height: 200px;
+  overflow-y: auto;
+  width: 100%;
+  top: 32px;
+  z-index: 10;
+  border: solid 1px #eee;
+  text-align: center;
+}
+.hour-picker,
+.minute-picker {
+  width: 60px;
+}
+.date-picker table {
+  width: 100%;
+}
+table input {
+  max-width: 100%;
+}
+.date-div-input {
+  background: #fff url(./icon-calendar.svg) no-repeat right 0.5rem center;
+  background-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 30px;
+  white-space: nowrap;
+  cursor: pointer;
+  padding-top: 4px;
+}
+
+.date-left {
+  background: #fff url(./icon-left.svg) no-repeat left center;
+  background-size: 10px;
+  padding-right: 10px;
+}
+.date-right {
+  background: #fff url(./icon-right.svg) no-repeat right center;
+  background-size: 10px;
+  padding-left: 10px;
+}
+input:disabled {
+  color: #6c757d;
+  background-color: #e9ecef;
+}
+.date-node {
+  height: 35px;
+  padding: 3px 5px;
+  text-align: center;
+  border-radius: 5px;
+}
+.num-node {
+  width: 100%;
+}
+.date-node.has-date:hover,
+.num-node:hover {
+  background-color: #2196f3;
+  color: #e9ecef;
+  cursor: pointer;
+}
+.current {
+  font-weight: bold;
+  color: blue;
+}
+.selected {
+  background: #02aeef;
+  color: #fff;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

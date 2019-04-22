@@ -2,17 +2,27 @@ export const API = {
   user: {
     login: "User/WebLogin",
     logout: "User/Logout",
-    resetPass: "User/ResetPassword",
     totalUsers: "User/TotalUsers",
     getProfile: "User/GetProfile",
     changePassword: "User/ChangePassword",
     deleteUser: "User/Delete",
     view: "User/View/",
     resetPassword: "User/ResetPassword",
-    keepAlive: "User/KeepAlive"
+    keepAlive: "User/KeepAlive",
+    createManager: "User/CreateManager",
+    createStaff: "User/CreateStaff/",
+    createEmployee: "User/CreateEmployee",
+    updateManager: "User/UpdateManager",
+    updateStaff: "User/UpdateStaff/",
+    updateEmployee: "User/UpdateEmployee",
+    listManager: "User/Search/ManagerAdmin",
+    listStaff: "User/Search/Staff",
+    listEmployee: "User/Search/Employee",
   },
   common: {
-
+    allCountry : "Common/GetAllCountry",
+    allGroup : "Common/GetAllGroup",
+    detailCountry: "Common/GetDetailCountry"
   },
   system: {
     update: "SystemConfig/Update",

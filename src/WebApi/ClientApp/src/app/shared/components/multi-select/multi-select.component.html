@@ -1,0 +1,41 @@
+<div class="selectBox">
+  <span *ngIf="isDisabled; else select" title="{{ showValue() }}"
+    class="form-control custom-select custom-long-text fc-label lb-disable" tabindex="-1">
+    {{ showValue() }}
+  </span>
+  <ng-template #select>
+    <span class="form-control custom-select custom-drop fc-label" maxlength="255" autocomplete="new-password"
+      (click)="openOptions()" tabindex="0" title="{{ showValue() }}">{{ showValue() }}
+    </span>
+    <div *ngIf="open && array" class="optionDivParent" [class.bottom]="isBottom">
+      <input *ngIf="array.length >= 10" class="form-control suggest-search" #searchInput (input)="filterChange($event)"
+        maxlength="255" autocomplete="new-password" tabindex="0" />
+      <div class="optionDiv" [style.height]="height()">
+        <div class="optionItem" (click)="checkAll()" tabindex="0"
+          *ngIf="hasAll && array && array.length > 1 && listView && listView.length == array.length">
+          <div class="row form-group flex-center-y m-0">
+            <div class="col-checkbox">
+              <div class="Checkbox">
+                <input type="checkbox" [checked]="isAll" />
+                <div class="Checkbox-visible"></div>
+              </div>
+            </div>
+            <label class="col-form-label">All</label>
+          </div>
+        </div>
+        <div class="optionItem" *ngFor="let item of listView" tabindex="0" (click)="onCheck(item)"
+          (keyup.enter)="onCheck(item)">
+          <div class="row flex-center-y m-0">
+            <div class="col-checkbox">
+              <div class="Checkbox">
+                <input type="checkbox" [checked]="item.selected" />
+                <div class="Checkbox-visible"></div>
+              </div>
+            </div>
+            <label title=" {{ item[viewProp] | translate }}" class="col-form-label">{{ item[viewProp] }}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

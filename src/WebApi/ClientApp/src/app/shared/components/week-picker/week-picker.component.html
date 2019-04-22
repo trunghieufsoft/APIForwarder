@@ -1,0 +1,88 @@
+<div class="main-date" *ngIf="isDisabled; else toggle">
+  <input
+    class="form-control date-div-input"
+    tabindex="-1"
+    disabled
+    readonly
+    value="{{ week }}"
+  />
+</div>
+<ng-template #toggle>
+  <div class="main-date pointer-cursor">
+    <div class="row">
+      <div class="col-sm date-div">
+        <input
+          (click)="openDatePicker()"
+          class="form-control date-div-input"
+          readonly
+          value="Week {{ week}}"
+          tabindex="0"
+        />
+        <div [class.hidden]="openDate !== true" class="date-picker">
+          <table>
+            <tr>
+              <td colspan="6" class="month-div">
+                <input
+                  class="custom-select"
+                  type="text"
+                  readonly
+                  (click)="openMonth = !openMonth"
+                  (input)="inputMonth($event)"
+                  value="{{ monthName[month] }}"
+                  tabindex="0"
+                  maxlength="3"
+                  [appDate]="'month'"
+                />
+                <div class="month-picker" [class.hidden]="openMonth !== true">
+                  <div
+                    tabindex="0"
+                    *ngFor="let item of monthName; let i = index"
+                    class="num-node"
+                    (click)="setMonth(i)"
+                  >
+                    {{ item }}
+                  </div>
+                </div>
+              </td>
+              <td colspan="6" class="month-div">
+                <input
+                  class="custom-select"
+                  type="text"
+                  appIntegerOnly
+                  readonly
+                  (click)="openYear = !openYear"
+                  (input)="inputYear($event)"
+                  value="{{ year }}"
+                  tabindex="0"
+                  maxlength="4"
+                />
+                <div class="year-picker" [class.hidden]="openYear !== true">
+                  <div
+                    tabindex="0"
+                    *ngFor="let item of yearName"
+                    class="num-node"
+                    (click)="setYear(item)"
+                  >
+                    {{ item }}
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr *ngFor="let data of weeks" class="tr-date" height="35px">
+              <td
+                colspan="12"
+                (click)="selectWeek(data)"
+                [ngClass]="{
+                  current: current === data,
+                  selected: week === data
+                }"
+              >
+                {{ data | apiWeek }}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

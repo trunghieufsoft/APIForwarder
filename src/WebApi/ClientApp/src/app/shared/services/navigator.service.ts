@@ -84,7 +84,7 @@ export class NavigatorService {
    * Return to home screen.
    */
   public navigateHomePage(): any {
-    return this.router.navigate(['dashboard']);
+    return this.router.navigate(['user']);
   }
 
   /**

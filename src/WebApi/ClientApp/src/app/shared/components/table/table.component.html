@@ -1,0 +1,187 @@
+<div [class.hidden]="!rowsDisplay || rowsDisplay.length < 20" class="wrapper1" #wrapper1>
+  <div class="div1" #div1 [style.width]="table.offsetWidth + 'px'"></div>
+</div>
+<div class="wrapper2" #wrapper2>
+  <table
+    #table
+    class="table table-striped mb-2"
+    [ngClass]="{ 'table-collapse': hasChild }"
+    style="min-width: 100%;"
+  >
+    <!-- header-->
+    <thead>
+      <tr *ngIf="hasGroup">
+        <th *ngIf="hasCheckbox" class="col-checkbox" (click)="checkAll()">
+          <div
+            *ngIf="multiSelect && rowsDisplay && rowsDisplay.length > 0"
+            class="Checkbox check-head-css"
+          >
+            <input
+              *ngIf="checkedAll; else unCheckAll"
+              type="checkbox"
+              checked
+            />
+            <ng-template #unCheckAll><input type="checkbox"/></ng-template>
+            <div class="Checkbox-visible"></div>
+          </div>
+        </th>
+        <th
+          *ngFor="let item of group; let i = index"
+          class="text-nowrap text-center"
+          [attr.rowspan]="item.rowSpan"
+          [attr.colspan]="item.colSpan"
+        >
+          <span [innerHtml]="item.name | translate"></span>
+        </th>
+      </tr>
+      <tr>
+        <th *ngIf="hasCheckbox && !hasGroup" class="col-checkbox">
+          <div
+            *ngIf="multiSelect && rowsDisplay && rowsDisplay.length > 0 && !readonlyAll"
+            (click)="checkAll()"
+            class="Checkbox check-head-css"
+          >
+            <input
+              *ngIf="checkedAll; else unCheckAll"
+              type="checkbox"
+              checked
+            />
+            <ng-template #unCheckAll><input type="checkbox"/></ng-template>
+            <div class="Checkbox-visible"></div>
+          </div>
+        </th>
+        <th
+          *ngFor="let col of cols; let i = index"
+          class="text-nowrap"
+          [style.width]="col.width"
+          [class.sorting]="col.sort"
+          [class.asc]="col.asc != null && col.asc == true"
+          [class.desc]="col.asc != null && col.asc == false"
+          (click)="onSort(col)"
+        >
+          <span [innerHtml]="col.name | translate"></span>
+        </th>
+      </tr>
+    </thead>
+    <!--end header-->
+    <!-- body-->
+    <tbody *ngIf="!!rowsDisplay">
+      <tr *ngIf="rowsDisplay.length == 0">
+        <td [attr.colspan]="numCols + (hasCheckbox ? 1 : 0)" class="p-10">
+          <b
+            ><i>{{ "common.messages.noResultFound" | translate }}</i></b
+          >
+        </td>
+      </tr>
+      <tr
+        *ngFor="let row of rowsDisplay; let j = index"
+        [ngClass]="{
+          odd: !hasChild && j % 2 == 0,
+          'odd collapse p-0': row.isChild
+        }"
+        [class.even]="!row.isChild && (hasChild || j % 2 != 0)"
+        [attr.id]="row.isChild ? 'collapseExample' + (j - 1) : ''"
+      >
+        <td
+          *ngIf="hasCheckbox && !row.isChild"
+          class="col-checkbox"
+          (click)="onChecked(row)"
+        >
+          <div
+            *ngIf="multiSelect && row.readonly !== true"
+            class="Checkbox check-css"
+          >
+            <input *ngIf="row.selected; else unCheck" type="checkbox" checked />
+            <ng-template #unCheck><input type="checkbox"/></ng-template>
+            <div class="Checkbox-visible"></div>
+          </div>
+          <div
+            *ngIf="!multiSelect"
+            class="custom-control custom-radio radio-table"
+          >
+            <div *ngIf="row.selected; else unCheck2">
+              <input
+                type="radio"
+                id="customRadio{{ j }}"
+                name="radio"
+                class="custom-control-input"
+                checked
+              />
+              <label
+                class="custom-control-label"
+                for="customRadio{{ j }}"
+              ></label>
+            </div>
+            <ng-template #unCheck2
+              ><input
+                type="radio"
+                id="customRadio{{ j }}"
+                class="custom-control-input"/>
+              <label
+                class="custom-control-label"
+                for="customRadio{{ j }}"
+              ></label
+            ></ng-template>
+          </div>
+        </td>
+        <td
+          *ngFor="let col of row.column; let i = index"
+          [style.width]="col.width"
+          [attr.colspan]="col.isChild ? numCols : 1"
+        >
+          <!--cell-->
+          <div
+            *ngIf="hasChild && i == 0 && !col.isChild; else normal"
+            class="d-flex flex-nowrap"
+          >
+            <a
+              data-toggle="collapse"
+              href="#collapseExample{{ j }}"
+              role="button"
+              aria-expanded="false"
+              [attr.aria-controls]="'collapseExample' + j"
+            >
+              <i
+                [ngClass]="{
+                  'fas mx-1': true,
+                  'fa-chevron-up active': row.hasChild
+                }"
+              ></i>
+            </a>
+            <span
+              *ngIf="col.html"
+              (click)="onCellClick($event, row, col)"
+              [title]="row | apiCellTitle: col"
+              [innerHtml]="row | apiCellValue: col"
+            ></span>
+            <span
+              *ngIf="!col.html"
+              (click)="onCellClick($event, row, col)"
+              [title]="row | apiCellTitle: col"
+              >{{ row | apiCellValue: col }}</span
+            >
+          </div>
+          <ng-template #normal>
+            <span
+              *ngIf="col.html"
+              class="cell-table"
+              (click)="onCellClick($event, row, col)"
+              [title]="row | apiCellTitle: col"
+              [innerHtml]="row | apiCellValue: col"
+            ></span>
+            <span
+              *ngIf="!col.html"
+              class="cell-table"
+              (click)="onCellClick($event, row, col)"
+              [title]="row | apiCellTitle: col"
+              >{{ row | apiCellValue: col }}</span
+            >
+          </ng-template>
+
+          <!--end cell-->
+        </td>
+      </tr>
+    </tbody>
+    <!--end body-->
+  </table>
+</div>
