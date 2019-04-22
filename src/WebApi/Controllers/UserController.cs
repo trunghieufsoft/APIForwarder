@@ -242,5 +242,27 @@ namespace WebApi.Controllers
 
             return StatusCode((int)data.Item1, data.Item2);
         }
+
+        [HttpGet]
+        [Route("Logout")]
+        public async Task<object> Logout()
+        {
+            _forwarderService.SetToken(GetTokenFromRequestHeader());
+
+            var data = await _forwarderService.ForwardRequest<object, object>(Request.Path.ToString(), null, HttpMethod.Get);
+
+            return StatusCode((int)data.Item1, data.Item2);
+        }
+
+        [HttpPost]
+        [Route("forgotPassword")]
+        public async Task<object> forgotPassword([FromBody] ResetPasswordInput requestDto)
+        {
+            _forwarderService.SetToken(GetTokenFromRequestHeader());
+
+            var data = await _forwarderService.ForwardRequest<object, object>(Request.Path.ToString(), requestDto, HttpMethod.Post);
+
+            return StatusCode((int)data.Item1, data.Item2);
+        }
     }
 }

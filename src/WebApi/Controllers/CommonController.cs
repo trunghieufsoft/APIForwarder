@@ -42,6 +42,18 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
+        [Route("GetDetailCountry")]
+        public async Task<object> GetDetailCountry()
+        {
+            _forwarderService.SetToken(GetTokenFromRequestHeader());
+
+            var data = await _forwarderService.ForwardRequest<object, object>(Request.Path.ToString(), null, HttpMethod.Get);
+
+            return StatusCode((int)data.Item1, data.Item2);
+        }
+
+        [HttpGet]
         [Route("GetUsersAssign")]
         public async Task<object> GetUsersAssign(string username)
         {
