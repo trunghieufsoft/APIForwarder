@@ -87,7 +87,7 @@
   "table": {
     "country": "Country",
     "vendor": "Vendor",
-    "SLIC": "SLIC",
+    "code": "Code",
     "consigneeName": "Consignee Name",
     "address": "Address",
     "phoneNumber": "Phone Number",
@@ -165,7 +165,7 @@
     "assignDriver": "Assign Driver",
     "createNew": "Create New",
     "exportToExcel": "Export To Excel",
-    "createManager": "Create Manager Admin",
+    "createManager": "Create Manager",
     "createStaff": "Create Staff",
     "createEmployee": "Create Employee",
     "createNewVendor": "Create New Vendor",
@@ -229,6 +229,7 @@
     "message": "Message",
     "fullname": "Full name",
     "adid": "ADID",
+    "code": "Code",
     "groups": "Groups",
     "group": "Group",
     "day": "Day",
@@ -355,10 +356,10 @@
     "CannotDeleteOspFromVendor": "OSP Code cannot be deleted. There are OGP Admin/Drivers associated with the OSP Code."
   },
   "notAvailable": {
-    "vendor": "No Vendor Available",
+    "group": "No Group Available",
     "slic": "No Slic Available",
     "default": "No Available",
     "osp": "No Osp Code Available",
-    "driver": "No Driver Available"
+    "user": "No Assign Account"
   }
 }

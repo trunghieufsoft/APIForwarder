@@ -33,6 +33,7 @@ export class ManagerComponent extends ListBaseComponent {
   public columnsManager: any = [
     { name: "ADID", prop: "username", sort: true },
     { name: "table.name", prop: "fullName", sort: true },
+    { name: "table.code", prop: "code", sort: true },
     { name: "table.country", prop: "countryId", sort: true },
     { name: "table.groups", prop: "groups", sort: true },
     { name: "table.email", prop: "email", sort: true },

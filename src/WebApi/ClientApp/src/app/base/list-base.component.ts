@@ -115,12 +115,11 @@ export abstract class ListBaseComponent extends BaseComponent {
         if (result.success) {
           this.page = Object.assign({}, result.page);
           this.convertData(result.data);
-          flag = this.page.totalPages < this.paramsSort.pageIndex + 1 && this.page.totalPages != 0;
+          flag = this.page.totalPages < this.paramsSort.pageIndex + 1 && this.page.totalPages !== 0;
         }
-        if (flag){
+        if (flag) {
           resultOutput = this.getDataServer(flag);
-        }
-        else {
+        } else {
           resultSubject.next({
             data: result.data,
             success: result.success,

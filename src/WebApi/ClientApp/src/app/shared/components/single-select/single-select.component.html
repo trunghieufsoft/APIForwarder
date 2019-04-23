@@ -21,7 +21,7 @@
       [class.bottom]="isBottom"
     >
       <input
-        *ngIf="suggest && array && array.length >= 10"
+        *ngIf="suggest && array && array.length >= 5"
         class="form-control suggest-search"
         (input)="filterChange($event)"
         #searchInput

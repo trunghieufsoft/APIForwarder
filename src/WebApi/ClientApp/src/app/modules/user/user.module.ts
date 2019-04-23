@@ -6,7 +6,7 @@ import { UserComponent } from "./user.component";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { UserManagementRoutingModule } from "./user.routes";
 // import { EmployeeComponent } from "./employee/employee.component";
-// import { StaffComponent } from "./staff/staff.component";
+import { StaffComponent } from "./staff/staff.component";
 import { ManagerComponent } from "./manager/manager.component";
 import { HttpClient } from "@angular/common/http";
 // import { DetailUpsAdminComponent } from "./detail-ups-admin/detail-ups-admin.component";
@@ -39,8 +39,8 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   ],
   declarations: [
     UserComponent,
-    ManagerComponent
-    // StaffComponent,
+    ManagerComponent,
+    StaffComponent
     // EmployeeComponent,
 
     // DetailManagerComponent,

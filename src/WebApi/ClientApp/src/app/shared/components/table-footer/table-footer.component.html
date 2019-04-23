@@ -1,6 +1,6 @@
 <ng-container *ngIf="page.totalEntries > 0">
   <div class="table-footer">
-    <span class="float-left flex-center-y"><app-page-limit-options (limitChange)="onLimitChange($event)"></app-page-limit-options> <span class="ml-3"> {{ getShowPage() }}</span> </span>
+    <span class="float-left flex-center-y"><app-page-limit-options (limitChange)="onLimitChange($event)"></app-page-limit-options> <span class="ml-3"> {{ getShowPage() | translate }}</span> </span>
     <nav class="float-right" aria-label="...">
       <ul class="pagination m-0">
         <li class="page-item" [ngClass]="{ disabled: page.currentPage <= 1 }">

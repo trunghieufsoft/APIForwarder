@@ -16,7 +16,7 @@ import { CONSTANT } from "src/app/shared/common/constant";
 })
 export class UserComponent extends ListBaseComponent {
   public varManager: number = 1;
-  // public varStaff: number = 1;
+  public varStaff: number = 1;
   // public varEmployee: number = 1;
   public manager: number;
   public staff: number;

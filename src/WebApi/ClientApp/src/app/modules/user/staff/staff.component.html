@@ -1,0 +1,62 @@
+<p-toast [style]="{ marginTop: '50px' }"></p-toast>
+<div class="row m-0" [formGroup]="form">
+    <div class="form-group pr-2">
+        <label class="mb-1">{{ "table.country" | translate }}</label>
+        <div class="form-md">
+            <app-single-select formControlName="country" [array]="countryArr" [hasAll]=true [viewProp]="'id'" [isDisabled]="!isSuper" (change)="countryChange($event)"></app-single-select>
+        </div>
+    </div>
+    <div class="form-group pr-2">
+        <label class="mb-1">{{ "table.group" | translate }} </label>
+        <div class="form-md">
+            <app-single-select formControlName="group" [array]="groupArr" [viewProp]="'name'" [hasAll]="true" (change)="groupChange($event)">
+            </app-single-select>
+        </div>
+    </div>
+    <div class="form-group pr-2">
+        <label class="mb-1">{{ "label.code" | translate }}</label>
+        <div class="form-md">
+            <input type="text" class="form-control" formControlName="code" maxlength="128" autocomplete="new-password">
+        </div>
+    </div>
+    <div class="form-group pr-2">
+        <label class="mb-1">{{ "label.username" | translate }}</label>
+        <div class="form-md">
+            <input type="text" class="form-control" formControlName="userName" maxlength="255" autocomplete="new-password">
+        </div>
+    </div>
+    <div class="form-group pr-2">
+        <label class="mb-1">{{ "label.name" | translate }}</label>
+        <div class="form-md">
+            <input type="text" class="form-control" formControlName="name" maxlength="255" autocomplete="new-password">
+        </div>
+    </div>
+    <div class="form-group pr-2">
+        <label class="mb-1">{{ "label.phoneNo." | translate }}</label>
+        <div class="form-md">
+            <input type="text" class="form-control" formControlName="phoneNo" maxlength="255" autocomplete="new-password">
+        </div>
+    </div>
+    <div class="form-group pr-3">
+        <label class="mb-1">{{ "label.email" | translate }}</label>
+        <div class="form-md">
+            <input type="text" class="form-control" formControlName="email" maxlength="255" autocomplete="new-password">
+        </div>
+    </div>
+    <div class="d-flex align-items-end">
+        <div class="form-group pr-2">
+            <button type="submit" class="btn btn-primary btn-fs-14 form-sm" (click)="onSearch()">{{ "button.search" | translate }}</button>
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-light form-sm" (click)="onReset()"> {{'button.reset' | translate}}</button>
+        </div>
+    </div>
+</div>
+<!-- begin panel-table -->
+<div class="panel">
+    <div class="table-responsive">
+        <app-table [rows]="rows" [columns]="columnsStaff" (sort)="onSortChange($event)" (cellClick)="onCellClick($event)"></app-table>
+        <app-table-footer [pageInput]="page" (pageChange)="onPageChange($event)" (limitChange)="onLimitChange($event)">
+        </app-table-footer>
+    </div>
+</div>
