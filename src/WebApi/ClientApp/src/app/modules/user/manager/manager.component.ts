@@ -45,7 +45,7 @@ export class ManagerComponent extends ListBaseComponent {
       setTimeout(() => {
         this.onSearch(true);
         this.pageIndex = 1;
-      }, 20);
+      }, 50);
     }
   }
 
@@ -73,7 +73,6 @@ export class ManagerComponent extends ListBaseComponent {
    */
   public ngOnInit(): void {
     this.onInit();
-    this.startBlockUI();
     this.setForm();
   }
 

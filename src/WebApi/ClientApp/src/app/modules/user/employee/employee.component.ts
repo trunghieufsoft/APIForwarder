@@ -7,23 +7,22 @@ import {
 } from "@angular/core";
 import { ListBaseComponent, SortEvent } from "src/app/base/list-base.component";
 import { API } from "src/app/api-service/api";
-import { FormGroup, Validators } from "@angular/forms";
+import { FormGroup } from "@angular/forms";
 import { CONSTANT } from "src/app/shared/common/constant";
 import { UserService } from "src/app/api-service/service/user-management.service";
-// import { DetailStaffComponent } from "../detail-staff/detail-staff.component";
+// import { DetailEmployeeComponent } from "../detail-employee/detail-employee.component";
 import { MessageService } from "primeng/api";
 import { ALL, SPACE } from "src/app/app.constant";
-import { CommonService } from "src/app/api-service/service/common.service";
-import { group } from '@angular/animations';
+import { CommonService } from 'src/app/api-service/service/common.service';
 @Component({
-  selector: "app-staff",
-  templateUrl: "./staff.component.html",
+  selector: "app-employee",
+  templateUrl: "./employee.component.html",
   providers: [UserService]
 })
-export class StaffComponent extends ListBaseComponent {
+export class EmployeeComponent extends ListBaseComponent {
   @Output() public setStatus: EventEmitter<boolean> = new EventEmitter();
   public mainStatus: number;
-  public url: string = API.user.listStaff;
+  public url: string = API.user.listEmployee;
   public countryArr: any;
   public groupArr: any;
   public userArr: any;
@@ -33,7 +32,7 @@ export class StaffComponent extends ListBaseComponent {
   public status: string = "status";
   public action: string = "action";
   public arrData: any = CONSTANT.arrData;
-  public columnsStaff: any = [
+  public columnsEmployee: any = [
     { name: "table.country", prop: "countryId", sort: true },
     { name: "table.code", prop: "code", sort: true },
     { name: "table.name", prop: "fullName", sort: true },
@@ -50,8 +49,8 @@ export class StaffComponent extends ListBaseComponent {
     },
     { name: "table.action", prop: this.action, sort: false, html: true }
   ];
-  @Input("varStaff")
-  set varStaff(value: boolean) {
+  @Input("varEmployee")
+  set varEmployee(value: boolean) {
     if (value) {
       setTimeout(() => {
         this.onSearch(true);
@@ -69,7 +68,6 @@ export class StaffComponent extends ListBaseComponent {
       this.userArr = this.arrData.users;
     }
   }
-
   constructor(
     private common: CommonService,
     private userService: UserService,
@@ -84,14 +82,47 @@ export class StaffComponent extends ListBaseComponent {
    * onInit func
    */
   public ngOnInit(): void {
-    this.onInit();
+    this.startBlockUI();
     this.setForm();
+    // this.getAllArray();
   }
 
   public onReset(): void {
-    this.formReset.country = this.isSuper ? ALL : this.arrData.countries[0];
+    if (this.isSuper) {
+      this.formReset.country = ALL;
+    } else if (this.isSuper || this.isManager) {
+      this.formReset.country = this.arrData.countries[0];
+      this.formReset.group = ALL;
+    } else {
+      this.formReset.country = this.arrData.countries[0];
+      this.formReset.group = this.arrData.groups[0];
+    }
     this.form.reset();
     this.form.setValue(this.formReset);
+  }
+
+  /**
+   * Event Change Country Value
+   *
+   * @param {*} e
+   * @memberof EmployeeComponent
+   */
+  public countryChange(e: any): void {
+    if (e != null && !this.isStaff && !(e instanceof Event)) {
+      this.groupArr = this.arrData.groups;
+      this.form.controls.group.setValue(ALL);
+    }
+    this.changeDetector.detectChanges();
+  }
+
+  /**
+   * Event Change Groups Value
+   *
+   * @param {*} e
+   * @memberof EmployeeComponent
+   */
+  public groupChange(e: any): void {
+    this.changeDetector.detectChanges();
   }
 
   /**
@@ -102,7 +133,7 @@ export class StaffComponent extends ListBaseComponent {
     country = country !== null && country !== undefined ? country.id || country : ALL;
     var group = this.form.controls.group.value;
     group = group !== null && group !== undefined ? group.id || group : ALL;
-    const param = {
+    const params = {
       keySearch: {
         phoneNo: this.form.controls.phoneNo.value,
         username: this.form.controls.userName.value,
@@ -114,44 +145,21 @@ export class StaffComponent extends ListBaseComponent {
       }
     };
     this.startBlockUI();
-    this.retrieveData(param, isInit ? 1 : this.pageIndex).subscribe(() => {
+    this.retrieveData(params, isInit ? 1 : this.pageIndex).subscribe(res => {
       this.stopBlockUI();
+      this.changeDetector.detectChanges();
     });
   }
 
   /**
-   * Event Change Country Value
-   *
-   * @param {*} e
-   * @memberof StaffComponent
-   */
-  public countryChange(e: any): void {
-    if (e != null && !(e instanceof Event)) {
-      this.groupArr = this.arrData.groups;
-      this.form.controls.group.setValue(ALL);
-    }
-    this.changeDetector.detectChanges();
-  }
-
-  /**
-   * Event Change Group Value
-   *
-   * @param {*} e
-   * @memberof StaffComponent
-   */
-  public groupChange(e: any): void {
-    this.changeDetector.detectChanges();
-  }
-
-  /**
    * Column @action
-   * Edit and delete Staff
+   * Edit and delete Vendor
    */
   public onCellClick(val: any): void {
     if (val.col.prop === this.action) {
       if (val.target.id === "edit") {
         // this.dialogService.open(
-        //   DetailStaffComponent,
+        //   DetailEmployeeComponent,
         //   data => {
         //     this.onSearch();
         //     if (data) {
@@ -163,7 +171,7 @@ export class StaffComponent extends ListBaseComponent {
         //   },
         //   undefined,
         //   {
-        //     idStaff: val.row.id,
+        //     idEmployee: val.row.id,
         //     arrData: this.arrData
         //   }
         // );
@@ -171,7 +179,7 @@ export class StaffComponent extends ListBaseComponent {
       if (val.target.id === "delete") {
         var msg = this.translate.get("dialog.confirmDelete")["value"];
         this.alertService
-          .confirm("Do you want to delete Staff?")
+          .confirm("Do you want to delete Driver?")
           .subscribe(result => {
             if (result.value) {
               var id = val.row.id;
@@ -181,7 +189,6 @@ export class StaffComponent extends ListBaseComponent {
       }
     }
   }
-
   public onSortChange(event: SortEvent): void {
     const sort = {
       prop: event.prop,
@@ -193,6 +200,7 @@ export class StaffComponent extends ListBaseComponent {
       }
     });
   }
+
   public onPageChange(event: any): void {
     this.pageChange(event).subscribe(res => {
       if (!res.success) {
@@ -202,7 +210,7 @@ export class StaffComponent extends ListBaseComponent {
   }
 
   public onLimitChange(event: any): void {
-    this.limitChange(event).subscribe(res => {});
+    this.limitChange(event).subscribe();
   }
 
   public convertData(data: any): void {
@@ -212,32 +220,28 @@ export class StaffComponent extends ListBaseComponent {
         CONSTANT.target.edit
       } ${CONSTANT.target.delete} `;
       switch (this.rows[i]['statusStr']) {
-        case "Active": {
-          this.rows[i]['statusStr'] = `<span class="badge badge-pill badge-success">Active</span>`;
+        case "Available": {
+          this.rows[i]['statusStr'] = `<span class="badge badge-pill badge-success">Available</span>`;
           break;
         }
-        case "Inactive": {
-          this.rows[i]['statusStr'] = `<span class="badge badge-pill badge-secondary">Inactive</span>`;
+        case "Unavailable": {
+          this.rows[i]['statusStr'] = `<span class="badge badge-pill badge-warning">Unavailable</span>`;
+          break;
+        }
+        case "EndOfDay": {
+          this.rows[i]['statusStr'] = `<span class="badge badge-pill badge-info">End of Day</span>`;
           break;
         }
       }
     }
   }
-  /**
-   * Set Form
-   *
-   * @memberof VendorComponent
-   */
 
   private setForm(): void {
-    var countryStr =
-      this.currentUser.UserType === CONSTANT.userType.super
-        ? ALL
-        : this.currentUser.Country;
-    var groupStr =
-      this.currentUser.UserType !== CONSTANT.userType.staff
-        ? ALL
-        : this.currentUser.Group;
+    var countryStr = this.isSuper ? ALL : this.currentUser.Country;
+    var groupStr = this.isSuper || this.isManager
+      ? ALL
+      : this.currentUser.Group;
+
     this.form = this.formBuilder.group({
       userName: [""],
       phoneNo: [""],
@@ -273,5 +277,19 @@ export class StaffComponent extends ListBaseComponent {
       this.setStatus.emit(true);
       this.onSearch();
     });
+  }
+
+  private checkDataSearch(data: any): any {
+    if (data !== null) {
+      if (typeof data === "object") {
+        return data.hasOwnProperty("id")
+          ? data.id
+          : data.hasOwnProperty("name")
+          ? data.name
+          : null;
+      }
+    }
+
+    return data;
   }
 }

@@ -5,7 +5,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { UserComponent } from "./user.component";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { UserManagementRoutingModule } from "./user.routes";
-// import { EmployeeComponent } from "./employee/employee.component";
+import { EmployeeComponent } from "./employee/employee.component";
 import { StaffComponent } from "./staff/staff.component";
 import { ManagerComponent } from "./manager/manager.component";
 import { HttpClient } from "@angular/common/http";
@@ -40,8 +40,8 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   declarations: [
     UserComponent,
     ManagerComponent,
-    StaffComponent
-    // EmployeeComponent,
+    StaffComponent,
+    EmployeeComponent
 
     // DetailManagerComponent,
     // DetailStaffComponent,
