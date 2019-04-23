@@ -16,14 +16,11 @@ import { CONSTANT } from "src/app/shared/common/constant";
 })
 export class UserComponent extends ListBaseComponent {
   public varManager: number = 1;
-  // public varEmployee: number = 1;
   // public varStaff: number = 1;
-  public managerAdmin: number;
+  // public varEmployee: number = 1;
+  public manager: number;
   public staff: number;
   public employee: number;
-  public isManager: boolean;
-  public isStaff: boolean;
-  public isSuper: boolean;
   public isCreateManager: boolean;
   public isCreateStaff: boolean;
   public isCreateEmployee: boolean;
@@ -59,7 +56,7 @@ export class UserComponent extends ListBaseComponent {
     this.userService.getAllUsers().subscribe(res => {
       this.stopBlockUI();
       if (res.data) {
-        this.managerAdmin = res.data.manager;
+        this.manager = res.data.manager;
         this.staff = res.data.staff;
         this.employee = res.data.employee;
       }
@@ -161,19 +158,18 @@ export class UserComponent extends ListBaseComponent {
 
   private setHiddenAuthen(): void {
     if (this.currentUser.UserType === CONSTANT.userType.staff) {
-      this.isStaff = true;
+      this.isCreateManager = false;
+      this.isCreateStaff = false;
       this.isCreateEmployee = true;
       this.onClickEmployee();
     }
     if (this.currentUser.UserType === CONSTANT.userType.manager) {
-      this.isManager = true;
-      this.isCreateManager = true;
+      this.isCreateManager = false;
+      this.isCreateStaff = true;
       this.isCreateEmployee = true;
-      this.isCreateStaff = false;
       this.onClickStaff();
     }
     if (this.currentUser.UserType === CONSTANT.userType.super) {
-      this.isSuper = true;
       this.isCreateManager = true;
       this.isCreateEmployee = true;
       this.isCreateStaff = true;
@@ -181,6 +177,9 @@ export class UserComponent extends ListBaseComponent {
     }
   }
 
+  /**
+   * get All Array
+   */
   private getAllArray(): void {
     this.startBlockUI();
     this.common.getDetailCountry().subscribe(res => {

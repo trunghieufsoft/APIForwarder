@@ -88,9 +88,9 @@ export abstract class ListBaseComponent extends BaseComponent {
    * @param {} paramsInput
    * @memberof ListBaseComponent
    */
-  public retrieveData(paramsInput: any): Observable<PagedData> {
-    this.page.currentPage = 1;
-    this.paramsSort.pageIndex = 0;
+  public retrieveData(paramsInput: any, currentPage: number): Observable<PagedData> {
+    this.page.currentPage = currentPage;
+    this.paramsSort.pageIndex = currentPage - 1;
     this.paramsInput = paramsInput;
 
     return this.getDataServer();
@@ -102,9 +102,12 @@ export abstract class ListBaseComponent extends BaseComponent {
    * @returns {Observable<PagedData>}
    * @memberof ListBaseComponent
    */
-  public getDataServer(): Observable<PagedData> {
+  public getDataServer(flag: boolean = false): Observable<PagedData> {
     this.startBlockUI();
+    let resultOutput = new Observable<PagedData>();
     const resultSubject = new Subject<any>();
+    this.page.currentPage = flag ? this.page.currentPage - 1 : this.page.currentPage;
+    this.paramsSort.pageIndex = flag ? this.paramsSort.pageIndex - 1 : this.paramsSort.pageIndex;
     this.dataTableService
       .getDataFromApi(this.url, this.paramsInput, this.paramsSort, this.page)
       .subscribe(result => {
@@ -112,18 +115,24 @@ export abstract class ListBaseComponent extends BaseComponent {
         if (result.success) {
           this.page = Object.assign({}, result.page);
           this.convertData(result.data);
+          flag = this.page.totalPages < this.paramsSort.pageIndex + 1 && this.page.totalPages != 0;
         }
-
-        resultSubject.next({
-          data: result.data,
-          success: result.success,
-          errorMessage: result.errorMessage,
-          errorCode: result.errorCode,
-          originalData: result.originalData
-        } as PagedData);
+        if (flag){
+          resultOutput = this.getDataServer(flag);
+        }
+        else {
+          resultSubject.next({
+            data: result.data,
+            success: result.success,
+            errorMessage: result.errorMessage,
+            errorCode: result.errorCode,
+            originalData: result.originalData
+          } as PagedData);
+          resultOutput = resultSubject;
+        }
       });
 
-    return resultSubject;
+    return resultOutput;
   }
 
   /**

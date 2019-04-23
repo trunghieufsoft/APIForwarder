@@ -1,5 +1,5 @@
 {
-    "pageItems": 50,
+    "pageItems": 10,
     "eamLoginUrl": "https://www.google.com/",
     "apiUrl": "https://localhost:90/api/",
     "version": "v1.0"

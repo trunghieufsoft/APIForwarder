@@ -123,6 +123,8 @@
     "successful": "Successful",
     "late": "Late",
     "name": "Name",
+    "group": "Group",
+    "groups": "Groups",
     "email": "Email",
     "userID": "User ID",
     "username": "Username",

@@ -13,9 +13,9 @@
         </div>
     </div>
     <div class="form-group pr-2">
-        <label class="mb-1">{{ "label.groups" | translate }}</label>
+        <label class="mb-1">{{'label.groups' | translate}}</label>
         <div class="form-md">
-            <app-single-select formControlName="groups" [array]="groupsArr" [hasAll]=true [notAvailable]="'notAvailable.groups' | translate"></app-single-select>
+            <app-single-select formControlName="groups" [array]="groupsArr" [hasAll]=true [viewProp]="'id'" ></app-single-select>
         </div>
     </div>
     <div class="form-group pr-2">

@@ -12,7 +12,7 @@ export class PageLimitOptionsComponent {
   public currentPageLimit: number;
   constructor(private changeDetector: ChangeDetectorRef) {
     this.pageLimitOptions = [
-      { key: "20", value: 20 },
+      { key: "10", value: 10 },
       { key: "30", value: 30 },
       { key: "50", value: 50 }
     ];

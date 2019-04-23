@@ -23,6 +23,7 @@ export class ManagerComponent extends ListBaseComponent {
   public form: FormGroup;
   public formReset: any;
   public mainStatus: number;
+  public pageIndex: number;
   public url: string = API.user.listManager;
   public countryArr: any;
   public groupsArr: any;
@@ -33,7 +34,7 @@ export class ManagerComponent extends ListBaseComponent {
     { name: "ADID", prop: "username", sort: true },
     { name: "table.name", prop: "fullName", sort: true },
     { name: "table.country", prop: "countryId", sort: true },
-    { name: "groups", prop: "groups", sort: true },
+    { name: "table.groups", prop: "groups", sort: true },
     { name: "table.email", prop: "email", sort: true },
     { name: "table.action", prop: this.action, sort: false, html: true }
   ];
@@ -41,8 +42,9 @@ export class ManagerComponent extends ListBaseComponent {
   set varManager(value: boolean) {
     if (value) {
       setTimeout(() => {
-        this.onSearch();
-      }, 100);
+        this.onSearch(true);
+        this.pageIndex = 1;
+      }, 20);
     }
   }
 
@@ -53,9 +55,6 @@ export class ManagerComponent extends ListBaseComponent {
       this.countryArr = this.arrData.countries;
       this.groupsArr = this.arrData.groups;
       this.usersArr = this.arrData.users;
-      setTimeout(() => {
-        this.onSearch();
-      }, 100);
     }
   }
 
@@ -85,22 +84,21 @@ export class ManagerComponent extends ListBaseComponent {
   /**
    * Search table
    */
-  public onSearch(): void {
-    var country = "VN"//this.form.controls.country.value;
-    // country = typeof country === "object" ? country.id : country;
+  public onSearch(isInit: boolean = false): void {
+    var country = this.form.controls.country.value;
+    country = typeof country === "object" ? country.id : country;
     var groups = this.form.controls.groups.value;
     const param = {
       keySearch: {
         username: this.form.controls.adid.value,
-        // email: this.form.controls.email.value,
+        email: this.form.controls.email.value,
         fullName: this.form.controls.name.value,
         countryId: country === ALL ? SPACE : country,
-        groups: SPACE
-          // !groups || groups === ALL || groups.name === ALL ? SPACE : groups.name || groups
+        groups: !groups || groups === ALL || groups.name === ALL ? SPACE : groups.id || groups
       }
     };
     this.startBlockUI();
-    this.retrieveData(param).subscribe(() => {
+    this.retrieveData(param, isInit ? 1 : this.pageIndex).subscribe(() => {
       this.stopBlockUI();
     });
   }
@@ -118,6 +116,7 @@ export class ManagerComponent extends ListBaseComponent {
   }
 
   public onPageChange(event: any): void {
+    this.pageIndex = event ? event : 0;
     this.pageChange(event).subscribe(res => {
       if (!res.success) {
         this.alertService.error(res.errorMessage);
@@ -160,7 +159,8 @@ export class ManagerComponent extends ListBaseComponent {
           .confirm("Do you want to delete Manager Admin?")
           .subscribe(result => {
             if (result.value) {
-              this.delete(val.row.id);
+              var id = val.row.id;
+              // this.delete(id);
             }
           });
       }
