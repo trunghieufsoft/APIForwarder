@@ -39,7 +39,7 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   ],
   declarations: [
     UserComponent,
-    ManagerComponent,
+    ManagerComponent
     // StaffComponent,
     // EmployeeComponent,
 
@@ -51,7 +51,7 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   exports: [
     UserComponent,
     CommonModule,
-    TranslateModule,
+    TranslateModule
     // DetailManagerComponent,
     // DetailStaffComponent,
     // DetailEmployeeComponent
