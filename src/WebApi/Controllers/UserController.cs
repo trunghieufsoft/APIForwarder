@@ -122,13 +122,13 @@ namespace WebApi.Controllers
             return StatusCode((int)data.Item1, data.Item2);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("View")]
         public async Task<object> View(Guid id)
         {
             _forwarderService.SetToken(GetTokenFromRequestHeader());
 
-            var data = await _forwarderService.ForwardRequest<object, object>(Request.Path.ToString() + "?id=" + id, null, HttpMethod.Post);
+            var data = await _forwarderService.ForwardRequest<object, object>(Request.Path.ToString() + "?id=" + id, id, HttpMethod.Get);
 
             return StatusCode((int)data.Item1, data.Item2);
         }
