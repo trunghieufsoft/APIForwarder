@@ -124,7 +124,7 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("View")]
-        public async Task<object> View(Guid id)
+        public async Task<object> View([FromBody] Guid id)
         {
             _forwarderService.SetToken(GetTokenFromRequestHeader());
 
