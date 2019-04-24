@@ -387,7 +387,7 @@ export abstract class BaseComponent
     return array.filter(x => x[prop] + '' === value + '')[0];
   }
 
-  protected formatSLICArr(arr: any, value: string): any {
+  protected formatGroupsArr(arr: any, value: string): any {
     if (value) {
       const valueArr = value.split(',');
       if (!arr) {

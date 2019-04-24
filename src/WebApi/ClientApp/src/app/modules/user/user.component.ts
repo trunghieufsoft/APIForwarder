@@ -1,7 +1,7 @@
 import { Component, ChangeDetectorRef } from "@angular/core";
 import { ListBaseComponent } from "src/app/base/list-base.component";
 import { UserService } from "src/app/api-service/service/user-management.service";
-// import { DetailManagerAdminAdminComponent } from "./detail-ManagerAdmin-admin/detail-ManagerAdmin-admin.component";
+import { DetailManagerAdminComponent } from "./detail-user/detail-manager-admin/detail-manager-admin.component";
 // import { DetailOgpAdminComponent } from "./detail-ogp-admin/detail-ogp-admin.component";
 // import { DetailDriverComponent } from "./detail-driver/detail-driver.component";
 import { MessageService } from "primeng/api";
@@ -70,21 +70,21 @@ export class UserComponent extends ListBaseComponent {
       if (!res.success) {
         return;
       } else {
-        // this.dialogService.open(
-        //   DetailManagerComponent,
-        //   data => {
-        //     this.varManager++;
-        //     this.getAllUser();
-        //     if (data) {
-        //       this.messageService.add({
-        //         severity: "success",
-        //         detail: data.msg
-        //       });
-        //     }
-        //   },
-        //   undefined,
-        //   { arrData: this.arrData }
-        // );
+        this.dialogService.open(
+          DetailManagerAdminComponent,
+          data => {
+            this.varManager++;
+            this.getAllUser();
+            if (data) {
+              this.messageService.add({
+                severity: "success",
+                detail: data.msg
+              });
+            }
+          },
+          undefined,
+          { arrData: this.arrData }
+        );
       }
     });
   }

@@ -1,0 +1,146 @@
+<div #modalRef class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="createLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-492" role="document">
+    <div class="modal-content">
+      <div class="modal-header rounded-0">
+        <h5 class="modal-title" id="createStoreLabel" *ngIf="flagManager">{{'button.updateManager' | translate}}</h5>
+        <h5 class="modal-title" id="createStoreLabel" *ngIf="!flagManager">{{'button.createManager' | translate}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body bg-white modal-body-small" [formGroup]="form">
+        <div class="row" [hidden]="!flagManager">
+          <div class="col-3">
+            <label class="col-form-label text-nowrap">{{'label.status' | translate}}</label>
+          </div>
+          <div class="col-9">
+            <div class="form-group d-flex justify-content-between">
+              <div class="form-xxl d-flex align-items-end">
+                <div class="onoffswitch">
+                  <input type="checkbox" formControlName="status" name="onoffswitch" class="onoffswitch-checkbox"
+                    id="myonoffswitch1" checked="">
+                  <label class="onoffswitch-label" for="myonoffswitch1">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3">
+            <label class="col-form-label text-nowrap"><span class="color-red">*&nbsp;</span>ADID</label>
+          </div>
+          <div class="col-9">
+            <div class="form-group d-flex justify-content-between">
+              <div class="form-xxl">
+                <input type="text" class="form-control" *ngIf="flagManager" readonly formControlName="adid"
+                  maxlength="255" autocomplete="new-password">
+                <input type="text" class=" form-control" *ngIf="!flagManager" formControlName="adid" maxlength="255"
+                  autocomplete="new-password" itemName="ADID" appNoSpace appTrim errorTooltip usernameValidator title={{adid}}>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3">
+            <label class="col-form-label text-nowrap"><span class="color-red">*&nbsp;</span>{{'label.name' | translate}}</label>
+          </div>
+          <div class="col-9">
+            <div class="form-group d-flex justify-content-between">
+              <div class="form-xxl">
+                <input type="text" class="form-control" formControlName="name" maxlength="255"
+                  autocomplete="new-password"
+                  itemName="{{'label.name' | translate}}"
+                  appTrim
+                  errorTooltip
+                  title={{name}}>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3">
+            <label class="col-form-label text-nowrap"><span class="color-red">*&nbsp;</span>{{'label.email' | translate}}</label>
+          </div>
+          <div class="col-9">
+            <div class="form-group d-flex justify-content-between">
+              <div class="form-xxl">
+                <input type="text" class="form-control" formControlName="email" maxlength="255"
+                  autocomplete="new-password"
+                  appNoSpace
+                  appTrim
+                  errorTooltip
+                  title={{email}}
+                  itemName="{{'label.email' | translate}}">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3">
+            <label class="py-2"><span class="color-red">*&nbsp;</span>{{'label.country' | translate}}</label>
+          </div>
+          <div class="col-9">
+            <div class="form-group d-flex justify-content-between">
+              <div class="form-xxl">
+                <app-single-select formControlName="country" [array]="countryArr" (change)="countryChange($event)"
+                [viewProp]="'id'"
+                errorTooltip
+                itemName="{{'label.country' | translate}}">
+                </app-single-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3">
+            <label class="py-2"><span class="color-red">*&nbsp;</span>{{'label.groups' | translate}}</label>
+          </div>
+          <div class="col-9">
+            <div class="form-group d-flex justify-content-between">
+              <div class="form-xxl">
+                <app-multi-select formControlName="groups" [array]="groupsArr"
+                [viewProp]="'id'"
+                errorTooltip
+                itemName="{{'label.groups' | translate}}">
+                </app-multi-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3">
+            <label class="py-2"><span class="color-red">*&nbsp;</span>{{'label.startDate' | translate}}</label>
+          </div>
+          <div class="col-9">
+            <div class="form-group d-flex justify-content-between">
+              <div class="form-xxl">
+                <app-date-time formControlName="startDate" errorTooltip></app-date-time>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3">
+            <label class="py-2"><span class="color-red">*&nbsp;</span>{{'label.expiredDate' | translate}}</label>
+          </div>
+          <div class="col-9">
+            <div class="form-group d-flex justify-content-between">
+              <div class="form-xxl">
+                <app-date-time formControlName="expiredDate" errorTooltip></app-date-time>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">{{'button.cancel' | translate}}</button>
+        <button type="button" class="btn btn-primary fs-16 h-32 form-sm"
+          (click)="onSave()">{{'button.save' | translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>

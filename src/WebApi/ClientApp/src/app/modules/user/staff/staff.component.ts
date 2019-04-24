@@ -86,6 +86,7 @@ export class StaffComponent extends ListBaseComponent {
   public ngOnInit(): void {
     this.onInit();
     this.setForm();
+    this.getAllArray();
   }
 
   public onReset(): void {

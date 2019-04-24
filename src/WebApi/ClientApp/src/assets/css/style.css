@@ -2609,8 +2609,8 @@ table thead th {
 }
 
 .row>[class^="col-"] {
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 13px;
+    padding-right: 13px;
 }
 
 .row.row-space-0 {

@@ -12,11 +12,11 @@
                         <form autocomplete="off" class="form" [formGroup]="form" (ngSubmit)="onLogin()">
                             <div class="form-group">
                                 <label class="mb-2">{{'label.username' | translate}}</label>
-                                <input type="text" class="form-control" formControlName="username" maxlength="255" autocomplete="new-password" appNoSpace ogpErrorTooltip>
+                                <input type="text" class="form-control" formControlName="username" maxlength="255" autocomplete="new-password" appNoSpace errorTooltip>
                             </div>
                             <div class="form-group">
                                 <label class="mb-2">{{'label.password' | translate}}</label>
-                                <input type="password" class="form-control" formControlName="password" maxlength="255" autocomplete="new-password" appNoSpace ogpErrorTooltip>
+                                <input type="password" class="form-control" formControlName="password" maxlength="255" autocomplete="new-password" appNoSpace errorTooltip>
                             </div>
                             <button type="submit" class="btn btn-primary w-100">{{'button.login'| translate}}</button>
                         </form>

@@ -38,7 +38,7 @@
   z-index: 1500;
   border: solid 1px #ddd;
   padding-bottom: 0px;
-  max-width: 230px;
+  min-width: 260px;
 }
 .hour-picker,
 .minute-picker {

@@ -84,7 +84,7 @@ export class EmployeeComponent extends ListBaseComponent {
   public ngOnInit(): void {
     this.startBlockUI();
     this.setForm();
-    // this.getAllArray();
+    this.getAllArray();
   }
 
   public onReset(): void {
