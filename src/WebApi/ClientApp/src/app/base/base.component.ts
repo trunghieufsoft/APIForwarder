@@ -387,7 +387,7 @@ export abstract class BaseComponent
     return array.filter(x => x[prop] + '' === value + '')[0];
   }
 
-  protected formatGroupsArr(arr: any, value: string): any {
+  protected formatArrToSmallArr(arr: any, value: string): any {
     if (value) {
       const valueArr = value.split(',');
       if (!arr) {
@@ -408,23 +408,46 @@ export abstract class BaseComponent
     return [];
   }
 
-  protected getValueAllSlic(arr: any): string {
+  protected formatUserArrToSmallUserArr(arr: any, value: string): any {
+    if (value) {
+      const valueArr = value.split(',');
+      if (!arr) {
+        return valueArr;
+      } else {
+        const newArray = [];
+        for (let i = 0; i < valueArr.length; i++) {
+          const item = arr.filter(x => x.user.trim() === valueArr[i].trim())[0];
+          if (item != null) {
+            newArray.push(item);
+          }
+        }
+
+        return newArray;
+      }
+    }
+
+    return [];
+  }
+
+  protected formatDropdownForUsers(arr: any): any {
+    if (arr) {
+      const newArray = [];
+        for (let i = 0; i < arr.length; i++) {
+          const item = { id: arr[i].code, name: arr[i].fullName };
+          newArray.push(item);
+        }
+
+        return newArray;
+    }
+
+    return [];
+  }
+
+  protected getValueDataByArray(arr: any): string {
     let value;
     if (!arr) {
      return null;
     }
-    for (let i = 0; i < arr.length; i++) {
-      value = !value ? arr[i].name : value + ', ' + arr[i].name;
-    }
-
-    return value;
-  }
-
-  protected getValueAllOsp(arr: any): string {
-    if (!arr) {
-      return null;
-    }
-    let value;
     for (let i = 0; i < arr.length; i++) {
       value = !value ? arr[i].name : value + ', ' + arr[i].name;
     }

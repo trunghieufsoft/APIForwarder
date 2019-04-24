@@ -32,7 +32,7 @@ export class UserService extends BaseService {
   public createNewEmployee(data: EmployeeDto): Observable<any> {
     return this.http.post(API.user.createEmployee, data);
   }
-  public deleteUser(data: number): Observable<any> {
+  public deleteUser(data: any): Observable<any> {
     return this.http.post(API.user.deleteUser, data);
   }
 

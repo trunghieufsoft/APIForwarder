@@ -1,13 +1,12 @@
 <div class="main-date" *ngIf="isDisabled; else toggle">
   <div class="row">
     <div class="col-sm date-div" *ngIf="hasDate">
-      <span
+      <input
         class="form-control date-div-input"
         tabindex="-1"
         disabled
         readonly
-        >{{ date | date: "EEE, dd/MM/yyyy" }}</span
-      >
+        value="{{ date | date: 'EEE, dd/MM/yyyy' }}"/>
     </div>
     <div class="col-sm" *ngIf="hasTime">
       <div class="row">
@@ -35,6 +34,7 @@
         <input
           (click)="openDatePicker()"
           class="form-control date-div-input"
+          style="color: #212121!important;"
           tabindex="0"
           readonly
           value="{{ isValid() ? (date | date: 'EEE, dd/MM/yyyy') : date }}"

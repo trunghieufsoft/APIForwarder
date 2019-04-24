@@ -790,6 +790,10 @@ textarea {
     position: relative;
 }
 
+.form-control:disabled, .form-control[readonly] {
+    color: #6c757d!important;
+}
+
 .form-group label {
     font-family: 'SegoeUI-SemiBold';
     font-size: 14px;
@@ -1818,6 +1822,11 @@ input:checked+.slider:before {
     margin: 1.75rem auto;
 }
 
+.modal-470 {
+    max-width: 470px;
+    margin: 1.75rem auto;
+}
+
 .modal-492 {
     max-width: 492px;
     margin: 1.75rem auto;
@@ -2609,8 +2618,16 @@ table thead th {
 }
 
 .row>[class^="col-"] {
-    padding-left: 13px;
-    padding-right: 13px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.row>.padding-right-0 {
+    padding-right: 0px;
+}
+
+.row>.padding-left-0 {
+    padding-left: 0px;
 }
 
 .row.row-space-0 {

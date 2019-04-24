@@ -9,14 +9,15 @@ import { ListBaseComponent, SortEvent } from "src/app/base/list-base.component";
 import { API } from "src/app/api-service/api";
 import { FormGroup } from "@angular/forms";
 import { CONSTANT } from "src/app/shared/common/constant";
+import { CommonService } from "src/app/api-service/service/common.service";
 import { UserService } from "src/app/api-service/service/user-management.service";
-// import { DetailManagerComponent } from "../detail-ups-admin/detail-manager.component";
+import { DetailManagerAdminComponent } from "../detail-user/detail-manager-admin/detail-manager-admin.component";
 import { MessageService } from "primeng/api";
 import { ALL, SPACE } from "src/app/app.constant";
 @Component({
   selector: "app-manager",
   templateUrl: "./manager.component.html",
-  providers: [UserService]
+  providers: [UserService, CommonService]
 })
 export class ManagerComponent extends ListBaseComponent {
   @Output() public setStatus: EventEmitter<boolean> = new EventEmitter();
@@ -62,6 +63,7 @@ export class ManagerComponent extends ListBaseComponent {
   constructor(
     private userService: UserService,
     private messageService: MessageService,
+    private common: CommonService,
     private changeDetector: ChangeDetectorRef
   ) {
     super();
@@ -135,23 +137,27 @@ export class ManagerComponent extends ListBaseComponent {
   public onCellClick(val: any): void {
     if (val.col.prop === this.action) {
       if (val.target.id === "edit") {
-        // this.dialogService.open(
-        //   DetailManagerComponent,
-        //   data => {
-        //     this.onSearch();
-        //     if (data) {
-        //       this.messageService.add({
-        //         severity: "success",
-        //         detail: data.msg
-        //       });
-        //     }
-        //   },
-        //   undefined,
-        //   {
-        //     idUser: val.row.id,
-        //     arrData: this.arrData
-        //   }
-        // );
+        setTimeout(() => {
+          this.getAllUsers();
+        }, 100);
+        this.dialogService.open(
+          DetailManagerAdminComponent,
+          data => {
+            this.onSearch();
+            if (data) {
+              this.messageService.add({
+                severity: "success",
+                detail: data.msg
+              });
+            }
+          },
+          undefined,
+          {
+            idUser: val.row.id,
+            username: val.row.username,
+            arrData: this.arrData
+          }
+        );
       }
       if (val.target.id === "delete") {
         var msg = this.translate.get("dialog.confirmDelete")["value"];
@@ -160,7 +166,7 @@ export class ManagerComponent extends ListBaseComponent {
           .subscribe(result => {
             if (result.value) {
               var id = val.row.id;
-              // this.delete(id);
+              this.delete(id);
             }
           });
       }
@@ -184,16 +190,17 @@ export class ManagerComponent extends ListBaseComponent {
    */
 
   public countryChange(e: any): void {
-    // if (e != null && !(e instanceof Event)) {
-    //   var isAll = e === ALL || e.id === ALL;
-    //   this.groupsArr = isAll ? this.arrData.groups : e.groups;
-    //   this.form.controls.groups.setValue(ALL);
-    // }
     this.changeDetector.detectChanges();
   }
 
-  public groupsChange(e: any): void {
-    this.changeDetector.detectChanges();
+  private getAllUsers(): void {
+    this.common.getDetailCountry().subscribe(res => {
+      this.stopBlockUI();
+      if (res.success && res.data) {
+        this.arrData = res.data;
+        this.changeDetector.detectChanges();
+      }
+    });
   }
 
   /**
@@ -216,7 +223,7 @@ export class ManagerComponent extends ListBaseComponent {
   private delete(id: number): void {
     this.startBlockUI();
     var msg = this.translate.get("dialog.success")["value"];
-    this.userService.deleteUser(id).subscribe(() => {
+    this.userService.deleteUser({ id: id }).subscribe(() => {
       this.stopBlockUI();
       this.messageService.add({ severity: "success", detail: msg });
       this.setStatus.emit(true);
