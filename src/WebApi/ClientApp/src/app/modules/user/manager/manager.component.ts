@@ -137,27 +137,27 @@ export class ManagerComponent extends ListBaseComponent {
   public onCellClick(val: any): void {
     if (val.col.prop === this.action) {
       if (val.target.id === "edit") {
+        this.getDetailCountry();
         setTimeout(() => {
-          this.getAllUsers();
-        }, 100);
-        this.dialogService.open(
-          DetailManagerAdminComponent,
-          data => {
-            this.onSearch();
-            if (data) {
-              this.messageService.add({
-                severity: "success",
-                detail: data.msg
-              });
+          this.dialogService.open(
+            DetailManagerAdminComponent,
+            data => {
+              this.onSearch();
+              if (data) {
+                this.messageService.add({
+                  severity: "success",
+                  detail: data.msg
+                });
+              }
+            },
+            undefined,
+            {
+              idUser: val.row.id,
+              username: val.row.username,
+              arrData: this.arrData
             }
-          },
-          undefined,
-          {
-            idUser: val.row.id,
-            username: val.row.username,
-            arrData: this.arrData
-          }
-        );
+          );
+        }, 50);
       }
       if (val.target.id === "delete") {
         var msg = this.translate.get("dialog.confirmDelete")["value"];
@@ -193,11 +193,14 @@ export class ManagerComponent extends ListBaseComponent {
     this.changeDetector.detectChanges();
   }
 
-  private getAllUsers(): void {
+  private getDetailCountry(): void {
     this.common.getDetailCountry().subscribe(res => {
       this.stopBlockUI();
       if (res.success && res.data) {
         this.arrData = res.data;
+        this.countryArr = res.data.countries;
+        this.groupsArr = res.data.groups;
+        this.usersArr = res.data.users;
         this.changeDetector.detectChanges();
       }
     });

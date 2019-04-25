@@ -50,14 +50,14 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
     this.setForm();
     this.idUser = params.idUser;
     this.detailManager = params;
-    if (params.arrData && params.idUser) {
+    if (params.arrData) {
       this.arrData = params.arrData;
       this.countryArr = this.arrData.countries;
       this.countryStr = this.getDefaultCountry(this.countryArr);
       this.groupsArr = this.arrData.groups;
       this.groupStr = this.formatArrToSmallArr(this.groupsArr, null);
-      this.user = this.arrData.users[0].users.filter(x => x.username === params.username)[0];
-      this.userArr = this.formatDropdownForUsers(this.user.users);
+      this.user = params.idUser ? this.arrData.users[0].users.filter(x => x.username === params.username)[0] : [];
+      this.userArr = this.formatDropdownForUsers(params.idUser ? this.user.users : []);
       this.userStr = this.formatArrToSmallArr(this.userArr, null);
       if (this.countryStr && this.groupStr && this.userStr) {
         this.form.controls.country.setValue(this.countryStr);
