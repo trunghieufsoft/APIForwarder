@@ -131,7 +131,7 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
               valueArr.push(this.user.users.filter(x => x.code === item)[0].fullName);
             });
           }
-          controls.adid.setValue(res.data.username);
+          controls.adid.setValue(res.data.username.toLowerCase());
           controls.name.setValue(res.data.fullName);
           controls.users.setValue(valueArr.join(","));
           controls.startDate.setValue(res.data.startDate);

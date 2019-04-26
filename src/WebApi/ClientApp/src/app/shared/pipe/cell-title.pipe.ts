@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from "@angular/core";
 import { Column } from "../components/table/table.component";
 
 @Pipe({
+  // tslint:disable-next-line:pipe-naming
   name: "apiCellTitle"
 })
 export class CellTitlePipe implements PipeTransform {

@@ -3,6 +3,7 @@ import { CONSTANT } from "../common/constant";
 import { DatePipe } from "@angular/common";
 
 @Pipe({
+  // tslint:disable-next-line:pipe-naming
   name: "apiWeek"
 })
 export class WeekPipe implements PipeTransform {

@@ -240,11 +240,11 @@ export class StaffComponent extends ListBaseComponent {
         ? ALL
         : this.currentUser.Group;
     this.form = this.formBuilder.group({
-      userName: [""],
-      phoneNo: [""],
-      name: [""],
-      email: [""],
-      code: [""],
+      userName: [SPACE],
+      phoneNo: [SPACE],
+      name: [SPACE],
+      email: [SPACE],
+      code: [SPACE],
       country: [countryStr],
       group: [groupStr]
     });

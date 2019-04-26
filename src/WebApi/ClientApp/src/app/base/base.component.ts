@@ -432,12 +432,12 @@ export abstract class BaseComponent
   protected formatDropdownForUsers(arr: any): any {
     if (arr) {
       const newArray = [];
-        for (let i = 0; i < arr.length; i++) {
-          const item = { id: arr[i].code, name: arr[i].fullName };
-          newArray.push(item);
-        }
+      for (let i = 0; i < arr.length; i++) {
+        const item = { id: arr[i].code, name: arr[i].fullName };
+        newArray.push(item);
+      }
 
-        return newArray;
+      return newArray;
     }
 
     return [];

@@ -3,6 +3,7 @@ import { Column } from "../components/table/table.component";
 import { DomSanitizer } from "@angular/platform-browser";
 
 @Pipe({
+  // tslint:disable-next-line:pipe-naming
   name: "apiCellValue"
 })
 export class CellValuePipe implements PipeTransform {

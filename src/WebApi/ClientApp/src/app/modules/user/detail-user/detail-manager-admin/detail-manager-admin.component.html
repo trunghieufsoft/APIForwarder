@@ -93,22 +93,6 @@
             </div>
           </div>
         </div>
-        <div class="row" *ngIf="flagUpdate">
-          <div class="col-3 padding-right-0">
-            <label class="py-2"><span class="color-red"></span>{{'label.users' | translate}}</label>
-          </div>
-          <div class="col-9">
-            <div class="form-group d-flex justify-content-between">
-              <div class="form-xl">
-                <app-multi-select formControlName="users" [array]="userArr"
-                [viewProp]="'name'"
-                errorTooltip
-                itemName="{{'label.users' | translate}}">
-                </app-multi-select>
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="row">
           <div class="col-3 padding-right-0">
             <label class="col-form-label text-nowrap"><span class="color-red">*&nbsp;</span>{{'label.email' | translate}}</label>
@@ -148,6 +132,22 @@
             <div class="form-group d-flex justify-content-between">
               <div class="form-xl">
                 <app-date-time formControlName="expiredDate" errorTooltip></app-date-time>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="flagUpdate">
+          <div class="col-3 padding-right-0">
+            <label class="py-2"><span class="color-red"></span>&nbsp;&nbsp;{{'label.users' | translate}}</label>
+          </div>
+          <div class="col-9">
+            <div class="form-group d-flex justify-content-between">
+              <div class="form-xl">
+                <app-multi-select formControlName="users" [array]="userArr"
+                [viewProp]="'name'"
+                errorTooltip
+                itemName="{{'label.users' | translate}}">
+                </app-multi-select>
               </div>
             </div>
           </div>

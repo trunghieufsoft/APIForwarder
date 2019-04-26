@@ -13,7 +13,7 @@ import { CommonService } from "src/app/api-service/service/common.service";
 import { UserService } from "src/app/api-service/service/user-management.service";
 import { DetailManagerAdminComponent } from "../detail-user/detail-manager-admin/detail-manager-admin.component";
 import { MessageService } from "primeng/api";
-import { ALL, SPACE } from "src/app/app.constant";
+import { ALL, SPACE, USERS_CONF_MANAGER } from "src/app/app.constant";
 @Component({
   selector: "app-manager",
   templateUrl: "./manager.component.html",
@@ -46,7 +46,7 @@ export class ManagerComponent extends ListBaseComponent {
       setTimeout(() => {
         this.onSearch(true);
         this.pageIndex = 1;
-      }, 50);
+      });
     }
   }
 
@@ -88,15 +88,16 @@ export class ManagerComponent extends ListBaseComponent {
    */
   public onSearch(isInit: boolean = false): void {
     var country = this.form.controls.country.value;
-    country = typeof country === "object" ? country.id : country;
+    country = typeof country === "object" && country != null ? country.id : country;
     var groups = this.form.controls.groups.value;
     const param = {
       keySearch: {
         username: this.form.controls.adid.value,
-        email: this.form.controls.email.value,
         fullName: this.form.controls.name.value,
+        code: this.form.controls.code.value,
         countryId: country === ALL ? SPACE : country,
-        groups: !groups || groups === ALL || groups.name === ALL ? SPACE : groups.id || groups
+        groups: !groups || groups === ALL || groups.name === ALL ? SPACE : groups.id || groups,
+        email: this.form.controls.email.value
       }
     };
     this.startBlockUI();
@@ -157,7 +158,7 @@ export class ManagerComponent extends ListBaseComponent {
               arrData: this.arrData
             }
           );
-        }, 50);
+        });
       }
       if (val.target.id === "delete") {
         var msg = this.translate.get("dialog.confirmDelete")["value"];
@@ -175,10 +176,16 @@ export class ManagerComponent extends ListBaseComponent {
 
   public convertData(data: any): void {
     this.rows = data.dataResult;
-    for (let i = 0; i < this.rows.length; i++) {
-      this.rows[i][this.action] = `<div class="d-flex justify-content-center">${
-        CONSTANT.target.edit
-      } ${CONSTANT.target.delete} `;
+    if (this.rows) {
+      for (let i = 0; i < this.rows.length; i++) {
+        if (this.usersArr) {
+          this.rows[i][this.action] = this.usersArr[0].users[i].totalUser === USERS_CONF_MANAGER
+            ? `<div class="d-flex justify-content-center">${"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"} ${CONSTANT.target.edit} ${CONSTANT.target.delete} `
+            : `<div class="d-flex justify-content-center">${CONSTANT.target.assign} ${CONSTANT.target.edit} ${CONSTANT.target.delete} `;
+        } else {
+          this.rows[i][this.action] = `<div class="d-flex justify-content-center">${CONSTANT.target.edit} ${CONSTANT.target.delete} `;
+        }
+      }
     }
   }
 
@@ -214,11 +221,12 @@ export class ManagerComponent extends ListBaseComponent {
 
   private setForm(): void {
     this.form = this.formBuilder.group({
-      adid: [""],
-      name: [""],
-      email: [""],
-      country: ["All"],
-      groups: ["All"]
+      adid: [SPACE],
+      name: [SPACE],
+      code: [SPACE],
+      country: [ALL],
+      groups: [SPACE],
+      email: [SPACE]
     });
     this.formReset = this.form.value;
   }
