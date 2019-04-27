@@ -54,11 +54,11 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("GetUsersAssign")]
-        public async Task<object> GetUsersAssign(string username)
+        [Route("GetListAssignByType")]
+        public async Task<object> GetListAssignByType()
         {
             _forwarderService.SetToken(GetTokenFromRequestHeader());
-            var data = await _forwarderService.ForwardRequest<object, object>(Request.Path.ToString() + "?username=" + username, null, HttpMethod.Get);
+            var data = await _forwarderService.ForwardRequest<object, object>(Request.Path.ToString(), null, HttpMethod.Get);
 
             return StatusCode((int)data.Item1, data.Item2);
         }
