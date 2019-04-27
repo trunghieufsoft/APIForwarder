@@ -34,15 +34,11 @@
     "systemConfiguration": "System Configuration"
   },
   "dialog": {
-    "confirmDeleteSLIC": "Do you want to delete SLIC?",
-    "noOsp": "Please add OSP Code.",
-    "confirmDeleteOSP": "Do you want to delete OSP?",
-    "confirmDeletePick-up": "Do you want to delete Pick-up Job?",
-    "confirmDeleteSchedule": "Do you want to delete schedule pick-up?",
     "success": "Success",
     "noChange": "Nothing change",
     "somethingWrong": "Something wrong",
-    "confirmDelete": "Do you want to delete Vendor?",
+    "confirmDelete": "Do you want to delete {value}?",
+    "confirmAssign": "Do you want to assign list user for {value}?",
     "changeSuccess": "Changed successfully"
   },
   "common": {
@@ -128,7 +124,7 @@
     "email": "Email",
     "userID": "User ID",
     "username": "Username",
-    "phoneNo.": "Phone No.",
+    "phoneNo": "Phone No",
     "vendorID": "Vendor ID",
     "vendorName": "Vendor Name",
     "contactName": "Contact Name",
@@ -185,9 +181,15 @@
     "updateEmployee": "Update Employee",
     "viewProfile": "View Profile",
     "add": "Add",
-    "export": "Export"
+    "export": "Export",
+    "yes": "Yes",
+    "no": "No"
   },
   "label": {
+    "managerAdmin": "manager: {value}",
+    "staff": "staff: {value}",
+    "employee": "employee: {value}",
+    "confirm": "Confirm",
     "delivered": "Delivered",
     "driverReleased": "Driver Released",
     "exception": "Exception",
@@ -218,7 +220,7 @@
     "email": "Email",
     "username": "Username",
     "password": "Password",
-    "phoneNo.": "Phone No.",
+    "phoneNo": "Phone No",
     "contactName": "Contact Name",
     "contactNumber": "Contact Number",
     "SLICNumber": "SLIC Number",

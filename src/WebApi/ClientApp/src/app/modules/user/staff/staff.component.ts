@@ -10,9 +10,9 @@ import { API } from "src/app/api-service/api";
 import { FormGroup, Validators } from "@angular/forms";
 import { CONSTANT } from "src/app/shared/common/constant";
 import { UserService } from "src/app/api-service/service/user-management.service";
-// import { DetailStaffComponent } from "../detail-staff/detail-staff.component";
+// import { DetailStaffComponent } from "../detail-user/detail-staff/detail-staff.component";
 import { MessageService } from "primeng/api";
-import { ALL, SPACE } from "src/app/app.constant";
+import { ALL, SPACE, USERS_CONF_STAFF } from "src/app/app.constant";
 import { CommonService } from "src/app/api-service/service/common.service";
 import { group } from '@angular/animations';
 @Component({
@@ -24,9 +24,14 @@ export class StaffComponent extends ListBaseComponent {
   @Output() public setStatus: EventEmitter<boolean> = new EventEmitter();
   public mainStatus: number;
   public url: string = API.user.listStaff;
-  public countryArr: any;
-  public groupArr: any;
-  public userArr: any;
+  public countryArr: any[];
+  public groupArr: any[];
+  public userArr: any[];
+  public userByType: any[];
+  public statusArr: any[] = [
+    { id: "0", name: "true" },
+    { id: "1", name: "false" },
+  ];
   public form: FormGroup;
   public formReset: any;
   public pageIndex: number;
@@ -35,11 +40,10 @@ export class StaffComponent extends ListBaseComponent {
   public arrData: any = CONSTANT.arrData;
   public columnsStaff: any = [
     { name: "table.country", prop: "countryId", sort: true },
+    { name: "table.group", prop: "groups", sort: true },
     { name: "table.code", prop: "code", sort: true },
     { name: "table.name", prop: "fullName", sort: true },
-    { name: "table.username", prop: "username", sort: true },
-    { name: "table.group", prop: "groups", sort: true },
-    { name: "table.phoneNo.", prop: "phoneNo", sort: true },
+    { name: "table.phoneNo", prop: "phoneNo", sort: true },
     { name: "table.email", prop: "email", sort: true },
     {
       name: "table.status",
@@ -60,16 +64,6 @@ export class StaffComponent extends ListBaseComponent {
     }
   }
 
-  @Input("arrData")
-  set arrDataValue(value: boolean) {
-    if (value) {
-      this.arrData = value;
-      this.countryArr = this.arrData.countries;
-      this.groupArr = this.arrData.groups;
-      this.userArr = this.arrData.users;
-    }
-  }
-
   constructor(
     private common: CommonService,
     private userService: UserService,
@@ -85,8 +79,8 @@ export class StaffComponent extends ListBaseComponent {
    */
   public ngOnInit(): void {
     this.onInit();
-    this.setForm();
     this.getAllArray();
+    this.setForm();
   }
 
   public onReset(): void {
@@ -103,6 +97,8 @@ export class StaffComponent extends ListBaseComponent {
     country = country !== null && country !== undefined ? country.id || country : ALL;
     var group = this.form.controls.group.value;
     group = group !== null && group !== undefined ? group.id || group : ALL;
+    var status = this.form.controls.status.value;
+    status = status !== null && status !== undefined ? status.id || status : SPACE;
     const param = {
       keySearch: {
         phoneNo: this.form.controls.phoneNo.value,
@@ -111,7 +107,8 @@ export class StaffComponent extends ListBaseComponent {
         fullName: this.form.controls.name.value,
         countryId: country === ALL ? SPACE : country,
         code: this.form.controls.code.value,
-        groups: group === ALL ? SPACE : group
+        groups: group === ALL ? SPACE : group,
+        status: status
       }
     };
     this.startBlockUI();
@@ -151,32 +148,55 @@ export class StaffComponent extends ListBaseComponent {
   public onCellClick(val: any): void {
     if (val.col.prop === this.action) {
       if (val.target.id === "edit") {
-        // this.dialogService.open(
-        //   DetailStaffComponent,
-        //   data => {
-        //     this.onSearch();
-        //     if (data) {
-        //       this.messageService.add({
-        //         severity: "success",
-        //         detail: data.msg
-        //       });
+        // this.getAllArray();
+        // setTimeout(() => {
+        //   this.dialogService.open(
+        //     DetailStaffComponent,
+        //     data => {
+        //       this.onSearch();
+        //       if (data) {
+        //         this.messageService.add({
+        //           severity: "success",
+        //           detail: data.msg
+        //         });
+        //       }
+        //     },
+        //     undefined,
+        //     {
+        //       idUser: val.row.id,
+        //       username: val.row.username,
+        //       arrData: this.arrData
         //     }
-        //   },
-        //   undefined,
-        //   {
-        //     idStaff: val.row.id,
-        //     arrData: this.arrData
-        //   }
-        // );
+        //   );
+        // }, 100);
+      }
+      if (val.target.id === "assign") {
+        var msg = this.translate.get("dialog.confirmAssign")["value"];
+        var userAssign = this.translate.get("label.employee")["value"];
+        var title = this.translate.get("label.confirm")["value"];
+        var confirmText = this.translate.get("button.yes")["value"];
+        var cancelText = this.translate.get("button.no")["value"];
+        this.alertService
+          .confirm(msg.replace("{value}", userAssign.replace("{value}", val.row.fullName)), title,  confirmText, cancelText)
+          .subscribe(result => {
+            if (result.value) {
+              var user = val.row.username;
+              this.assign(user);
+            }
+          });
       }
       if (val.target.id === "delete") {
         var msg = this.translate.get("dialog.confirmDelete")["value"];
+        var userDelete = this.translate.get("label.staff")["value"];
+        var title = this.translate.get("label.confirm")["value"];
+        var confirmText = this.translate.get("button.yes")["value"];
+        var cancelText = this.translate.get("button.no")["value"];
         this.alertService
-          .confirm("Do you want to delete Staff?")
+          .confirm(msg.replace("{value}", userDelete.replace("{value}", val.row.fullName)), title,  confirmText, cancelText)
           .subscribe(result => {
             if (result.value) {
               var id = val.row.id;
-              // this.delete(id);
+              this.delete(id);
             }
           });
       }
@@ -209,9 +229,14 @@ export class StaffComponent extends ListBaseComponent {
   public convertData(data: any): void {
     this.rows = data.dataResult;
     for (let i = 0; i < this.rows.length; i++) {
-      this.rows[i][this.action] = `<div class="d-flex justify-content-center">${
-        CONSTANT.target.edit
-      } ${CONSTANT.target.delete} `;
+      if (this.userByType) {
+        this.rows[i][this.action] = this.userByType[1].users[i].totalUser >= USERS_CONF_STAFF
+          ? `<div class="d-flex justify-content-center">${"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"} ${CONSTANT.target.edit} ${CONSTANT.target.delete} `
+          : `<div class="d-flex justify-content-center">${CONSTANT.target.assign} ${CONSTANT.target.edit} ${CONSTANT.target.delete} `;
+      } else {
+        this.rows[i][this.action] = `<div class="d-flex justify-content-center">${CONSTANT.target.edit} ${CONSTANT.target.delete} `;
+      }
+      
       switch (this.rows[i]['statusStr']) {
         case "Active": {
           this.rows[i]['statusStr'] = `<span class="badge badge-pill badge-success">Active</span>`;
@@ -246,7 +271,8 @@ export class StaffComponent extends ListBaseComponent {
       email: [SPACE],
       code: [SPACE],
       country: [countryStr],
-      group: [groupStr]
+      group: [groupStr],
+      status: [SPACE]
     });
     this.formReset = this.form.value;
   }
@@ -260,6 +286,7 @@ export class StaffComponent extends ListBaseComponent {
         this.countryArr = this.arrData.countries;
         this.groupArr = this.arrData.groups;
         this.userArr = this.arrData.users;
+        this.userByType = res.data.userByType;
         this.changeDetector.detectChanges();
       }
     });
@@ -269,6 +296,17 @@ export class StaffComponent extends ListBaseComponent {
     this.startBlockUI();
     var msg = this.translate.get("dialog.success")["value"];
     this.userService.deleteUser(id).subscribe(() => {
+      this.stopBlockUI();
+      this.messageService.add({ severity: "success", detail: msg });
+      this.setStatus.emit(true);
+      this.onSearch();
+    });
+  }
+
+  private assign(user: string): void {
+    this.startBlockUI();
+    var msg = this.translate.get("dialog.success")["value"];
+    this.userService.assignUser(user).subscribe(() => {
       this.stopBlockUI();
       this.messageService.add({ severity: "success", detail: msg });
       this.setStatus.emit(true);

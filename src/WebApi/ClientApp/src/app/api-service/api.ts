@@ -18,6 +18,7 @@ export const API = {
     listManager: "User/Search/ManagerAdmin",
     listStaff: "User/Search/Staff",
     listEmployee: "User/Search/Employee",
+    assignUser: "User/AssignUsers"
   },
   common: {
     allCountry : "Common/GetAllCountry",

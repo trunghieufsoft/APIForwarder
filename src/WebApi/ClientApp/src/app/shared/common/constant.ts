@@ -40,6 +40,7 @@ export const CONSTANT = {
   arrData: {
     countries: [],
     groups: [],
+    userbytype: [],
     users: []
   }
 };

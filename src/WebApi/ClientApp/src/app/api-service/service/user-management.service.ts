@@ -43,10 +43,16 @@ export class UserService extends BaseService {
   public updateManager(data: any): Observable<any> {
     return this.http.post(API.user.updateManager, data);
   }
+
   public updateStaff(data: any): any {
     return this.http.post(API.user.updateStaff, data);
   }
+
   public updateEmployee(data: any): Observable<any> {
     return this.http.post(API.user.updateEmployee, data);
+  }
+
+  public assignUser(data: string): Observable<any> {
+    return this.http.post(API.user.assignUser, { username: data });
   }
 }

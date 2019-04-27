@@ -26,9 +26,10 @@ export class ManagerComponent extends ListBaseComponent {
   public mainStatus: number;
   public pageIndex: number;
   public url: string = API.user.listManager;
-  public countryArr: any;
-  public groupsArr: any;
-  public usersArr: any;
+  public countryArr: any[];
+  public groupsArr: any[];
+  public usersArr: any[];
+  public userByType: any[];
   public action: string = "action";
   public arrData: any = CONSTANT.arrData;
   public columnsManager: any = [
@@ -44,19 +45,9 @@ export class ManagerComponent extends ListBaseComponent {
   set varManager(value: boolean) {
     if (value) {
       setTimeout(() => {
-        this.onSearch(true);
         this.pageIndex = 1;
-      });
-    }
-  }
-
-  @Input("arrData")
-  set arrDataValue(value: boolean) {
-    if (value) {
-      this.arrData = value;
-      this.countryArr = this.arrData.countries;
-      this.groupsArr = this.arrData.groups;
-      this.usersArr = this.arrData.users;
+        this.onSearch();
+      }, 200);
     }
   }
 
@@ -75,6 +66,7 @@ export class ManagerComponent extends ListBaseComponent {
    */
   public ngOnInit(): void {
     this.onInit();
+    this.getAllArray();
     this.setForm();
   }
 
@@ -84,24 +76,49 @@ export class ManagerComponent extends ListBaseComponent {
   }
 
   /**
+   * Event Change Country Value
+   *
+   * @param {*} e
+   * @memberof EmployeeComponent
+   */
+  public countryChange(e: any): void {
+    if (e != null && !(e instanceof Event)) {
+      this.groupsArr = this.arrData.groups;
+      this.form.controls.groups.setValue(ALL);
+    }
+    this.changeDetector.detectChanges();
+  }
+
+  /**
+   * Event Change Groups Value
+   *
+   * @param {*} e
+   * @memberof ManagerComponent
+   */
+  public groupsChange(e: any): void {
+    this.changeDetector.detectChanges();
+  }
+
+  /**
    * Search table
    */
-  public onSearch(isInit: boolean = false): void {
+  public onSearch(): void {
     var country = this.form.controls.country.value;
     country = typeof country === "object" && country != null ? country.id : country;
     var groups = this.form.controls.groups.value;
+    groups = groups !== null && groups !== undefined ? typeof country === "object" ? groups.id : groups : ALL;
     const param = {
       keySearch: {
         username: this.form.controls.adid.value,
         fullName: this.form.controls.name.value,
         code: this.form.controls.code.value,
         countryId: country === ALL ? SPACE : country,
-        groups: !groups || groups === ALL || groups.name === ALL ? SPACE : groups.id || groups,
+        groups: groups === ALL ? SPACE : groups,
         email: this.form.controls.email.value
       }
     };
     this.startBlockUI();
-    this.retrieveData(param, isInit ? 1 : this.pageIndex).subscribe(() => {
+    this.retrieveData(param, this.pageIndex).subscribe(() => {
       this.stopBlockUI();
     });
   }
@@ -138,7 +155,7 @@ export class ManagerComponent extends ListBaseComponent {
   public onCellClick(val: any): void {
     if (val.col.prop === this.action) {
       if (val.target.id === "edit") {
-        this.getDetailCountry();
+        this.getAllArray();
         setTimeout(() => {
           this.dialogService.open(
             DetailManagerAdminComponent,
@@ -158,12 +175,31 @@ export class ManagerComponent extends ListBaseComponent {
               arrData: this.arrData
             }
           );
-        });
+        }, 100);
+      }
+      if (val.target.id === "assign") {
+        var msg = this.translate.get("dialog.confirmAssign")["value"];
+        var userAssign = this.translate.get("label.managerAdmin")["value"];
+        var title = this.translate.get("label.confirm")["value"];
+        var confirmText = this.translate.get("button.yes")["value"];
+        var cancelText = this.translate.get("button.no")["value"];
+        this.alertService
+          .confirm(msg.replace("{value}", userAssign.replace("{value}", val.row.fullName)), title,  confirmText, cancelText)
+          .subscribe(result => {
+            if (result.value) {
+              var user = val.row.username;
+              this.assign(user);
+            }
+          });
       }
       if (val.target.id === "delete") {
         var msg = this.translate.get("dialog.confirmDelete")["value"];
+        var userDelete = this.translate.get("label.managerAdmin")["value"];
+        var title = this.translate.get("label.confirm")["value"];
+        var confirmText = this.translate.get("button.yes")["value"];
+        var cancelText = this.translate.get("button.no")["value"];
         this.alertService
-          .confirm("Do you want to delete Manager Admin?")
+          .confirm(msg.replace("{value}", userDelete.replace("{value}", val.row.fullName)), title,  confirmText, cancelText)
           .subscribe(result => {
             if (result.value) {
               var id = val.row.id;
@@ -178,8 +214,8 @@ export class ManagerComponent extends ListBaseComponent {
     this.rows = data.dataResult;
     if (this.rows) {
       for (let i = 0; i < this.rows.length; i++) {
-        if (this.usersArr) {
-          this.rows[i][this.action] = this.usersArr[0].users[i].totalUser === USERS_CONF_MANAGER
+        if (this.userByType) {
+          this.rows[i][this.action] = this.userByType[0].users[i].totalUser >= USERS_CONF_MANAGER
             ? `<div class="d-flex justify-content-center">${"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"} ${CONSTANT.target.edit} ${CONSTANT.target.delete} `
             : `<div class="d-flex justify-content-center">${CONSTANT.target.assign} ${CONSTANT.target.edit} ${CONSTANT.target.delete} `;
         } else {
@@ -189,18 +225,7 @@ export class ManagerComponent extends ListBaseComponent {
     }
   }
 
-  /**
-   * Event Change Country Value
-   *
-   * @param {*} e
-   * @memberof UpsAdminComponent
-   */
-
-  public countryChange(e: any): void {
-    this.changeDetector.detectChanges();
-  }
-
-  private getDetailCountry(): void {
+  private getAllArray(): void {
     this.common.getDetailCountry().subscribe(res => {
       this.stopBlockUI();
       if (res.success && res.data) {
@@ -208,6 +233,7 @@ export class ManagerComponent extends ListBaseComponent {
         this.countryArr = res.data.countries;
         this.groupsArr = res.data.groups;
         this.usersArr = res.data.users;
+        this.userByType = res.data.userByType;
         this.changeDetector.detectChanges();
       }
     });
@@ -225,17 +251,26 @@ export class ManagerComponent extends ListBaseComponent {
       name: [SPACE],
       code: [SPACE],
       country: [ALL],
-      groups: [SPACE],
+      groups: [ALL],
       email: [SPACE]
     });
     this.formReset = this.form.value;
   }
 
   private delete(id: number): void {
-    this.startBlockUI();
     var msg = this.translate.get("dialog.success")["value"];
     this.userService.deleteUser({ id: id }).subscribe(() => {
       this.stopBlockUI();
+      this.messageService.add({ severity: "success", detail: msg });
+      this.setStatus.emit(true);
+      this.onSearch();
+    });
+  }
+
+  private assign(user: string): void {
+    var msg = this.translate.get("dialog.success")["value"];
+    this.userService.assignUser(user).subscribe(() => {
+      this.startBlockUI();
       this.messageService.add({ severity: "success", detail: msg });
       this.setStatus.emit(true);
       this.onSearch();

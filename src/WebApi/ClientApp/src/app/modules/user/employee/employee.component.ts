@@ -10,7 +10,7 @@ import { API } from "src/app/api-service/api";
 import { FormGroup } from "@angular/forms";
 import { CONSTANT } from "src/app/shared/common/constant";
 import { UserService } from "src/app/api-service/service/user-management.service";
-// import { DetailEmployeeComponent } from "../detail-employee/detail-employee.component";
+// import { DetailEmployeeComponent } from "../detail-user/detail-employee/detail-employee.component";
 import { MessageService } from "primeng/api";
 import { ALL, SPACE } from "src/app/app.constant";
 import { CommonService } from 'src/app/api-service/service/common.service';
@@ -23,22 +23,24 @@ export class EmployeeComponent extends ListBaseComponent {
   @Output() public setStatus: EventEmitter<boolean> = new EventEmitter();
   public mainStatus: number;
   public url: string = API.user.listEmployee;
-  public countryArr: any;
-  public groupArr: any;
-  public userArr: any;
+  public countryArr: any[];
+  public groupArr: any[];
+  public userArr: any[];
+  public statusArr: any[] = [
+    { id: "0", name: "true" },
+    { id: "1", name: "false" },
+  ];
   public form: FormGroup;
   public formReset: any;
   public pageIndex: number;
-  public status: string = "status";
   public action: string = "action";
   public arrData: any = CONSTANT.arrData;
   public columnsEmployee: any = [
     { name: "table.country", prop: "countryId", sort: true },
+    { name: "table.group", prop: "groups", sort: true },
     { name: "table.code", prop: "code", sort: true },
     { name: "table.name", prop: "fullName", sort: true },
-    { name: "table.username", prop: "username", sort: true },
-    { name: "table.group", prop: "groups", sort: true },
-    { name: "table.phoneNo.", prop: "phoneNo", sort: true },
+    { name: "table.phoneNo", prop: "phoneNo", sort: true },
     { name: "table.email", prop: "email", sort: true },
     {
       name: "table.status",
@@ -59,15 +61,6 @@ export class EmployeeComponent extends ListBaseComponent {
     }
   }
 
-  @Input("arrData")
-  set arrDataValue(value: boolean) {
-    if (value) {
-      this.arrData = value;
-      this.countryArr = this.arrData.countries;
-      this.groupArr = this.arrData.groups;
-      this.userArr = this.arrData.users;
-    }
-  }
   constructor(
     private common: CommonService,
     private userService: UserService,
@@ -83,8 +76,8 @@ export class EmployeeComponent extends ListBaseComponent {
    */
   public ngOnInit(): void {
     this.startBlockUI();
-    this.setForm();
     this.getAllArray();
+    this.setForm();
   }
 
   public onReset(): void {
@@ -108,7 +101,7 @@ export class EmployeeComponent extends ListBaseComponent {
    * @memberof EmployeeComponent
    */
   public countryChange(e: any): void {
-    if (e != null && !this.isStaff && !(e instanceof Event)) {
+    if (e != null && !(e instanceof Event)) {
       this.groupArr = this.arrData.groups;
       this.form.controls.group.setValue(ALL);
     }
@@ -133,6 +126,8 @@ export class EmployeeComponent extends ListBaseComponent {
     country = country !== null && country !== undefined ? country.id || country : ALL;
     var group = this.form.controls.group.value;
     group = group !== null && group !== undefined ? group.id || group : ALL;
+    var status = this.form.controls.status.value;
+    status = status !== null && status !== undefined ? status.id || status : SPACE;
     const params = {
       keySearch: {
         phoneNo: this.form.controls.phoneNo.value,
@@ -141,7 +136,8 @@ export class EmployeeComponent extends ListBaseComponent {
         fullName: this.form.controls.name.value,
         countryId: country === ALL ? SPACE : country,
         code: this.form.controls.code.value,
-        groups: group === ALL ? SPACE : group
+        groups: group === ALL ? SPACE : group,
+        status: status
       }
     };
     this.startBlockUI();
@@ -158,32 +154,40 @@ export class EmployeeComponent extends ListBaseComponent {
   public onCellClick(val: any): void {
     if (val.col.prop === this.action) {
       if (val.target.id === "edit") {
-        // this.dialogService.open(
-        //   DetailEmployeeComponent,
-        //   data => {
-        //     this.onSearch();
-        //     if (data) {
-        //       this.messageService.add({
-        //         severity: "success",
-        //         detail: data.msg
-        //       });
+        // this.getAllArray();
+        // setTimeout(() => {
+        //   this.dialogService.open(
+        //     DetailEmployeeComponent,
+        //     data => {
+        //       this.onSearch();
+        //       if (data) {
+        //         this.messageService.add({
+        //           severity: "success",
+        //           detail: data.msg
+        //         });
+        //       }
+        //     },
+        //     undefined,
+        //     {
+        //       idUser: val.row.id,
+        //       username: val.row.username,
+        //       arrData: this.arrData
         //     }
-        //   },
-        //   undefined,
-        //   {
-        //     idEmployee: val.row.id,
-        //     arrData: this.arrData
-        //   }
-        // );
+        //   );
+        // }, 100);
       }
       if (val.target.id === "delete") {
         var msg = this.translate.get("dialog.confirmDelete")["value"];
+        var userDelete = this.translate.get("dialog.employee")["value"];
+        var title = this.translate.get("label.confirm")["value"];
+        var confirmText = this.translate.get("button.yes")["value"];
+        var cancelText = this.translate.get("button.no")["value"];
         this.alertService
-          .confirm("Do you want to delete Driver?")
+          .confirm(msg.replace("{value}", userDelete.replace("{value}", val.row.fullName)), title,  confirmText, cancelText)
           .subscribe(result => {
             if (result.value) {
               var id = val.row.id;
-              // this.delete(id);
+              this.delete(id);
             }
           });
       }
@@ -219,6 +223,7 @@ export class EmployeeComponent extends ListBaseComponent {
       this.rows[i][this.action] = `<div class="d-flex justify-content-center">${
         CONSTANT.target.edit
       } ${CONSTANT.target.delete} `;
+      
       switch (this.rows[i]['statusStr']) {
         case "Available": {
           this.rows[i]['statusStr'] = `<span class="badge badge-pill badge-success">Available</span>`;
@@ -249,7 +254,8 @@ export class EmployeeComponent extends ListBaseComponent {
       email: [SPACE],
       code: [SPACE],
       country: [countryStr],
-      group: [groupStr]
+      group: [groupStr],
+      status: [SPACE]
     });
     this.formReset = this.form.value;
   }

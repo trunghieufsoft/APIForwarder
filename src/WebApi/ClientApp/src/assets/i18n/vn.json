@@ -29,16 +29,12 @@
     "systemConfiguration": "Cấu Hình Hệ Thống"
   },
   "dialog": {
-    "confirmDeleteSLIC": "你想删除SLIC吗？",
-    "noOsp": "请添加OSP代码。",
-    "confirmDeleteOSP": "你想删除OSP吗？",
-    "confirmDeletePick-up": "要删除接送工作吗？",
-    "confirmDeleteSchedule": "你想删除日程安排吗？",
-    "success": "成功",
-    "noChange": "无修改",
-    "somethingWrong": "错误提示",
-    "confirmDelete": "要删除供应商吗？",
-    "changeSuccess": "改变成功"
+    "success": "Thành công.",
+    "noChange": "Không có gì thay đổi.",
+    "somethingWrong": "Xảy ra lỗi gì đó.",
+    "confirmDelete": "Bạn chắc chắn muốn xóa {value}?",
+    "confirmAssign": "Bạn có muốn chỉ định danh sách người dùng cho {value}?",
+    "changeSuccess": "Thay đổi thành công."
   },
   "common": {
     "footerTable": "Hiển thị danh sách từ {1} đến {2} trong tổng số {3} mục",
@@ -123,7 +119,7 @@
     "email": "Email",
     "userID": "用户ID",
     "username": "Tài Khoản",
-    "phoneNo.": "Số Điện Thoại",
+    "phoneNo": "Số Điện Thoại",
     "vendorID": "服务商ID",
     "vendorName": "服务商名称",
     "contactName": "联系人姓名",
@@ -178,9 +174,15 @@
     "viewProfile": "Thông Tin Cơ Bản",
     "logout": "Đăng Xuất",
     "add": "Thêm",
-    "export": "In"
+    "export": "In",
+    "yes": "Đồng ý",
+    "no": "Hủy bỏ"
   },
   "label": {
+    "managerAdmin": "người quản lý: {value}", 
+    "staff": "cán bộ: {value}",
+    "employee": "nhân viên: {value}",
+    "confirm": "Xác Nhận",
     "delivered": "已派送",
     "driverReleased": "包裹存放",
     "exception": "Ngoại Lệ",
@@ -212,7 +214,7 @@
     "email": "Địa Chỉ Mail",
     "username": "Tài Khoản",
     "password": "Mật Khẩu",
-    "phoneNo.": "Số Điện Thoại",
+    "phoneNo": "Số Điện Thoại",
     "contactName": "联系人姓名",
     "contactNumber": "联系人电话",
     "SLICNumber": "SLIC号码",
