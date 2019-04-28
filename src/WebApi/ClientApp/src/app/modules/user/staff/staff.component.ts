@@ -94,7 +94,6 @@ export class StaffComponent extends ListBaseComponent {
   }
 
   public onReset(): void {
-    this.formReset.country = this.isSuper ? ALL : this.arrData.countries[0];
     this.form.reset();
     this.form.setValue(this.formReset);
   }
@@ -103,6 +102,10 @@ export class StaffComponent extends ListBaseComponent {
    * get All user
    */
   public onSearch(isInit: boolean = false): void {
+    let groupStr: string = this.form.controls.group.value;
+    if (groupStr === null || groupStr === undefined || groupStr === SPACE) {
+      this.form.controls.group.setValue(ALL);
+    }
     const param = {
       keySearch: {
         phoneNo: this.checkDataSearch(this.form.controls.phoneNo.value),
@@ -130,7 +133,9 @@ export class StaffComponent extends ListBaseComponent {
   public countryChange(e: any): void {
     if (e != null && !(e instanceof Event)) {
       this.groupArr = this.arrData.groups;
-      this.form.controls.group.setValue(ALL);
+      let groupStr: string = this.form.controls.group.value;
+      let isChange: boolean = groupStr === null || groupStr === undefined || groupStr === SPACE;
+      this.form.controls.group.setValue(isChange ? ALL : groupStr);
     }
     this.changeDetector.detectChanges();
   }
@@ -233,8 +238,8 @@ export class StaffComponent extends ListBaseComponent {
   public convertData(data: any): void {
     this.rows = data.dataResult;
     for (let i = 0; i < this.rows.length; i++) {
-      if (this.userByType) {
-        this.rows[i][this.action] = this.userByType[1].users[i].totalUser >= USERS_CONF_STAFF
+      if (this.arrData.userByType) {
+        this.rows[i][this.action] = this.arrData.userByType[1].users[i].totalUser >= USERS_CONF_STAFF
           ? `<div class="d-flex justify-content-center">${"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"} ${CONSTANT.target.edit} ${CONSTANT.target.delete} `
           : `<div class="d-flex justify-content-center">${CONSTANT.target.assign} ${CONSTANT.target.edit} ${CONSTANT.target.delete} `;
       } else {
@@ -260,14 +265,8 @@ export class StaffComponent extends ListBaseComponent {
    */
 
   private setForm(): void {
-    var countryStr =
-      this.currentUser.UserType === CONSTANT.userType.super
-        ? ALL
-        : this.currentUser.Country;
-    var groupStr =
-      this.currentUser.UserType !== CONSTANT.userType.staff
-        ? ALL
-        : this.currentUser.Group;
+    var countryStr = this.isSuper ? ALL : this.arrData.countries[0];
+    var groupStr = !this.isStaff ? ALL : this.arrData.groups[0];
     this.form = this.formBuilder.group({
       userName: [SPACE],
       phoneNo: [SPACE],

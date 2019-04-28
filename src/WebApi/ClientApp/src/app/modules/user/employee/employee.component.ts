@@ -92,15 +92,6 @@ export class EmployeeComponent extends ListBaseComponent {
   }
 
   public onReset(): void {
-    if (this.isSuper) {
-      this.formReset.country = ALL;
-    } else if (this.isSuper || this.isManager) {
-      this.formReset.country = this.arrData.countries[0];
-      this.formReset.group = ALL;
-    } else {
-      this.formReset.country = this.arrData.countries[0];
-      this.formReset.group = this.arrData.groups[0];
-    }
     this.form.reset();
     this.form.setValue(this.formReset);
   }
@@ -114,7 +105,9 @@ export class EmployeeComponent extends ListBaseComponent {
   public countryChange(e: any): void {
     if (e != null && !(e instanceof Event)) {
       this.groupArr = this.arrData.groups;
-      this.form.controls.group.setValue(ALL);
+      let groupStr: string = this.form.controls.group.value;
+      let isChange: boolean = groupStr === null || groupStr === undefined || groupStr === SPACE;
+      this.form.controls.group.setValue(isChange ? ALL : groupStr);
     }
     this.changeDetector.detectChanges();
   }
@@ -133,6 +126,10 @@ export class EmployeeComponent extends ListBaseComponent {
    * get All user
    */
   public onSearch(isInit: boolean = false): void {
+    let groupStr: string = this.form.controls.group.value;
+    if (groupStr === null || groupStr === undefined || groupStr === SPACE) {
+      this.form.controls.group.setValue(ALL);
+    }
     const params = {
       keySearch: {
         phoneNo: this.checkDataSearch(this.form.controls.phoneNo.value),
@@ -247,10 +244,8 @@ export class EmployeeComponent extends ListBaseComponent {
   }
 
   private setForm(): void {
-    var countryStr = this.isSuper ? ALL : this.currentUser.Country;
-    var groupStr = this.isSuper || this.isManager
-      ? ALL
-      : this.currentUser.Group;
+    var countryStr = this.isSuper ? ALL : this.arrData.countries[0];
+    var groupStr = this.isSuper || this.isManager ? ALL : this.arrData.groups[0].id;
 
     this.form = this.formBuilder.group({
       userName: [SPACE],

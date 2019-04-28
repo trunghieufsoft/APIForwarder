@@ -4,7 +4,6 @@ import { DialogBaseComponent } from "src/app/base/dialog.component";
 import { UserService } from "src/app/api-service/service/user-management.service";
 import { customEmailValidator } from "src/app/shared/directives/custom-email-validator";
 import { dateValidator, dateRangeValidator } from "src/app/shared/directives/date-range-validator";
-import { ALL } from "src/app/app.constant";
 import { CONSTANT } from "src/app/shared/common/constant";
 import { ManagerDto } from 'src/app/api-service/model/user-management-dto';
 import { CommonService } from 'src/app/api-service/service/common.service';
@@ -17,23 +16,26 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
   public form: FormGroup;
   public formInit: FormGroup;
   public formReset: FormGroup;
-  public idUser: number;
-  public flagUpdate: boolean;
+  
   public detailManager: any;
   public arrData: any = CONSTANT.arrData;
   public dataManager: any;
-  public countryArr: any;
-  public groupsArr: any;
-  public userArr: any;
+  
+  public countryArr: any[];
+  public groupsArr: any[];
+  public userArr: any[];
+  
+  public idUser: number;
+  
   public adid: string;
   public name: string;
   public email: string;
-  public groups: string;
+  
+  public flagUpdate: boolean;
+
   private user: any;
   private country: string;
-  private countryStr: any = ALL;
-  private groupStr: any = ALL;
-  private userStr: any = ALL;
+  
   constructor(
     private userService: UserService,
     private common: CommonService,
@@ -54,17 +56,21 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
     this.detailManager = params;
     if (params.arrData) {
       this.arrData = params.arrData;
+
       this.countryArr = this.arrData.countries;
-      this.countryStr = this.getDefaultCountry(this.countryArr);
+      let countryStr: string = this.getDefaultCountry(this.countryArr);
+      
       this.groupsArr = this.arrData.groups;
-      this.groupStr = this.formatArrToSmallArr(this.groupsArr, null);
+      let groupStr: string = this.formatArrToSmallArr(this.groupsArr, null);
+      
       this.user = params.idUser ? this.arrData.users[0].users.filter(x => x.username === params.username)[0] : [];
       this.userArr = this.formatDropdownForUsers(params.idUser ? this.user.users : []);
-      this.userStr = this.formatArrToSmallArr(this.userArr, null);
-      if (this.countryStr && this.groupStr && this.userStr) {
-        this.form.controls.country.setValue(this.countryStr);
-        this.form.controls.groups.setValue(this.groupStr);
-        this.form.controls.users.setValue(this.userStr);
+      let userStr: string = this.formatArrToSmallArr(this.userArr, null);
+      
+      if (countryStr && groupStr && userStr) {
+        this.form.controls.country.setValue(countryStr);
+        this.form.controls.groups.setValue(groupStr);
+        this.form.controls.users.setValue(userStr);
         this.formReset = this.form.value;
       }
     }
@@ -151,7 +157,7 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
 
   public onCancel(): void {
     this.hide();
-    this.canceledEvent.emit();
+    this.canceledEvent.emit(true);
   }
 
   public onSave(): void {
@@ -249,6 +255,5 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
     this.adid = this.form.controls.adid.value;
     this.name = this.form.controls.name.value;
     this.email = this.form.controls.email.value;
-    this.groups = this.form.controls.groups.value;
   }
 }

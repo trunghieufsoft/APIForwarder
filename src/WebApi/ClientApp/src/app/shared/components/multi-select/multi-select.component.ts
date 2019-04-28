@@ -166,10 +166,9 @@ export class MultiSelectComponent
     }
     var value = "";
     var temp = this.array.filter(x => x.selected);
-    for (var i = 0; i < temp.length; i++) {
-      value =
-        value === "" ? temp[i][this.viewProp] : "," + temp[i][this.viewProp];
-    }
+    temp.forEach(item => {
+      value += value === "" ? item[this.viewProp] : "," + item[this.viewProp];
+    })
     this.value = value;
     this.writeValue(this.value);
     this.change.emit(this.value);
@@ -186,16 +185,21 @@ export class MultiSelectComponent
         this.isAll = true;
 
         return "All";
-      } else {
-        this.isAll = false;
       }
-
-      return this.value;
+      let valueArr: string[] = this.value.split(", ");
+      if (this.value.length > 0 && valueArr.length > 0) {
+        if (this.array.length === valueArr.length) {
+          this.isAll = true;
+          this.value = "All";
+        }
+      }
     } else {
       this.value = "";
 
       return this.notAvailable || "";
     }
+      
+    return this.value;
   }
 
   @HostListener("document:click", ["$event.target"])
@@ -235,31 +239,27 @@ export class MultiSelectComponent
         this.array[0].selected = true;
       }
       if (this.value === ALL || !this.value) {
-        for (let i = 0; i < this.array.length; i++) {
-          this.array[i].selected = this.value === ALL ? true : false;
-        }
+        this.array.forEach(item => {
+          item.selected = this.value === ALL;
+        })
       } else if (this.value) {
         var pieces = this.value.toString().split(",");
-        for (let i = 0; i < pieces.length; i++) {
-          if (pieces[i] !== "") {
-            var index = this.array.findIndex(
-              x => x[this.viewProp] === pieces[i].trim()
-            );
+        pieces.forEach(item => {
+          if (item !== "") {
+            var index = this.array.findIndex(x => x[this.viewProp] === item.trim());
             if (this.array[index]) {
               this.array[index].selected = true;
             }
           }
-        }
+        });
       }
 
+      var value: string = "";
       var temp = this.array.filter(x => x.selected);
-      var value: any;
-      for (let i = 0; i < temp.length; i++) {
-        value = !value
-          ? temp[i][this.viewProp]
-          : value + ", " + temp[i][this.viewProp];
-        this.value = value;
-      }
+      temp.forEach(item => {
+        value += value === "" ? item[this.viewProp] : ", " + item[this.viewProp];
+      });
+      this.value = value;
     }
   }
 }

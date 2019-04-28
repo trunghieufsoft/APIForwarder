@@ -15,6 +15,7 @@ import { CONSTANT } from "src/app/shared/common/constant";
   providers: [UserService, CommonService]
 })
 export class UserComponent extends ListBaseComponent {
+  public setGroups: Boolean = false;
   public varManager: number = 1;
   public varStaff: number = 1;
   public varEmployee: number = 1;
@@ -45,7 +46,6 @@ export class UserComponent extends ListBaseComponent {
    */
   public onInit(): void {
     this.getAllArray();
-    this.setHiddenAuthen();
   }
 
   /**
@@ -85,7 +85,11 @@ export class UserComponent extends ListBaseComponent {
               this.alertService.error(data.msg);
             }
           },
-          undefined,
+          data => {
+            if (data) {
+              this.setGroup(true);
+            }
+          },
           { arrData: this.arrData }
         );
       }
@@ -160,19 +164,19 @@ export class UserComponent extends ListBaseComponent {
   }
 
   private setHiddenAuthen(): void {
-    if (this.currentUser.UserType === CONSTANT.userType.staff) {
+    if (this.isStaff) {
       this.isCreateManager = false;
       this.isCreateStaff = false;
       this.isCreateEmployee = true;
       this.onClickEmployee();
     }
-    if (this.currentUser.UserType === CONSTANT.userType.manager) {
+    if (this.isManager) {
       this.isCreateManager = false;
       this.isCreateStaff = true;
       this.isCreateEmployee = true;
       this.onClickStaff();
     }
-    if (this.currentUser.UserType === CONSTANT.userType.super) {
+    if (this.isSuper) {
       this.isCreateManager = true;
       this.isCreateEmployee = true;
       this.isCreateStaff = true;
@@ -190,17 +194,7 @@ export class UserComponent extends ListBaseComponent {
       this.stopBlockUI();
       if (res.success && res.data) {
         this.arrData = res.data;
-        this.changeDetector.detectChanges();
-      }
-    });
-  }
-
-  private getListAssignByType(): void {
-    this.startBlockUI();
-    this.common.getListAssignByType().subscribe(res => {
-      this.stopBlockUI();
-      if (res.success && res.data) {
-        this.arrData.userByType = res.data;
+        this.setHiddenAuthen();
         this.changeDetector.detectChanges();
       }
     });
@@ -210,5 +204,9 @@ export class UserComponent extends ListBaseComponent {
     this.managerTab = false;
     this.staffTab = false;
     this.employeeTab = false;
+  }
+
+  private setGroup(value: boolean = false) {
+    this.setGroups = value;
   }
 }

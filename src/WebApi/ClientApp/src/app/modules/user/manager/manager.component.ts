@@ -21,6 +21,7 @@ import { ALL, SPACE, USERS_CONF_MANAGER } from "src/app/app.constant";
 })
 export class ManagerComponent extends ListBaseComponent {
   @Output() public setStatus: EventEmitter<boolean> = new EventEmitter();
+  @Output() public setGroup: EventEmitter<boolean> = new EventEmitter();
   public form: FormGroup;
   public formReset: any;
   public mainStatus: number;
@@ -29,6 +30,7 @@ export class ManagerComponent extends ListBaseComponent {
   public countryArr: any[];
   public groupsArr: any[];
   public usersArr: any[];
+  public groupsStr: string;
   public action: string = "action";
   public arrData: any = CONSTANT.arrData;
   public columnsManager: any = [
@@ -48,6 +50,14 @@ export class ManagerComponent extends ListBaseComponent {
       this.countryArr = this.arrData.countries;
       this.groupsArr = this.arrData.groups;
       this.usersArr = this.arrData.users;
+    }
+  }
+
+  @Input("setGroups")
+  set setGroupsValue(value: boolean) {
+    if (value) {
+      this.form.controls.groups.setValue(this.groupsStr);
+      this.setGroup.emit();
     }
   }
 
@@ -93,7 +103,9 @@ export class ManagerComponent extends ListBaseComponent {
   public countryChange(e: any): void {
     if (e != null && !(e instanceof Event)) {
       this.groupsArr = this.arrData.groups;
-      this.form.controls.groups.setValue(ALL);
+      let groupStr: string = this.form.controls.groups.value;
+      let isChange: boolean = groupStr === null || groupStr === undefined || groupStr === SPACE;
+      this.form.controls.groups.setValue(isChange ? ALL : groupStr);
     }
     this.changeDetector.detectChanges();
   }
@@ -112,6 +124,10 @@ export class ManagerComponent extends ListBaseComponent {
    * Search table
    */
   public onSearch(): void {
+    let groupStr: string = this.form.controls.groups.value;
+    if (groupStr === null || groupStr === undefined || groupStr === SPACE) {
+      this.form.controls.groups.setValue(ALL);
+    }
     const param = {
       keySearch: {
         username: this.checkDataSearch(this.form.controls.adid.value),
@@ -122,8 +138,10 @@ export class ManagerComponent extends ListBaseComponent {
         email: this.checkDataSearch(this.form.controls.email.value)
       }
     };
+    this.groupsStr = this.form.controls.groups.value === "" ? ALL : this.form.controls.groups.value;
     this.startBlockUI();
     this.retrieveData(param, this.pageIndex).subscribe(() => {
+
       this.stopBlockUI();
     });
   }
@@ -213,6 +231,7 @@ export class ManagerComponent extends ListBaseComponent {
   }
 
   public convertData(data: any): void {
+    this.form.controls.groups.setValue(this.form.controls.groups.value);
     this.rows = data.dataResult;
     if (this.rows) {
       for (let i = 0; i < this.rows.length; i++) {
@@ -225,19 +244,6 @@ export class ManagerComponent extends ListBaseComponent {
         }
       }
     }
-  }
-
-  private getAllArray(): void {
-    this.common.getDetailCountry().subscribe(res => {
-      this.stopBlockUI();
-      if (res.success && res.data) {
-        this.arrData = res.data;
-        this.countryArr = res.data.countries;
-        this.groupsArr = res.data.groups;
-        this.usersArr = res.data.users;
-        this.changeDetector.detectChanges();
-      }
-    });
   }
 
   /**

@@ -10,7 +10,7 @@
   <div class="form-group pr-2">
     <label class="mb-1">{{ "table.group" | translate }} </label>
     <div class="form-md">
-        <app-multi-select formControlName="group" [array]="groupArr" [hasAll]=true [viewProp]="'id'" (change)="groupChange($event)"></app-multi-select>
+        <app-multi-select formControlName="group" [array]="groupArr" [hasAll]=true [viewProp]="'id'" [isDisabled]="isStaff" (change)="groupChange($event)"></app-multi-select>
     </div>
   </div>
   <div class="form-group pr-2">
