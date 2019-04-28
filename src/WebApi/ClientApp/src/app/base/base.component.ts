@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { AuthenticationService } from '../api-service/service/authentication.service';
-import { ALL } from '../app.constant';
+import { ALL, SPACE } from '../app.constant';
 import { CONSTANT } from '../shared/common/constant';
 import { DialogService } from '../shared/services/dialog.service';
 import { LoaderService } from '../shared/services/loader.service';
@@ -334,6 +334,20 @@ export abstract class BaseComponent
     });
 
     return form.valid;
+  }
+
+  protected checkDataSearch(data: any): any {
+    if (data !== null && data !== SPACE && data !== ALL && data !== undefined) {
+      if (typeof data === "object") {
+        return data.hasOwnProperty("id")
+          ? data.id
+          : data.hasOwnProperty("name")
+          ? data.name
+          : data;
+      }
+      return data;
+    }
+    return null;
   }
 
   protected formatDate(

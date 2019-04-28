@@ -29,8 +29,8 @@ export class StaffComponent extends ListBaseComponent {
   public userArr: any[];
   public userByType: any[];
   public statusArr: any[] = [
-    { id: "0", name: "true" },
-    { id: "1", name: "false" },
+    { id: "0", name: "Active" },
+    { id: "1", name: "Inactive" },
   ];
   public form: FormGroup;
   public formReset: any;
@@ -53,13 +53,24 @@ export class StaffComponent extends ListBaseComponent {
       titleProp: "noteText"
     },
     { name: "table.action", prop: this.action, sort: false, html: true }
-  ];
+  ]; 
+ 
+  @Input("arrData")
+  set arrDataValue(value: boolean) {
+    if (value) {
+      this.arrData = value;
+      this.countryArr = this.arrData.countries;
+      this.groupArr = this.arrData.groups;
+      this.userArr = this.arrData.users;
+    }
+  }
+
   @Input("varStaff")
   set varStaff(value: boolean) {
     if (value) {
       setTimeout(() => {
-        this.onSearch(true);
         this.pageIndex = 1;
+        this.onSearch();
       }, 100);
     }
   }
@@ -79,7 +90,6 @@ export class StaffComponent extends ListBaseComponent {
    */
   public ngOnInit(): void {
     this.onInit();
-    this.getAllArray();
     this.setForm();
   }
 
@@ -93,22 +103,16 @@ export class StaffComponent extends ListBaseComponent {
    * get All user
    */
   public onSearch(isInit: boolean = false): void {
-    var country = this.form.controls.country.value;
-    country = country !== null && country !== undefined ? country.id || country : ALL;
-    var group = this.form.controls.group.value;
-    group = group !== null && group !== undefined ? group.id || group : ALL;
-    var status = this.form.controls.status.value;
-    status = status !== null && status !== undefined ? status.id || status : SPACE;
     const param = {
       keySearch: {
-        phoneNo: this.form.controls.phoneNo.value,
-        username: this.form.controls.userName.value,
-        email: this.form.controls.email.value,
-        fullName: this.form.controls.name.value,
-        countryId: country === ALL ? SPACE : country,
-        code: this.form.controls.code.value,
-        groups: group === ALL ? SPACE : group,
-        status: status
+        phoneNo: this.checkDataSearch(this.form.controls.phoneNo.value),
+        username: this.checkDataSearch(this.form.controls.userName.value),
+        email: this.checkDataSearch(this.form.controls.email.value),
+        fullName: this.checkDataSearch(this.form.controls.name.value),
+        countryId: this.checkDataSearch(this.form.controls.country.value),
+        code: this.checkDataSearch(this.form.controls.code.value),
+        groups: this.checkDataSearch(this.form.controls.group.value),
+        status: this.checkDataSearch(this.form.controls.status.value)
       }
     };
     this.startBlockUI();
@@ -272,24 +276,9 @@ export class StaffComponent extends ListBaseComponent {
       code: [SPACE],
       country: [countryStr],
       group: [groupStr],
-      status: [SPACE]
+      status: [ALL]
     });
     this.formReset = this.form.value;
-  }
-
-  private getAllArray(): void {
-    this.startBlockUI();
-    this.common.getDetailCountry().subscribe(res => {
-      this.stopBlockUI();
-      if (res.success && res.data) {
-        this.arrData = res.data;
-        this.countryArr = this.arrData.countries;
-        this.groupArr = this.arrData.groups;
-        this.userArr = this.arrData.users;
-        this.userByType = res.data.userByType;
-        this.changeDetector.detectChanges();
-      }
-    });
   }
 
   private delete(id: number): void {

@@ -23,7 +23,8 @@ export const API = {
   common: {
     allCountry : "Common/GetAllCountry",
     allGroup : "Common/GetAllGroup",
-    detailCountry: "Common/GetDetailCountry"
+    detailCountry: "Common/GetDetailCountry",
+    getListAssignByType: "Common/GetListAssignByType"
   },
   system: {
     update: "SystemConfig/Update",

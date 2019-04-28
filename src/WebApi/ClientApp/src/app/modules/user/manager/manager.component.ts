@@ -29,7 +29,6 @@ export class ManagerComponent extends ListBaseComponent {
   public countryArr: any[];
   public groupsArr: any[];
   public usersArr: any[];
-  public userByType: any[];
   public action: string = "action";
   public arrData: any = CONSTANT.arrData;
   public columnsManager: any = [
@@ -40,14 +39,25 @@ export class ManagerComponent extends ListBaseComponent {
     { name: "table.groups", prop: "groups", sort: true },
     { name: "table.email", prop: "email", sort: true },
     { name: "table.action", prop: this.action, sort: false, html: true }
-  ];
+  ]; 
+ 
+  @Input("arrData")
+  set arrDataValue(value: boolean) {
+    if (value) {
+      this.arrData = value;
+      this.countryArr = this.arrData.countries;
+      this.groupsArr = this.arrData.groups;
+      this.usersArr = this.arrData.users;
+    }
+  }
+
   @Input("varManager")
   set varManager(value: boolean) {
     if (value) {
       setTimeout(() => {
         this.pageIndex = 1;
         this.onSearch();
-      }, 200);
+      }, 100);
     }
   }
 
@@ -66,7 +76,6 @@ export class ManagerComponent extends ListBaseComponent {
    */
   public ngOnInit(): void {
     this.onInit();
-    this.getAllArray();
     this.setForm();
   }
 
@@ -103,18 +112,14 @@ export class ManagerComponent extends ListBaseComponent {
    * Search table
    */
   public onSearch(): void {
-    var country = this.form.controls.country.value;
-    country = typeof country === "object" && country != null ? country.id : country;
-    var groups = this.form.controls.groups.value;
-    groups = groups !== null && groups !== undefined ? typeof country === "object" ? groups.id : groups : ALL;
     const param = {
       keySearch: {
-        username: this.form.controls.adid.value,
-        fullName: this.form.controls.name.value,
-        code: this.form.controls.code.value,
-        countryId: country === ALL ? SPACE : country,
-        groups: groups === ALL ? SPACE : groups,
-        email: this.form.controls.email.value
+        username: this.checkDataSearch(this.form.controls.adid.value),
+        fullName: this.checkDataSearch(this.form.controls.name.value),
+        code: this.checkDataSearch(this.form.controls.code.value),
+        countryId: this.checkDataSearch(this.form.controls.country.value),
+        groups: this.checkDataSearch(this.form.controls.groups.value),
+        email: this.checkDataSearch(this.form.controls.email.value)
       }
     };
     this.startBlockUI();
@@ -155,27 +160,24 @@ export class ManagerComponent extends ListBaseComponent {
   public onCellClick(val: any): void {
     if (val.col.prop === this.action) {
       if (val.target.id === "edit") {
-        this.getAllArray();
-        setTimeout(() => {
-          this.dialogService.open(
-            DetailManagerAdminComponent,
-            data => {
-              this.onSearch();
-              if (data) {
-                this.messageService.add({
-                  severity: "success",
-                  detail: data.msg
-                });
-              }
-            },
-            undefined,
-            {
-              idUser: val.row.id,
-              username: val.row.username,
-              arrData: this.arrData
+        this.dialogService.open(
+          DetailManagerAdminComponent,
+          data => {
+            this.onSearch();
+            if (data) {
+              this.messageService.add({
+                severity: "success",
+                detail: data.msg
+              });
             }
-          );
-        }, 100);
+          },
+          undefined,
+          {
+            idUser: val.row.id,
+            username: val.row.username,
+            arrData: this.arrData
+          }
+        );
       }
       if (val.target.id === "assign") {
         var msg = this.translate.get("dialog.confirmAssign")["value"];
@@ -214,8 +216,8 @@ export class ManagerComponent extends ListBaseComponent {
     this.rows = data.dataResult;
     if (this.rows) {
       for (let i = 0; i < this.rows.length; i++) {
-        if (this.userByType) {
-          this.rows[i][this.action] = this.userByType[0].users[i].totalUser >= USERS_CONF_MANAGER
+        if (this.arrData.userByType) {
+          this.rows[i][this.action] = this.arrData.userByType[0].users[i].totalUser >= USERS_CONF_MANAGER
             ? `<div class="d-flex justify-content-center">${"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"} ${CONSTANT.target.edit} ${CONSTANT.target.delete} `
             : `<div class="d-flex justify-content-center">${CONSTANT.target.assign} ${CONSTANT.target.edit} ${CONSTANT.target.delete} `;
         } else {
@@ -233,7 +235,6 @@ export class ManagerComponent extends ListBaseComponent {
         this.countryArr = res.data.countries;
         this.groupsArr = res.data.groups;
         this.usersArr = res.data.users;
-        this.userByType = res.data.userByType;
         this.changeDetector.detectChanges();
       }
     });

@@ -75,11 +75,14 @@ export class UserComponent extends ListBaseComponent {
           data => {
             this.varManager++;
             this.getAllUser();
-            if (data) {
+            if (data.success) {
               this.messageService.add({
                 severity: "success",
                 detail: data.msg
               });
+              this.arrData.userByType = data.listAssignByType.data;
+            } else {
+              this.alertService.error(data.msg);
             }
           },
           undefined,
@@ -187,6 +190,17 @@ export class UserComponent extends ListBaseComponent {
       this.stopBlockUI();
       if (res.success && res.data) {
         this.arrData = res.data;
+        this.changeDetector.detectChanges();
+      }
+    });
+  }
+
+  private getListAssignByType(): void {
+    this.startBlockUI();
+    this.common.getListAssignByType().subscribe(res => {
+      this.stopBlockUI();
+      if (res.success && res.data) {
+        this.arrData.userByType = res.data;
         this.changeDetector.detectChanges();
       }
     });

@@ -7,6 +7,7 @@ import { dateValidator, dateRangeValidator } from "src/app/shared/directives/dat
 import { ALL } from "src/app/app.constant";
 import { CONSTANT } from "src/app/shared/common/constant";
 import { ManagerDto } from 'src/app/api-service/model/user-management-dto';
+import { CommonService } from 'src/app/api-service/service/common.service';
 @Component({
   selector: "app-detail-manager-admin",
   templateUrl: "./detail-manager-admin.component.html",
@@ -35,6 +36,7 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
   private userStr: any = ALL;
   constructor(
     private userService: UserService,
+    private common: CommonService,
     private changeDetector: ChangeDetectorRef
   ) {
     super();
@@ -232,7 +234,15 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
 
   public afterSave(msg: string): void {
     this.hide();
-    this.submittedEvent.emit({ success: true, msg: msg });
+    this.common.getListAssignByType().subscribe(
+      (data) => {
+        if (data) {
+          this.submittedEvent.emit({ success: true, msg: msg, listAssignByType: data });
+        } else {
+          this.submittedEvent.emit({ success: false, msg: this.translate.get("dialog.somethingWrong")["value"] });
+        }
+      }
+    );
   }
 
   public ngDoCheck(): void {

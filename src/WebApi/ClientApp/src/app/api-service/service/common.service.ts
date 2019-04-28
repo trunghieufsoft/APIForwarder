@@ -22,4 +22,8 @@ export class CommonService extends BaseService {
   public getDetailCountry(): any {
     return this.http.get(API.common.detailCountry);
   }
+
+  public getListAssignByType(): any {
+    return this.http.get(API.common.getListAssignByType);
+  }
 }
