@@ -16,6 +16,7 @@ export abstract class BaseComponent
   public currentDate: Date = new Date();
   public currentUser: any;
   public defaultCountry: string;
+  public defaultGroup: string;
   protected get alertService(): AlertService {
     if (!this._alertService) {
       this._alertService = ServiceManager.get(AlertService);
@@ -382,10 +383,30 @@ export abstract class BaseComponent
       return isAll
         ? ALL
         : this.defaultCountry
-        ? this.getObjectArrayFromString(array, this.defaultCountry)
-        : array[0];
+          ? this.getObjectArrayFromString(array, this.defaultCountry)
+          : array[0];
     } else {
       return this.getObjectArrayFromString(array, this.currentUser.Country);
+    }
+  }
+
+  protected getDefaultGroup(array: any, viewProp: string = 'id', isAll: boolean = false): any {
+    if (!array || array.length === 0) {
+      return null;
+    }
+    if (this.isSuper) {
+      return isAll
+        ? ALL
+        : this.defaultGroup
+          ? this.getObjectArrayFromString(array, this.defaultGroup)
+          : array[0];
+    } else {
+      let group: string = this.isSuper ? this.currentUser.Groups : this.currentUser.Group;
+      let groupArr: string[] = [];
+      if (group.length > 0) {
+        groupArr = group.split(",");
+      }
+      return this.getObjectArrayFromString(array, groupArr.length > 0 ? groupArr[0] : SPACE, viewProp);
     }
   }
 
@@ -400,8 +421,20 @@ export abstract class BaseComponent
 
     return array.filter(x => x[prop] + '' === value + '')[0];
   }
+  
+  protected arrayToString({ arr, viewProp }: { arr: any[]; viewProp: string; }): string {
+    if (arr && arr.length > 0) {
+      let value: string[] = [];
+      arr.forEach(item => {
+        value.push(item[viewProp]);
+      })
+      return value.join(',');
+    }
 
-  protected formatArrToSmallArr(arr: any, value: string): any {
+    return "";
+  }
+
+  protected getObjectArrayFromParentArray(arr: any, value: string): any {
     if (value) {
       const valueArr = value.split(',');
       if (!arr) {
@@ -450,6 +483,20 @@ export abstract class BaseComponent
         const item = { id: arr[i].code, name: arr[i].fullName };
         newArray.push(item);
       }
+
+      return newArray;
+    }
+
+    return [];
+  }
+  
+  protected formatDropdownForGroup(arr: any[]): any {
+    if (arr) {
+      const newArray = [];
+      arr.forEach(item => {
+        const elm = { id: item["id"], name: item["name"] };
+        newArray.push(elm);
+      });
 
       return newArray;
     }

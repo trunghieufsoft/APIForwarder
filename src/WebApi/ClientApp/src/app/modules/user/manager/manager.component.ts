@@ -9,7 +9,6 @@ import { ListBaseComponent, SortEvent } from "src/app/base/list-base.component";
 import { API } from "src/app/api-service/api";
 import { FormGroup } from "@angular/forms";
 import { CONSTANT } from "src/app/shared/common/constant";
-import { CommonService } from "src/app/api-service/service/common.service";
 import { UserService } from "src/app/api-service/service/user-management.service";
 import { DetailManagerAdminComponent } from "../detail-user/detail-manager-admin/detail-manager-admin.component";
 import { MessageService } from "primeng/api";
@@ -17,11 +16,10 @@ import { ALL, SPACE, USERS_CONF_MANAGER } from "src/app/app.constant";
 @Component({
   selector: "app-manager",
   templateUrl: "./manager.component.html",
-  providers: [UserService, CommonService]
+  providers: [UserService]
 })
 export class ManagerComponent extends ListBaseComponent {
   @Output() public setStatus: EventEmitter<boolean> = new EventEmitter();
-  @Output() public setGroup: EventEmitter<boolean> = new EventEmitter();
   public form: FormGroup;
   public formReset: any;
   public mainStatus: number;
@@ -53,14 +51,6 @@ export class ManagerComponent extends ListBaseComponent {
     }
   }
 
-  @Input("setGroups")
-  set setGroupsValue(value: boolean) {
-    if (value) {
-      this.form.controls.groups.setValue(this.groupsStr);
-      this.setGroup.emit();
-    }
-  }
-
   @Input("varManager")
   set varManager(value: boolean) {
     if (value) {
@@ -74,7 +64,6 @@ export class ManagerComponent extends ListBaseComponent {
   constructor(
     private userService: UserService,
     private messageService: MessageService,
-    private common: CommonService,
     private changeDetector: ChangeDetectorRef
   ) {
     super();
@@ -266,7 +255,7 @@ export class ManagerComponent extends ListBaseComponent {
 
   private delete(id: number): void {
     var msg = this.translate.get("dialog.success")["value"];
-    this.userService.deleteUser({ id: id }).subscribe(() => {
+    this.userService.deleteUser(id).subscribe(() => {
       this.stopBlockUI();
       this.messageService.add({ severity: "success", detail: msg });
       this.setStatus.emit(true);

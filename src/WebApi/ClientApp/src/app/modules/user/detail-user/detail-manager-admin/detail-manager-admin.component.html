@@ -3,8 +3,8 @@
   <div class="modal-dialog modal-dialog-centered modal-470" role="document">
     <div class="modal-content">
       <div class="modal-header rounded-0">
-        <h5 class="modal-title" id="createStoreLabel" *ngIf="flagUpdate">{{'button.updateManager' | translate}}</h5>
-        <h5 class="modal-title" id="createStoreLabel" *ngIf="!flagUpdate">{{'button.createManager' | translate}}</h5>
+        <h5 class="modal-title" *ngIf="flagUpdate">{{'button.updateManager' | translate}}</h5>
+        <h5 class="modal-title" *ngIf="!flagUpdate">{{'button.createManager' | translate}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
@@ -12,16 +12,16 @@
       <div class="modal-body bg-white modal-body-small" [formGroup]="form">
         <div class="row" [hidden]="!flagUpdate">
           <div class="col-3 padding-right-0">
-            <label class="col-form-label text-nowrap">{{'label.status' | translate}}</label>
+            <label class="col-form-label text-nowrap"><span>&nbsp;&nbsp;&nbsp;</span>{{'label.status' | translate}}</label>
           </div>
           <div class="col-9">
             <div class="form-group d-flex justify-content-between">
-              <div class="form-xl d-flex align-items-end">
+              <div class="form-xl d-flex align-items-end padding-top-2">
                 <div class="onoffswitch">
                   <input type="checkbox" formControlName="status" name="onoffswitch" class="onoffswitch-checkbox"
                     id="myonoffswitch1" checked="">
                   <label class="onoffswitch-label" for="myonoffswitch1">
-                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-inner-active"></span>
                     <span class="onoffswitch-switch"></span>
                   </label>
                 </div>
@@ -63,12 +63,13 @@
         </div>
         <div class="row">
           <div class="col-3 padding-right-0">
-            <label class="py-2"><span class="color-red">*&nbsp;</span>{{'label.country' | translate}}</label>
+            <label class="col-form-label text-nowrap"><span class="color-red">*&nbsp;</span>{{'label.country' | translate}}</label>
           </div>
           <div class="col-9">
             <div class="form-group d-flex justify-content-between">
               <div class="form-xl">
                 <app-single-select formControlName="country" [array]="countryArr" (change)="countryChange($event)"
+                [notAvailable]="'notAvailable.country' | translate"
                 [viewProp]="'id'"
                 errorTooltip
                 itemName="{{'label.country' | translate}}">
@@ -79,12 +80,13 @@
         </div>
         <div class="row">
           <div class="col-3 padding-right-0">
-            <label class="py-2"><span class="color-red">*&nbsp;</span>{{'label.groups' | translate}}</label>
+            <label class="col-form-label text-nowrap"><span class="color-red">*&nbsp;</span>{{'label.groups' | translate}}</label>
           </div>
           <div class="col-9">
             <div class="form-group d-flex justify-content-between">
               <div class="form-xl">
                 <app-multi-select formControlName="groups" [array]="groupsArr"
+                [notAvailable]="'notAvailable.group' | translate"
                 [viewProp]="'id'"
                 errorTooltip
                 itemName="{{'label.groups' | translate}}">
@@ -113,7 +115,7 @@
         </div>
         <div class="row">
           <div class="col-3 padding-right-0">
-            <label class="py-2"><span class="color-red">*&nbsp;</span>{{'label.startDate' | translate}}</label>
+            <label class="col-form-label text-nowrap"><span class="color-red">*&nbsp;</span>{{'label.startDate' | translate}}</label>
           </div>
           <div class="col-9">
             <div class="form-group d-flex justify-content-between">
@@ -126,10 +128,15 @@
         </div>
         <div class="row">
           <div class="col-3 padding-right-0">
-            <label class="py-2"><span class="color-red">*&nbsp;</span>{{'label.expiredDate' | translate}}</label>
+            <label class="col-form-label text-nowrap"><span class="color-red">*&nbsp;</span>{{'label.expiredDate' | translate}}</label>
           </div>
           <div class="col-9">
-            <div class="form-group d-flex justify-content-between">
+            <div class="form-group d-flex justify-content-between" *ngIf="flagUpdate">
+              <div class="form-xl">
+                <app-date-time formControlName="expiredDate" errorTooltip></app-date-time>
+              </div>
+            </div>
+            <div class="form-group late d-flex justify-content-between" *ngIf="!flagUpdate">
               <div class="form-xl">
                 <app-date-time formControlName="expiredDate" errorTooltip></app-date-time>
               </div>
@@ -138,12 +145,13 @@
         </div>
         <div class="row" *ngIf="flagUpdate">
           <div class="col-3 padding-right-0">
-            <label class="py-2"><span class="color-red"></span>&nbsp;&nbsp;{{'label.users' | translate}}</label>
+            <label class="col-form-label text-nowrap"><span class="color-red"></span>&nbsp;&nbsp;{{'label.users' | translate}}</label>
           </div>
           <div class="col-9">
-            <div class="form-group d-flex justify-content-between">
+            <div class="form-group late d-flex justify-content-between">
               <div class="form-xl">
                 <app-multi-select formControlName="users" [array]="userArr"
+                [notAvailable]="'notAvailable.users' | translate"
                 [viewProp]="'name'"
                 errorTooltip
                 itemName="{{'label.users' | translate}}">
@@ -155,8 +163,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-light" data-dismiss="modal" (click)="onCancel()">{{'button.cancel' | translate}}</button>
-        <button type="button" class="btn btn-primary fs-16 h-32 form-sm"
-          (click)="onSave()">{{'button.save' | translate}}</button>
+        <button type="button" class="btn btn-primary fs-16 h-32 form-sm" (click)="onSave()">{{'button.save' | translate}}</button>
       </div>
     </div>
   </div>

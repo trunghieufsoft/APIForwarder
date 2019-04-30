@@ -10,7 +10,7 @@ import { API } from "src/app/api-service/api";
 import { FormGroup } from "@angular/forms";
 import { CONSTANT } from "src/app/shared/common/constant";
 import { UserService } from "src/app/api-service/service/user-management.service";
-// import { DetailEmployeeComponent } from "../detail-user/detail-employee/detail-employee.component";
+import { DetailEmployeeComponent } from '../detail-user/detail-employee/detail-employee.component';
 import { MessageService } from "primeng/api";
 import { ALL, SPACE } from "src/app/app.constant";
 import { CommonService } from 'src/app/api-service/service/common.service';
@@ -27,6 +27,7 @@ export class EmployeeComponent extends ListBaseComponent {
   public groupArr: any[];
   public userArr: any[];
   public statusArr: any[] = [
+    { id: "1", name: "Inactive" },
     { id: "2", name: "Available" },
     { id: "3", name: "Unavailable" },
     { id: "4", name: "End of Day" },
@@ -39,9 +40,9 @@ export class EmployeeComponent extends ListBaseComponent {
   public columnsEmployee: any = [
     { name: "table.country", prop: "countryId", sort: true },
     { name: "table.group", prop: "groups", sort: true },
-    { name: "table.code", prop: "code", sort: true },
     { name: "table.name", prop: "fullName", sort: true },
     { name: "table.phoneNo", prop: "phoneNo", sort: true },
+    { name: "table.address", prop: "address", sort: true },
     { name: "table.email", prop: "email", sort: true },
     {
       name: "table.status",
@@ -137,7 +138,6 @@ export class EmployeeComponent extends ListBaseComponent {
         email: this.checkDataSearch(this.form.controls.email.value),
         fullName: this.checkDataSearch(this.form.controls.name.value),
         countryId: this.checkDataSearch(this.form.controls.country.value),
-        code: this.checkDataSearch(this.form.controls.code.value),
         groups: this.checkDataSearch(this.form.controls.group.value),
         status: this.checkDataSearch(this.form.controls.status.value)
       }
@@ -156,27 +156,24 @@ export class EmployeeComponent extends ListBaseComponent {
   public onCellClick(val: any): void {
     if (val.col.prop === this.action) {
       if (val.target.id === "edit") {
-        // this.getAllArray();
-        // setTimeout(() => {
-        //   this.dialogService.open(
-        //     DetailEmployeeComponent,
-        //     data => {
-        //       this.onSearch();
-        //       if (data) {
-        //         this.messageService.add({
-        //           severity: "success",
-        //           detail: data.msg
-        //         });
-        //       }
-        //     },
-        //     undefined,
-        //     {
-        //       idUser: val.row.id,
-        //       username: val.row.username,
-        //       arrData: this.arrData
-        //     }
-        //   );
-        // }, 100);
+        this.dialogService.open(
+          DetailEmployeeComponent,
+          data => {
+            this.onSearch();
+            if (data) {
+              this.messageService.add({
+                severity: "success",
+                detail: data.msg
+              });
+            }
+          },
+          undefined,
+          {
+            idUser: val.row.id,
+            username: val.row.username,
+            arrData: this.arrData
+          }
+        );
       }
       if (val.target.id === "delete") {
         var msg = this.translate.get("dialog.confirmDelete")["value"];
@@ -239,6 +236,10 @@ export class EmployeeComponent extends ListBaseComponent {
           this.rows[i]['statusStr'] = `<span class="badge badge-pill badge-info">End of Day</span>`;
           break;
         }
+        case "Inactive": {
+          this.rows[i]['statusStr'] = `<span class="badge badge-pill badge-secondary">Inactive</span>`;
+          break;
+        }
       }
     }
   }
@@ -252,7 +253,7 @@ export class EmployeeComponent extends ListBaseComponent {
       phoneNo: [SPACE],
       name: [SPACE],
       email: [SPACE],
-      code: [SPACE],
+      address: [SPACE],
       country: [countryStr],
       group: [groupStr],
       status: [ALL]

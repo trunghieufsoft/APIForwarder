@@ -144,7 +144,7 @@
     "deviceId": "Device ID",
     "time": "Time",
     "jobId": "Job Id",
-    "contactNo": "Contact No.",
+    "contactNo": "Contact No",
     "center": "Center",
     "serviceType": "Service Type",
     "city": "City",
@@ -264,7 +264,7 @@
     "readyTime": "Ready Time",
     "footer": "Copyright ©1994- 2019 United Parcel Service of America, Inc. All rights reserved.",
     "commitTime": "Commit Time",
-    "contactNo": "Contact No.",
+    "contactNo": "Contact No",
     "contractStartDate": "Contract Start Date",
     "contractExpiryDate": "Contract Expiry Date",
     "contactName1": "Contact Name 1",
@@ -360,10 +360,9 @@
     "CannotDeleteOspFromVendor": "OSP Code cannot be deleted. There are OGP Admin/Drivers associated with the OSP Code."
   },
   "notAvailable": {
+    "country": "No Country",
     "group": "No Group Available",
-    "slic": "No Slic Available",
     "default": "No Available",
-    "osp": "No Osp Code Available",
-    "user": "No Assign Account"
+    "users": "No Assign Account"
   }
 }

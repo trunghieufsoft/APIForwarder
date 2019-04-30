@@ -33,7 +33,7 @@ export class UserService extends BaseService {
     return this.http.post(API.user.createEmployee, data);
   }
   public deleteUser(data: any): Observable<any> {
-    return this.http.post(API.user.deleteUser, data);
+    return this.http.post(API.user.deleteUser, { id: data });
   }
 
   public viewUserByID(id: number): Observable<any> {

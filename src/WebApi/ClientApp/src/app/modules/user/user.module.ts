@@ -11,7 +11,7 @@ import { ManagerComponent } from "./manager/manager.component";
 import { HttpClient } from "@angular/common/http";
 import { DetailManagerAdminComponent } from "./detail-user/detail-manager-admin/detail-manager-admin.component";
 // import { DetailOgpAdminComponent } from "./detail-ogp-admin/detail-ogp-admin.component";
-// import { DetailDriverComponent } from "./detail-driver/detail-driver.component";
+import { DetailEmployeeComponent } from "./detail-user/detail-employee/detail-employee.component";
 import { ToastModule } from 'primeng/toast';
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -33,9 +33,9 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   ],
 
   entryComponents: [
-    DetailManagerAdminComponent
+    DetailManagerAdminComponent,
     // DetailStaffComponent,
-    // DetailEmployeeComponent
+    DetailEmployeeComponent
   ],
   declarations: [
     UserComponent,
@@ -43,18 +43,18 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     StaffComponent,
     EmployeeComponent,
 
-    DetailManagerAdminComponent
+    DetailManagerAdminComponent,
     // DetailStaffComponent,
-    // DetailEmployeeComponent
+    DetailEmployeeComponent
 
   ],
   exports: [
     UserComponent,
     CommonModule,
     TranslateModule,
-    DetailManagerAdminComponent
+    DetailManagerAdminComponent,
     // DetailStaffComponent,
-    // DetailEmployeeComponent
+    DetailEmployeeComponent
   ],
   providers: []
 })

@@ -189,7 +189,7 @@ input.form-control {
   max-width: 100%;
 }
 .modal-body-small {
-  max-height: calc(100vh - 210px);
+  /* max-height: calc(100vh - 210px); */
   overflow-y: inherit;
 }
 

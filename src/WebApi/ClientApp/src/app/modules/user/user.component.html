@@ -55,7 +55,7 @@
   </div>
   <div class="tab-content" id="pills-tabContent">
     <div class="tab-pane fade show active p-3" id="number1" role="tabpanel" aria-labelledby="number1-tab">
-      <app-manager *ngIf="managerTab" [varManager]="varManager" [setGroups]="setGroups" [arrData]="arrData" (setGroup)="setGroup(setGroups)" (setStatus)="getAllUser()"></app-manager>
+      <app-manager *ngIf="managerTab" [varManager]="varManager" [arrData]="arrData" (setStatus)="getAllUser()"></app-manager>
     </div>
     <div class="tab-pane fade p-3" id="number2" role="tabpanel" aria-labelledby="number2-tab">
       <app-staff *ngIf="staffTab" [varStaff]="varStaff" [arrData]="arrData" (setStatus)="getAllUser()"></app-staff>

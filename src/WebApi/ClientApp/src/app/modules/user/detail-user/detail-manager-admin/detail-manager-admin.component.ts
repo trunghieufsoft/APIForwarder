@@ -7,6 +7,7 @@ import { dateValidator, dateRangeValidator } from "src/app/shared/directives/dat
 import { CONSTANT } from "src/app/shared/common/constant";
 import { ManagerDto } from 'src/app/api-service/model/user-management-dto';
 import { CommonService } from 'src/app/api-service/service/common.service';
+import { SPACE, ALL } from 'src/app/app.constant';
 @Component({
   selector: "app-detail-manager-admin",
   templateUrl: "./detail-manager-admin.component.html",
@@ -17,21 +18,16 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
   public formInit: FormGroup;
   public formReset: FormGroup;
   
-  public detailManager: any;
   public arrData: any = CONSTANT.arrData;
-  public dataManager: any;
+  public flagUpdate: boolean;
   
   public countryArr: any[];
   public groupsArr: any[];
   public userArr: any[];
   
-  public idUser: number;
-  
   public adid: string;
   public name: string;
   public email: string;
-  
-  public flagUpdate: boolean;
 
   private user: any;
   private country: string;
@@ -52,24 +48,23 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
 
   public init(params: any): void {
     this.setForm();
-    this.idUser = params.idUser;
-    this.detailManager = params;
+    this.paramsInput = params;
     if (params.arrData) {
       this.arrData = params.arrData;
 
       this.countryArr = this.arrData.countries;
-      let countryStr: string = this.getDefaultCountry(this.countryArr);
+      let countryStr: any[] = this.getDefaultCountry(this.countryArr);
       
-      this.groupsArr = this.arrData.groups;
-      let groupStr: string = this.formatArrToSmallArr(this.groupsArr, null);
-      
+      this.groupsArr = this.formatDropdownForGroup(this.arrData.groups);
+      let groupsStr: any[] = this.getObjectArrayFromParentArray(this.groupsArr, null);
+
       this.user = params.idUser ? this.arrData.users[0].users.filter(x => x.username === params.username)[0] : [];
       this.userArr = this.formatDropdownForUsers(params.idUser ? this.user.users : []);
-      let userStr: string = this.formatArrToSmallArr(this.userArr, null);
+      let userStr: any[] = this.getObjectArrayFromParentArray(this.userArr, null);
       
-      if (countryStr && groupStr && userStr) {
+      if (countryStr && groupsStr && userStr) {
         this.form.controls.country.setValue(countryStr);
-        this.form.controls.groups.setValue(groupStr);
+        this.form.controls.groups.setValue(groupsStr);
         this.form.controls.users.setValue(userStr);
         this.formReset = this.form.value;
       }
@@ -87,12 +82,12 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
     expiredDate.setMonth(new Date().getMonth() + 6);
     this.form = this.formBuilder.group({
       status: [true, Validators.required],
-      adid: ["", Validators.required],
-      name: ["", Validators.required],
-      email: ["", [customEmailValidator, Validators.required]],
-      country: ["", Validators.required],
-      groups: ["", Validators.required],
-      users: [""],
+      adid: [SPACE, Validators.required],
+      name: [SPACE, Validators.required],
+      email: [SPACE, [customEmailValidator, Validators.required]],
+      country: [SPACE, Validators.required],
+      groups: [SPACE, Validators.required],
+      users: [SPACE],
       startDate: [this.currentDate],
       expiredDate: [expiredDate]
     },
@@ -108,16 +103,16 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
     if (e != null && !(e instanceof Event)) {
       var isOld = e.id === this.country;
       this.userArr = isOld ? this.formatDropdownForUsers(this.user.users) : [];
-      this.form.controls.users.setValue("");
+      this.form.controls.users.setValue(SPACE);
     }
     this.changeDetector.detectChanges();
   }
 
   public setData(): void {
-    if (this.detailManager.idUser) {
+    if (this.paramsInput.idUser) {
       this.flagUpdate = true;
       this.startBlockUI();
-      this.userService.viewUserByID(this.detailManager.idUser).subscribe(res => {
+      this.userService.viewUserByID(this.paramsInput.idUser).subscribe(res => {
         if (res.data) {
           var controls = this.form.controls;
           controls.status.setValue(
@@ -144,12 +139,9 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
           controls.users.setValue(valueArr.join(","));
           controls.startDate.setValue(res.data.startDate);
           controls.expiredDate.setValue(res.data.expiredDate);
-          setTimeout(() => {
-            controls.groups.setValue(res.data.groups);
-          }, 300);
+          controls.groups.setValue(res.data.groups);
           controls.email.setValue(res.data.email);
           this.stopBlockUI();
-          this.dataManager = res.data;
         }
       });
     }
@@ -177,7 +169,7 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
       var msg = this.translate.get("dialog.noChange")["value"];
       this.afterSave(msg);
     }
-    if (this.idUser === undefined) {
+    if (this.paramsInput.idUser === undefined) {
       this.create();
     } else {
       this.update();
@@ -189,7 +181,7 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
       countryId: this.form.controls.country.value.id,
       fullName: this.form.controls.name.value,
       username: this.form.controls.adid.value,
-      password: "",
+      password: SPACE,
       groups: this.form.controls.groups.value,
       address: "No-Address",
       phoneNo: "No-Phone",
@@ -217,7 +209,7 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
     }
 
     const param: any = {
-      id: this.detailManager.idUser,
+      id: this.paramsInput.idUser,
       status: this.form.controls.status.value,
       countryId: this.form.controls.country.value.id,
       fullName: this.form.controls.name.value,
@@ -243,6 +235,9 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
     this.common.getListAssignByType().subscribe(
       (data) => {
         if (data) {
+          this.arrData.users[0].users = data.data[0].users;
+          this.arrData.users[0].totalUser = data.data[0].totalUser;
+          this.arrData.userByType = data.data;
           this.submittedEvent.emit({ success: true, msg: msg, listAssignByType: data });
         } else {
           this.submittedEvent.emit({ success: false, msg: this.translate.get("dialog.somethingWrong")["value"] });

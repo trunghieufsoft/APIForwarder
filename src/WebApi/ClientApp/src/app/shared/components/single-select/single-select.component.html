@@ -3,6 +3,7 @@
     *ngIf="isDisabled; else select"
     title="{{ item ? item[viewProp] : '' }}"
     class="form-control custom-select fc-label lb-disable"
+    readonly
     tabindex="-1"
   >
     {{ item ? item[viewProp] : "" }}

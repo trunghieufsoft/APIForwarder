@@ -289,6 +289,13 @@ span {
 
 
 /* 2.2  Option - Minified Sidebar */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group.late {
+    margin-bottom: 0px;
+}
 
 .page-header-fixed #header,
 .page-sidebar-fixed .sidebar {
@@ -986,6 +993,14 @@ label .error {
     -ms-user-select: none;
 }
 
+.onoffswitch-availability {
+    position: relative;
+    width: 105px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
 .dropdown-display-icon .table tbody tr:hover {
     background-color: rgba(177, 211, 249, 0.99);
 }
@@ -1007,7 +1022,17 @@ label .error {
     border-radius: 12px;
 }
 
-.onoffswitch-inner {
+.onoffswitch-label-availability {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    width: 105px;
+    height: 24px;
+    border-radius: 12px;
+}
+
+.onoffswitch-inner-active,
+.onoffswitch-inner-availability {
     display: block;
     width: 200%;
     margin-left: -100%;
@@ -1017,8 +1042,10 @@ label .error {
     transition: margin 0.3s ease-in 0s;
 }
 
-.onoffswitch-inner:before,
-.onoffswitch-inner:after {
+.onoffswitch-inner-active:before,
+.onoffswitch-inner-active:after,
+.onoffswitch-inner-availability:before,
+.onoffswitch-inner-availability:after {
     display: block;
     float: left;
     width: 50%;
@@ -1032,8 +1059,7 @@ label .error {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
-
-.onoffswitch-inner:before {
+.onoffswitch-inner-active:before {
     content: "Active";
     padding-left: 16px;
     background-color: #339900;
@@ -1042,8 +1068,27 @@ label .error {
     font-family: 'SegoeUI-SemiBold';
 }
 
-.onoffswitch-inner:after {
+.onoffswitch-inner-active:after {
     content: "Inactive";
+    padding-right: 12px;
+    background-color: #ccc;
+    color: #999999;
+    text-align: right;
+    font-size: 12px;
+    font-family: 'SegoeUI-SemiBold';
+}
+
+.onoffswitch-inner-availability:before {
+    content: "Available";
+    padding-left: 20px;
+    background-color: #339900;
+    color: #ffffff;
+    font-size: 12px;
+    font-family: 'SegoeUI-SemiBold';
+}
+
+.onoffswitch-inner-availability:after {
+    content: "Unavailable";
     padding-right: 16px;
     background-color: #ccc;
     color: #999999;
@@ -1069,11 +1114,32 @@ label .error {
     transition: all 0.3s ease-in 0s;
 }
 
-.onoffswitch-checkbox:checked+.onoffswitch-label .onoffswitch-inner {
+.onoffswitch-switch-availability {
+    display: block;
+    width: 18px;
+    height: 18px;
+    margin: 3px;
+    background: #ffffff;
+    border-radius: 20px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 81px;
+    -moz-transition: all 0.3s ease-in 0s;
+    -webkit-transition: all 0.3s ease-in 0s;
+    -o-transition: all 0.3s ease-in 0s;
+    transition: all 0.3s ease-in 0s;
+}
+
+.onoffswitch-checkbox:checked+.onoffswitch-label .onoffswitch-inner-active,
+.onoffswitch-checkbox:checked+.onoffswitch-label-availability .onoffswitch-inner-availability {
     margin-left: 0;
 }
 
-.onoffswitch-checkbox:checked+.onoffswitch-label .onoffswitch-switch {
+.onoffswitch-checkbox:checked+.onoffswitch-label .onoffswitch-switch,
+.onoffswitch-checkbox:checked+.onoffswitch-label-availability .onoffswitch-switch,
+.onoffswitch-checkbox:checked+.onoffswitch-label .onoffswitch-switch-availability,
+.onoffswitch-checkbox:checked+.onoffswitch-label-availability .onoffswitch-switch-availability {
     right: 0px;
 }
 
@@ -1085,19 +1151,35 @@ label .error {
     right: 36px;
 }
 
+.yes-no-switch .onoffswitch-switch-availability {
+    right: 36px;
+}
+
 .yes-no-switch .onoffswitch-label {
     width: 60px;
 }
 
-.yes-no-switch .onoffswitch-inner:before {
+.yes-no-switch .onoffswitch-label-availability {
+    width: 60px;
+}
+
+.yes-no-switch .onoffswitch-inner-availability:before {
     content: "Yes";
     background-color: #2196F3;
 }
 
-.yes-no-switch .onoffswitch-inner:after {
+.yes-no-switch .onoffswitch-inner-availability:after {
     content: "No";
 }
 
+.yes-no-switch .onoffswitch-inner-active:before {
+    content: "Yes";
+    background-color: #2196F3;
+}
+
+.yes-no-switch .onoffswitch-inner-active:after {
+    content: "No";
+}
 
 /* The switch - the box around the slider */
 
@@ -1806,8 +1888,8 @@ input:checked+.slider:before {
 }
 
 .modal-body {
-    max-height: calc(100vh - 210px);
-    overflow-y: auto;
+    /* max-height: calc(100vh - 210px); */
+    overflow-y: inherit;
 }
 
 .modal-footer {
@@ -2630,6 +2712,10 @@ table thead th {
 
 .row>.padding-left-0 {
     padding-left: 0px;
+}
+
+.padding-top-2 {
+    padding-top: 2px;
 }
 
 .row.row-space-0 {

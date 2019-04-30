@@ -345,10 +345,9 @@
     "CannotDeleteUser": "Người dùng không thể xóa. Vui lòng thử lại."
   },
   "notAvailable": {
+    "country": "Không có quốc gia",
     "group": "Không có nhóm",
-    "slic": "没有切片可用",
-    "default": "不可用",
-    "osp": "没有osp代码可用",
-    "user": "Không có tài khoản được chỉ định"
+    "default": "Không có sẵn",
+    "users": "Không có tài khoản được chỉ định"
   }
 }

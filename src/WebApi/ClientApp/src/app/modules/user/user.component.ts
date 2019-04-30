@@ -3,7 +3,7 @@ import { ListBaseComponent } from "src/app/base/list-base.component";
 import { UserService } from "src/app/api-service/service/user-management.service";
 import { DetailManagerAdminComponent } from "./detail-user/detail-manager-admin/detail-manager-admin.component";
 // import { DetailOgpAdminComponent } from "./detail-ogp-admin/detail-ogp-admin.component";
-// import { DetailDriverComponent } from "./detail-driver/detail-driver.component";
+import { DetailEmployeeComponent } from "./detail-user/detail-employee/detail-employee.component";
 import { MessageService } from "primeng/api";
 import { AuthenticationService } from "src/app/api-service/service/authentication.service";
 import { CommonService } from "src/app/api-service/service/common.service";
@@ -15,11 +15,10 @@ import { CONSTANT } from "src/app/shared/common/constant";
   providers: [UserService, CommonService]
 })
 export class UserComponent extends ListBaseComponent {
-  public setGroups: Boolean = false;
   public varManager: number = 1;
   public varStaff: number = 1;
   public varEmployee: number = 1;
-  public manager: number;
+  public manager: number;a
   public staff: number;
   public employee: number;
   public isCreateManager: boolean;
@@ -81,15 +80,13 @@ export class UserComponent extends ListBaseComponent {
                 detail: data.msg
               });
               this.arrData.userByType = data.listAssignByType.data;
+              this.arrData.users[0].users = data.listAssignByType.data[0].users;
+              this.arrData.users[0].totalUser = data.listAssignByType.data[0].totalUser;
             } else {
               this.alertService.error(data.msg);
             }
           },
-          data => {
-            if (data) {
-              this.setGroup(true);
-            }
-          },
+          undefined,
           { arrData: this.arrData }
         );
       }
@@ -128,22 +125,22 @@ export class UserComponent extends ListBaseComponent {
       if (!res.success) {
         return;
       } else {
-        // this.dialogService.open(
-        //   DetailEmployeeComponent,
-        //   data => {
-        //     this.stopBlockUI();
-        //     this.varEmployee++;
-        //     this.getAllUser();
-        //     if (data) {
-        //       this.messageService.add({
-        //         severity: "success",
-        //         detail: data.msg
-        //       });
-        //     }
-        //   },
-        //   undefined,
-        //   { arrData: this.arrData }
-        // );
+        this.dialogService.open(
+          DetailEmployeeComponent,
+          data => {
+            this.stopBlockUI();
+            this.varEmployee++;
+            this.getAllUser();
+            if (data) {
+              this.messageService.add({
+                severity: "success",
+                detail: data.msg
+              });
+            }
+          },
+          undefined,
+          { arrData: this.arrData }
+        );
       }
     });
   }
@@ -204,9 +201,5 @@ export class UserComponent extends ListBaseComponent {
     this.managerTab = false;
     this.staffTab = false;
     this.employeeTab = false;
-  }
-
-  private setGroup(value: boolean = false) {
-    this.setGroups = value;
   }
 }
