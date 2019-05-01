@@ -1,4 +1,4 @@
-import { Component, DoCheck, ChangeDetectorRef } from "@angular/core";
+import { Component, DoCheck, ChangeDetectorRef, EventEmitter } from "@angular/core";
 import { FormGroup, Validators } from "@angular/forms";
 import { DialogBaseComponent } from "src/app/base/dialog.component";
 import { UserService } from "src/app/api-service/service/user-management.service";
@@ -12,8 +12,7 @@ import { dateValidator, dateRangeValidator } from 'src/app/shared/directives/dat
   templateUrl: "./detail-employee.component.html",
   providers: [UserService]
 })
-export class DetailEmployeeComponent extends DialogBaseComponent
-  implements DoCheck {
+export class DetailEmployeeComponent extends DialogBaseComponent implements DoCheck {
   public form: FormGroup;
   public formInit: FormGroup;
   public formReset: FormGroup;
@@ -126,6 +125,18 @@ export class DetailEmployeeComponent extends DialogBaseComponent
         }
         this.formInit = this.form.value;
       });
+    }
+  }
+
+  public statusActiveChange(): void {
+    if (this.form.controls.status.value) {
+      this.form.controls.availability.setValue(false);
+    }
+  }
+
+  public statusAvailabilityChange(): void {
+    if (!this.form.controls.status.value) {
+      this.form.controls.availability.setValue(false);
     }
   }
 

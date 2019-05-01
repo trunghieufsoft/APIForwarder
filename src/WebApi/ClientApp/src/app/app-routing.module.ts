@@ -14,6 +14,13 @@ const routes: Routes = [
     canActivate: [AuthGuardService]
   },
   {
+    path: "view-profile",
+    loadChildren:
+      "./modules/view-profile/view-profile.module#ViewProfileManagementModule",
+    data: { title: "View Profile Management" },
+    canActivate: [AuthGuardService]
+  },
+  {
     path: 'error',
     component: ErrorComponent
   },

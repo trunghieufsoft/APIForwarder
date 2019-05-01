@@ -38,7 +38,7 @@
               <div class="form-xl d-flex align-items-end padding-top-2">
                 <div class="onoffswitch">
                   <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" formControlName="status"
-                    id="myonoffswitch2" checked="">
+                    id="myonoffswitch2" checked="" (click)="statusActiveChange();">
                   <label class="onoffswitch-label" for="myonoffswitch2">
                     <span class="onoffswitch-inner-active"></span>
                     <span class="onoffswitch-switch"></span>
@@ -48,7 +48,7 @@
               <div class="form-xl d-flex align-items-end padding-top-2">
                 <div class="onoffswitch-availability">
                   <input type="checkbox" name="onoffswitch-availability" class="onoffswitch-checkbox" formControlName="availability"
-                    id="myonoffswitch" checked="">
+                    id="myonoffswitch" checked="" (click)="statusAvailabilityChange();">
                   <label class="onoffswitch-label-availability" for="myonoffswitch">
                     <span class="onoffswitch-inner-availability"></span>
                     <span class="onoffswitch-switch-availability"></span>

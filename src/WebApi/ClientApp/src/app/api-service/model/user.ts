@@ -3,14 +3,28 @@ export interface User {
   success: boolean;
 }
 interface IUser {
-  id: string;
-  username: string;
-  fullName: string;
-  email: string;
-  phone: string;
-  userType: string;
-  countryId: string;
-  createdBy: string;
-  createdDate: string;
-  status: string;
+  id: string,
+  code: string,
+  username: string,
+  fullName: string,
+  countryId: string,
+  groups: string,
+  groupName: string,
+  users: string,
+  userType: string,
+  status: number,
+  statusStr: string,
+  startDate: string,
+  expiredDate: string,
+  expiredIn: string,
+  address: string,
+  phoneNo: string,
+  email: string,
+  initializeInfo: {
+    createdBy: string,
+    createdDate: Date,
+    lasUpdatedBy: string,
+    lasUpdatedDate: Date,
+    passwordLastUpdate: Date
+  }
 }

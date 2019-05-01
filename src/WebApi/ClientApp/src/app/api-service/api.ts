@@ -24,7 +24,8 @@ export const API = {
     allCountry : "Common/GetAllCountry",
     allGroup : "Common/GetAllGroup",
     detailCountry: "Common/GetDetailCountry",
-    getListAssignByType: "Common/GetListAssignByType"
+    getListAssignByType: "Common/GetListAssignByType",
+    getUsersAllTypeAssignByCountry : "Common/GetUsersAllTypeAssignByCountry"
   },
   system: {
     update: "SystemConfig/Update",

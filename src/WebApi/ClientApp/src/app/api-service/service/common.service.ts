@@ -26,4 +26,11 @@ export class CommonService extends BaseService {
   public getListAssignByType(): any {
     return this.http.get(API.common.getListAssignByType);
   }
+
+  public getUsersAllTypeAssignByCountry({ userType = "", country = "" }: { userType?: string; country?: string; }): any {
+    var url = API.common.getUsersAllTypeAssignByCountry;
+    url += userType !== "" ? "?userType=" + userType : "";
+    url += country !== "" ? userType !== "" ? "&country=" + country.toUpperCase() : "?country=" + country.toUpperCase() : "";
+    return this.http.get(url);
+  }
 }
