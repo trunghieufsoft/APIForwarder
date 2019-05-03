@@ -1,12 +1,12 @@
+import { MessageService } from "primeng/api";
 import { Component, ChangeDetectorRef } from "@angular/core";
 import { ListBaseComponent } from "src/app/base/list-base.component";
 import { UserService } from "src/app/api-service/service/user-management.service";
-import { DetailManagerAdminComponent } from "./detail-user/detail-manager-admin/detail-manager-admin.component";
-// import { DetailOgpAdminComponent } from "./detail-ogp-admin/detail-ogp-admin.component";
-import { DetailEmployeeComponent } from "./detail-user/detail-employee/detail-employee.component";
-import { MessageService } from "primeng/api";
 import { AuthenticationService } from "src/app/api-service/service/authentication.service";
 import { CommonService } from "src/app/api-service/service/common.service";
+import { DetailManagerAdminComponent } from "./detail-user/detail-manager-admin/detail-manager-admin.component";
+import { DetailEmployeeComponent } from "./detail-user/detail-employee/detail-employee.component";
+import { DetailStaffComponent } from "./detail-user/detail-staff/detail-staff.component";
 import { CONSTANT } from "src/app/shared/common/constant";
 
 @Component({
@@ -100,21 +100,26 @@ export class UserComponent extends ListBaseComponent {
       if (!res.success) {
         return;
       } else {
-        // this.dialogService.open(
-        //   DetailStaffComponent,
-        //   data => {
-        //     this.varStaff++;
-        //     this.getAllUser();
-        //     if (data) {
-        //       this.messageService.add({
-        //         severity: "success",
-        //         detail: data.msg
-        //       });
-        //     }
-        //   },
-        //   undefined,
-        //   { arrData: this.arrData }
-        // );
+        this.dialogService.open(
+          DetailStaffComponent,
+          data => {
+            this.varStaff++;
+            this.getAllUser();
+            if (data.success) {
+              this.messageService.add({
+                severity: "success",
+                detail: data.msg
+              });
+              this.arrData.userByType = data.listAssignByType.data;
+              this.arrData.users[0].users = data.listAssignByType.data[0].users;
+              this.arrData.users[0].totalUser = data.listAssignByType.data[0].totalUser;
+            } else {
+              this.alertService.error(data.msg);
+            }
+          },
+          undefined,
+          { arrData: this.arrData }
+        );
       }
     });
   }

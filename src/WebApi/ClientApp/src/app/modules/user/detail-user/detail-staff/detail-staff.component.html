@@ -1,74 +1,33 @@
-<div #modalRef class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="createEmployeeLabel"
+<div #modalRef class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="createStaffLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-470" role="document">
     <div class="modal-content">
       <div class="modal-header rounded-0">
-        <h5 class="modal-title" *ngIf="flagUpdate">{{'button.updateEmployee' | translate}}</h5>
-        <h5 class="modal-title" *ngIf="!flagUpdate">{{'button.createEmployee' | translate}}</h5>
+        <h5 class="modal-title" *ngIf="flagUpdate">{{'button.updateStaff' | translate}}</h5>
+        <h5 class="modal-title" *ngIf="!flagUpdate">{{'button.createStaff' | translate}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
       </div>
       <div class="modal-body bg-white modal-body-small" [formGroup]="form">
-        <div class="row" [hidden]="flagUpdate" >
+        <div class="row">
           <div class="col-3 padding-right-0">
             <label class="col-form-label text-nowrap"><span>&nbsp;&nbsp;&nbsp;</span>{{'label.status' | translate}}</label>
           </div>
           <div class="col-9">
-            <div class="form-group d-flex justify-content-between">
-              <div class="form-xl d-flex align-items-end padding-top-2">
-                <div class="onoffswitch">
-                  <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" formControlName="status"
-                    id="myonoffswitch3" checked="">
-                  <label class="onoffswitch-label" for="myonoffswitch3">
-                    <span class="onoffswitch-inner-active"></span>
-                    <span class="onoffswitch-switch"></span>
-                  </label>
+              <div class="form-group d-flex justify-content-between">
+                <div class="form-xl d-flex align-items-end padding-top-2">
+                  <div class="onoffswitch">
+                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" formControlName="status"
+                      id="myonoffswitch3" checked="">
+                    <label class="onoffswitch-label" for="myonoffswitch3">
+                      <span class="onoffswitch-inner-active"></span>
+                      <span class="onoffswitch-switch"></span>
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="row" [hidden]="!flagUpdate">
-          <div class="col-3 padding-right-0">
-            <label class="col-form-label text-nowrap"><span>&nbsp;&nbsp;&nbsp;</span>{{'label.status' | translate}}</label>
-          </div>
-          <div class="col-9">
-            <div class="form-group d-flex justify-content-between">
-              <div class="form-xl d-flex align-items-end padding-top-2">
-                <div class="onoffswitch">
-                  <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" formControlName="status"
-                    id="myonoffswitch2" checked="" (click)="statusActiveChange();">
-                  <label class="onoffswitch-label" for="myonoffswitch2">
-                    <span class="onoffswitch-inner-active"></span>
-                    <span class="onoffswitch-switch"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="form-xl d-flex align-items-end padding-top-2">
-                <div class="onoffswitch-availability">
-                  <input type="checkbox" name="onoffswitch-availability" class="onoffswitch-checkbox" formControlName="availability"
-                    id="myonoffswitch" checked="" (click)="statusAvailabilityChange();">
-                  <label class="onoffswitch-label-availability" for="myonoffswitch">
-                    <span class="onoffswitch-inner-availability"></span>
-                    <span class="onoffswitch-switch-availability"></span>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row" [hidden]="!flagUpdate">
-          <div class="col-3">
-            <label class="col-form-label text-nowrap"><span>&nbsp;&nbsp;&nbsp;</span>{{'label.endOfDay' |translate}}</label>
-          </div>
-          <div class="col-9">
-            <div class="form-group d-flex justify-content-between">
-              <div class="form-xl">
-                <label class="col-form-label text-nowrap">{{endOfDay}}</label>
-              </div>
-            </div>
-          </div>
         </div>
         <div class="row">
           <div class="col-3">
@@ -131,6 +90,23 @@
                   [isDisabled]="isStaff" [notAvailable]="'notAvailable.group' | translate"
                   errorTooltip itemName="{{ 'table.group' | translate }}">
                 </app-single-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="flagUpdate">
+          <div class="col-3 padding-right-0">
+            <label class="col-form-label text-nowrap"><span class="color-red"></span>&nbsp;&nbsp;{{'label.users' | translate}}</label>
+          </div>
+          <div class="col-9">
+            <div class="form-group d-flex justify-content-between">
+              <div class="form-xl">
+                <app-multi-select formControlName="users" [array]="userArr"
+                [notAvailable]="'notAvailable.users' | translate"
+                [viewProp]="'name'"
+                errorTooltip
+                itemName="{{'label.users' | translate}}">
+                </app-multi-select>
               </div>
             </div>
           </div>

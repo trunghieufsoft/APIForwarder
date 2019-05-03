@@ -13,7 +13,6 @@ import { UserService } from "src/app/api-service/service/user-management.service
 import { DetailEmployeeComponent } from '../detail-user/detail-employee/detail-employee.component';
 import { MessageService } from "primeng/api";
 import { ALL, SPACE } from "src/app/app.constant";
-import { CommonService } from 'src/app/api-service/service/common.service';
 @Component({
   selector: "app-employee",
   templateUrl: "./employee.component.html",
@@ -75,7 +74,6 @@ export class EmployeeComponent extends ListBaseComponent {
   }
 
   constructor(
-    private common: CommonService,
     private userService: UserService,
     private messageService: MessageService,
     private changeDetector: ChangeDetectorRef
@@ -263,7 +261,7 @@ export class EmployeeComponent extends ListBaseComponent {
 
   private delete(id: number): void {
     this.startBlockUI();
-    var msg = this.translate.get("dialog.success")["value"];
+    var msg = this.translate.get("dialog.deleteSuccess")["value"];
     this.userService.deleteUser(id).subscribe(() => {
       this.stopBlockUI();
       this.messageService.add({ severity: "success", detail: msg });

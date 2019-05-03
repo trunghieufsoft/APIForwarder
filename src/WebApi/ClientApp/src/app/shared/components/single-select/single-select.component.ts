@@ -23,6 +23,7 @@ import {
 } from "@angular/forms";
 import { ApiHttpClient } from "../../common/api-http-client";
 import { LoaderService } from "../../services/loader.service";
+import { ALL } from 'src/app/app.constant';
 
 export const CUSTOM_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -185,8 +186,8 @@ export class SingleSelectComponent
     if (!this.item || !this.array) {
       return this.notAvailable || "";
     }
-    if (hasArray && this.item === "All") {
-      return "All";
+    if (hasArray && this.item === ALL) {
+      return ALL;
     }
     if (hasArray) {
       return !!this.item[this.viewProp]
@@ -200,12 +201,12 @@ export class SingleSelectComponent
     var hasArray = this.array && this.array.length > 0;
     if (!this.item) {
       if (hasArray) {
-        this.item = this.hasAll ? "All" : this.array[0];
+        this.item = this.hasAll ? ALL : this.array[0];
       }
 
       return;
     }
-    if (this.item !== "All" && hasArray) {
+    if (this.item !== ALL && hasArray) {
       var key = !!this.item[this.valueProp]
         ? this.item[this.valueProp]
         : this.item;

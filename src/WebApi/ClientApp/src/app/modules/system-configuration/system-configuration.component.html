@@ -1,0 +1,165 @@
+<p-toast [style]="{ marginTop: '80px' }"></p-toast>
+<div class="d-flex justify-content-between flex-wrap">
+    <ol class="breadcrumb mb-3">
+        <li class="breadcrumb-item active">
+            <h1 class="page-header">
+                {{ "sidebar.systemConfiguration" | translate }}
+            </h1>
+        </li>
+    </ol>
+</div>
+<form [formGroup]="formGroup" class="row row-space-16 system-config">
+    <div class="col-xl-4 col-6 mt-3">
+        <div class="card h-100">
+            <div class="card-header flex-center-y">
+                <div class="flex-center-y justify-content-between">
+                    <label class="mb-0 mr-5 lb-scf">{{ "config.passwordExpirationTime" | translate}}</label>
+                    <button class="btn btn-light btn-scf" (click)="update(['webPassExpDate', 'appPassExpDate'],'config.passwordExpirationTime')">
+                      {{ "button.save" | translate }}
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row form-group">
+                    <div class="col-6">
+                        <label class="col-form-label">{{"config.timeForWeb" | translate}}</label>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-hint">
+                            <input formControlName="webPassExpDate" required oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="255" autocomplete="new-password" appIntegerOnly errorTooltip 
+                                itemName="{{ 'config.timeForWeb' | translate }}"
+                                type="text" class="form-control" value="30" />
+                            <span>{{ "config.days" | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <label class="col-form-label">{{"config.timeForMobile" | translate}}</label>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-hint">
+                            <input formControlName="appPassExpDate" maxlength="255" required oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" autocomplete="new-password" appIntegerOnly errorTooltip
+                                itemName="{{ 'config.timeForMobile' | translate }}"
+                                type="text" class="form-control" value="30" />
+                            <span>{{ "config.days" | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-6 mt-3">
+        <div class="card h-100">
+            <div class="card-header flex-center-y">
+                <div class="flex-center-y justify-content-between">
+                    <label class="mb-0 mr-5 lb-scf">{{"config.sessionExpirationTime" | translate}}</label>
+                    <button class="btn btn-light btn-scf" (click)="update(['webSessExpDate', 'appSessExpDate'],'config.sessionExpirationTime')">
+                      {{ "button.save" | translate }}
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row form-group">
+                    <div class="col-6">
+                        <label class="col-form-label">{{"config.loginSessionForWebPortal" | translate}}</label>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-hint">
+                            <input formControlName="webSessExpDate" required oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="255" autocomplete="new-password" appIntegerOnly errorTooltip
+                                itemName="{{ 'config.loginSessionForWebPortal' | translate }}"
+                                type="text" class="form-control" value="30" />
+                            <span>{{ "config.hour" | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <label class="col-form-label">{{"config.loginSessionForMobileApp" | translate}}</label>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-hint">
+                            <input formControlName="appSessExpDate" required oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="255" autocomplete="new-password" appIntegerOnly errorTooltip
+                                itemName="{{ 'config.loginSessionForMobileApp' | translate }}"
+                                type="text" class="form-control" value="30" />
+                            <span>{{ "config.hour" | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-6 mt-3">
+        <div class="card h-100">
+            <div class="card-header flex-center-y">
+                <div class="flex-center-y justify-content-between">
+                    <label class="mb-0 mr-5 lb-scf">{{"config.archiveLogData" | translate}}</label>
+                    <button class="btn btn-light btn-scf" (click)="update(['archiveLogData'], 'config.archiveLogData')">
+                      {{ "button.save" | translate }}
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <label class="col-form-label">{{"config.scheduleArchiveLogData" | translate}}</label>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-hint">
+                            <input formControlName="archiveLogData" required oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="255" autocomplete="new-password" appIntegerOnly errorTooltip itemName="{{ 'config.scheduleArchiveLogData' | translate }}"
+                                type="text" class="form-control" value="2" />
+                            <span>{{ "config.weeks" | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-6 mt-3">
+        <div class="card h-100">
+            <div class="card-header flex-center-y">
+                <div class="flex-center-y justify-content-between">
+                    <label class="mb-0 mr-5 lb-scf">{{"config.archiveJobHistory" | translate}}</label>
+                    <button class="btn btn-light btn-scf" (click)="update(['archiveJobHistory'], 'config.archiveJobHistory')">
+                      {{ "button.save" | translate }}
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <label class="col-form-label">{{"config.scheduleArchiveJobHistory" | translate}}</label>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-hint">
+                            <input formControlName="archiveJobHistory" required oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="255" autocomplete="new-password" appIntegerOnly errorTooltip itemName="{{ 'config.scheduleArchiveJobHistory' | translate }}"
+                                type="text" class="form-control" value="2" />
+                            <span>{{ "config.months" | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-6 mt-3">
+        <div class="card h-100">
+            <div class="card-header flex-center-y">
+                <div class="flex-center-y justify-content-between">
+                    <label class="mb-0 lb-scf">{{"config.EAMAuthentication" | translate}}</label>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row flex-center-y">
+                    <label class="col-form-label">{{"config.EAMAuthentication" | translate}}</label>
+                    <div class="yes-no-switch onoffswitch">
+                        <input formControlName="openEAM" (change)="updateCheckBox($event, 'config.EAMAuthentication')" type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked="" />
+                        <label class="onoffswitch-label" for="myonoffswitch">
+                          <span class="onoffswitch-inner-active"></span>
+                          <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

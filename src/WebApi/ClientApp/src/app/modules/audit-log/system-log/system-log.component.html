@@ -1,0 +1,60 @@
+<div class="d-flex justify-content-between flex-wrap">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active">
+            <h1 class="page-header">{{ "sidebar.systemLog" | translate }}</h1>
+        </li>
+    </ol>
+</div>
+<!-- class "mb-5" margin for footer -->
+<div class="">
+    <form autocomplete="off" [formGroup]="formGroup">
+        <div class="row m-0">
+            <div class="form-group pr-2">
+                <label class="mb-1">{{ "label.description" | translate }}</label>
+                <div class="form-md">
+                    <app-single-select formControlName="description" [array]="arrayDes" [hasAll]="true"></app-single-select>
+                </div>
+            </div>
+
+            <div class="form-group pr-2">
+                <label class="mb-1">{{ "label.message" | translate }}</label>
+                <div class="form-md">
+                    <input type="text" class="form-control" formControlName="message" maxlength="255" autocomplete="new-password" />
+                </div>
+            </div>
+
+            <div class="form-group pr-2">
+                <label class="mb-1">{{ "label.from" | translate }} </label>
+                <div class="form-md form-calendar">
+                    <app-date-time formControlName="from" ogpErrorTooltip></app-date-time>
+                </div>
+            </div>
+
+            <div class="form-group pr-3">
+                <label class="mb-1">{{ "label.to" | translate }} </label>
+                <div class="form-md form-calendar">
+                    <app-date-time formControlName="to" ogpErrorTooltip></app-date-time>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-end">
+                <div class="form-group pr-2">
+                    <button type="submit" class="btn btn-primary btn-fs-14 form-sm" (click)="onSearch()">
+            {{ "button.search" | translate }}
+          </button>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-light form-sm" (click)="onReset()">{{'button.reset'| translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- begin panel-table -->
+    <div class="panel">
+        <div class="table-responsive">
+            <app-table [rows]="rows" [columns]="columns" (sort)="onSortChange($event)"></app-table>
+        </div>
+        <app-table-footer [pageInput]="page" (pageChange)="onPageChange($event)" (limitChange)="onLimitChange($event)"></app-table-footer>
+    </div>
+    <!-- end panel-table -->
+</div>

@@ -61,6 +61,23 @@
             </div>
           </div>
         </div>
+        <div class="row" *ngIf="flagUpdate">
+          <div class="col-3 padding-right-0">
+            <label class="col-form-label text-nowrap"><span class="color-red"></span>&nbsp;&nbsp;{{'label.users' | translate}}</label>
+          </div>
+          <div class="col-9">
+            <div class="form-group d-flex justify-content-between">
+              <div class="form-xl">
+                <app-multi-select formControlName="users" [array]="userArr"
+                [notAvailable]="'notAvailable.users' | translate"
+                [viewProp]="'name'"
+                errorTooltip
+                itemName="{{'label.users' | translate}}">
+                </app-multi-select>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="row">
           <div class="col-3 padding-right-0">
             <label class="col-form-label text-nowrap"><span class="color-red">*&nbsp;</span>{{'label.country' | translate}}</label>
@@ -131,31 +148,9 @@
             <label class="col-form-label text-nowrap"><span class="color-red">*&nbsp;</span>{{'label.expiredDate' | translate}}</label>
           </div>
           <div class="col-9">
-            <div class="form-group d-flex justify-content-between" *ngIf="flagUpdate">
-              <div class="form-xl">
-                <app-date-time formControlName="expiredDate" errorTooltip></app-date-time>
-              </div>
-            </div>
-            <div class="form-group late d-flex justify-content-between" *ngIf="!flagUpdate">
-              <div class="form-xl">
-                <app-date-time formControlName="expiredDate" errorTooltip></app-date-time>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row" *ngIf="flagUpdate">
-          <div class="col-3 padding-right-0">
-            <label class="col-form-label text-nowrap"><span class="color-red"></span>&nbsp;&nbsp;{{'label.users' | translate}}</label>
-          </div>
-          <div class="col-9">
             <div class="form-group late d-flex justify-content-between">
               <div class="form-xl">
-                <app-multi-select formControlName="users" [array]="userArr"
-                [notAvailable]="'notAvailable.users' | translate"
-                [viewProp]="'name'"
-                errorTooltip
-                itemName="{{'label.users' | translate}}">
-                </app-multi-select>
+                <app-date-time formControlName="expiredDate" errorTooltip></app-date-time>
               </div>
             </div>
           </div>

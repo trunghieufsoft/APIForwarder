@@ -115,17 +115,16 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
       this.userService.viewUserByID(this.paramsInput.idUser).subscribe(res => {
         if (res.data) {
           var controls = this.form.controls;
-          controls.status.setValue(
-            res.data.statusStr === "Active" ? true : false
-          );
           var country = this.getObjectArrayFromString(
             this.countryArr,
             res.data.countryId
           );
+
           this.country = res.data.countryId;
           if (!country) {
             country = res.data.countryId;
           }
+
           let valueArr: any[] = [];
           controls.country.setValue(country);
           if (res.data.users) {
@@ -134,6 +133,8 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
               valueArr.push(this.user.users.filter(x => x.code === item)[0].fullName);
             });
           }
+
+          controls.status.setValue(res.data.statusStr === "Active");
           controls.adid.setValue(res.data.username.toLowerCase());
           controls.name.setValue(res.data.fullName);
           controls.users.setValue(valueArr.join(","));
@@ -190,8 +191,8 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
       expiredDate: this.form.controls.expiredDate.value
     };
     this.startBlockUI();
-    this.userService.createNewManager(param).subscribe(data => {
-      var msg = this.translate.get("dialog.success")["value"];
+    this.userService.createNewManager(param).subscribe(() => {
+      var msg = this.translate.get("dialog.createSuccess")["value"];
       this.afterSave(msg);
       this.stopBlockUI();
     });
@@ -223,8 +224,8 @@ export class DetailManagerAdminComponent extends DialogBaseComponent implements 
       expiredDate: this.form.controls.expiredDate.value
     };
     this.startBlockUI();
-    this.userService.updateManager(param).subscribe(data => {
-      var msg = this.translate.get("dialog.success")["value"];
+    this.userService.updateManager(param).subscribe(() => {
+      var msg = this.translate.get("dialog.changeSuccess")["value"];
       this.afterSave(msg);
       this.stopBlockUI();
     });

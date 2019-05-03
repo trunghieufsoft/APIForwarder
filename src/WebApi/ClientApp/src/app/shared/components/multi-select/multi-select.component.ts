@@ -23,6 +23,7 @@ import {
 } from "@angular/forms";
 import { ApiHttpClient } from "../../common/api-http-client";
 import { LoaderService } from "../../services/loader.service";
+import { ALL } from 'src/app/app.constant';
 
 export const CUSTOM_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -151,7 +152,7 @@ export class MultiSelectComponent
     if (!this.isAll) {
       this.value = "";
     } else {
-      this.value = "All";
+      this.value = ALL;
       this.getValue();
     }
     this.writeValue(this.value);
@@ -183,7 +184,7 @@ export class MultiSelectComponent
       if (temp.length === this.array.length && this.hasAll && temp.length > 1) {
         this.isAll = true;
 
-        return "All";
+        return ALL;
       }
     } else {
       this.value = "";
@@ -229,9 +230,9 @@ export class MultiSelectComponent
       if (this.array.length === 1) {
         this.array[0].selected = true;
       }
-      if (this.value === "All" || !this.value) {
+      if (this.value === ALL || !this.value) {
         this.array.forEach(item => {
-          item.selected = this.value === "All";
+          item.selected = this.value === ALL;
         })
       } else if (this.value) {
         var pieces = this.value.toString().split(",");

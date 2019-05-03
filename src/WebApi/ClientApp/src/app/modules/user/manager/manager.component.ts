@@ -11,6 +11,7 @@ import { FormGroup } from "@angular/forms";
 import { CONSTANT } from "src/app/shared/common/constant";
 import { UserService } from "src/app/api-service/service/user-management.service";
 import { DetailManagerAdminComponent } from "../detail-user/detail-manager-admin/detail-manager-admin.component";
+import { CommonService } from "src/app/api-service/service/common.service";
 import { MessageService } from "primeng/api";
 import { ALL, SPACE, USERS_CONF_MANAGER } from "src/app/app.constant";
 @Component({
@@ -64,7 +65,8 @@ export class ManagerComponent extends ListBaseComponent {
   constructor(
     private userService: UserService,
     private messageService: MessageService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private common: CommonService
   ) {
     super();
     this.currentUser = this.userService.getCurrentUser();
@@ -254,22 +256,36 @@ export class ManagerComponent extends ListBaseComponent {
   }
 
   private delete(id: number): void {
-    var msg = this.translate.get("dialog.success")["value"];
+    var msg = this.translate.get("dialog.deleteSuccess")["value"];
     this.userService.deleteUser(id).subscribe(() => {
-      this.stopBlockUI();
-      this.messageService.add({ severity: "success", detail: msg });
-      this.setStatus.emit(true);
-      this.onSearch();
+      this.getListAssignByType(msg);
     });
   }
 
   private assign(user: string): void {
-    var msg = this.translate.get("dialog.success")["value"];
+    var msg = this.translate.get("dialog.changeSuccess")["value"];
     this.userService.assignUser(user).subscribe(() => {
-      this.startBlockUI();
-      this.messageService.add({ severity: "success", detail: msg });
-      this.setStatus.emit(true);
-      this.onSearch();
+      this.getListAssignByType(msg);
     });
+  }
+
+  private getListAssignByType(msg: string): void {
+    this.common.getListAssignByType().subscribe(
+      (data) => {
+        this.stopBlockUI();
+        if (data) {
+          this.arrData.users[0].users = data.data[0].users;
+          this.arrData.users[0].totalUser = data.data[0].totalUser;
+          this.arrData.userByType = data.data;
+          this.messageService.add({ severity: "success", detail: msg });
+          this.setStatus.emit(true);
+        }
+        else {
+          this.messageService.add({ severity: "error", detail: this.translate.get("dialog.somethingWrong")["value"] });
+          this.setStatus.emit(false);
+        }
+        this.onSearch();
+      }
+    );
   }
 }

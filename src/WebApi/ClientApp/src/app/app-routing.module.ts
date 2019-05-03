@@ -14,6 +14,20 @@ const routes: Routes = [
     canActivate: [AuthGuardService]
   },
   {
+    path: "log",
+    loadChildren:
+      "./modules/audit-log/audit-log.module#AuditLogManagementModule",
+    data: { title: "Audit Log Management" },
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: "system-configuration",
+    loadChildren:
+      "./modules/system-configuration/system-configuration.module#SystemConfigurationManagementModule",
+    data: { title: "System Configuration Management" },
+    canActivate: [AuthGuardService]
+  },
+  {
     path: "view-profile",
     loadChildren:
       "./modules/view-profile/view-profile.module#ViewProfileManagementModule",

@@ -10,11 +10,10 @@ import { API } from "src/app/api-service/api";
 import { FormGroup, Validators } from "@angular/forms";
 import { CONSTANT } from "src/app/shared/common/constant";
 import { UserService } from "src/app/api-service/service/user-management.service";
-// import { DetailStaffComponent } from "../detail-user/detail-staff/detail-staff.component";
+import { DetailStaffComponent } from "../detail-user/detail-staff/detail-staff.component";
 import { MessageService } from "primeng/api";
 import { ALL, SPACE, USERS_CONF_STAFF } from "src/app/app.constant";
 import { CommonService } from "src/app/api-service/service/common.service";
-import { group } from '@angular/animations';
 @Component({
   selector: "app-staff",
   templateUrl: "./staff.component.html",
@@ -157,27 +156,24 @@ export class StaffComponent extends ListBaseComponent {
   public onCellClick(val: any): void {
     if (val.col.prop === this.action) {
       if (val.target.id === "edit") {
-        // this.getAllArray();
-        // setTimeout(() => {
-        //   this.dialogService.open(
-        //     DetailStaffComponent,
-        //     data => {
-        //       this.onSearch();
-        //       if (data) {
-        //         this.messageService.add({
-        //           severity: "success",
-        //           detail: data.msg
-        //         });
-        //       }
-        //     },
-        //     undefined,
-        //     {
-        //       idUser: val.row.id,
-        //       username: val.row.username,
-        //       arrData: this.arrData
-        //     }
-        //   );
-        // }, 100);
+        this.dialogService.open(
+          DetailStaffComponent,
+          data => {
+            this.onSearch();
+            if (data) {
+              this.messageService.add({
+                severity: "success",
+                detail: data.msg
+              });
+            }
+          },
+          undefined,
+          {
+            idUser: val.row.id,
+            username: val.row.username,
+            arrData: this.arrData
+          }
+        );
       }
       if (val.target.id === "assign") {
         var msg = this.translate.get("dialog.confirmAssign")["value"];
@@ -282,23 +278,37 @@ export class StaffComponent extends ListBaseComponent {
 
   private delete(id: number): void {
     this.startBlockUI();
-    var msg = this.translate.get("dialog.success")["value"];
+    var msg = this.translate.get("dialog.deleteSuccess")["value"];
     this.userService.deleteUser(id).subscribe(() => {
-      this.stopBlockUI();
-      this.messageService.add({ severity: "success", detail: msg });
-      this.setStatus.emit(true);
-      this.onSearch();
+      this.getListAssignByType(msg);
     });
   }
 
   private assign(user: string): void {
     this.startBlockUI();
-    var msg = this.translate.get("dialog.success")["value"];
+    var msg = this.translate.get("dialog.changeSuccess")["value"];
     this.userService.assignUser(user).subscribe(() => {
-      this.stopBlockUI();
-      this.messageService.add({ severity: "success", detail: msg });
-      this.setStatus.emit(true);
-      this.onSearch();
+      this.getListAssignByType(msg);
     });
+  }
+
+  private getListAssignByType(msg: string): void {
+    this.common.getListAssignByType().subscribe(
+      (data) => {
+        this.stopBlockUI();
+        if (data) {
+          this.arrData.users[0].users = data.data[0].users;
+          this.arrData.users[0].totalUser = data.data[0].totalUser;
+          this.arrData.userByType = data.data;
+          this.messageService.add({ severity: "success", detail: msg });
+          this.setStatus.emit(true);
+        }
+        else {
+          this.messageService.add({ severity: "error", detail: this.translate.get("dialog.somethingWrong")["value"] });
+          this.setStatus.emit(false);
+        }
+        this.onSearch();
+      }
+    );
   }
 }
